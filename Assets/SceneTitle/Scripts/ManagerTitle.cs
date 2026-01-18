@@ -14,6 +14,7 @@ namespace SceneTitle.Scripts
         [SerializeField] private GameObject manualPanel;
         [SerializeField] private GameObject creditsPanel;
 
+        private void Start()
         {
             Debug.Assert(startBool != null, "StartBool is null! Assign in inspector!");
             Debug.Assert(manualBool != null, "ManualBool is null! Assign in inspector!");
