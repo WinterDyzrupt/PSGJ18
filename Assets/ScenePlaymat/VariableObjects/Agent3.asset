@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65dfd3b9a5ee44408a52a9399eb5c60, type: 3}
+  m_Name: Agent3
+  m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
+  name: Moth Man
+  muscleBase: 4
+  auraBase: 2
+  improvisationBase: 2
+  resilienceBase: 7
+  swiftnessBase: 7
+  portrait: {fileID: 21300000, guid: 05f3eed3b87fe604c843dc5cc298f7da, type: 3}
+  muscleMod: 0
+  auraMod: 0
+  improvisationMod: 0
+  resilienceMod: 0
+  swiftnessMod: 0
