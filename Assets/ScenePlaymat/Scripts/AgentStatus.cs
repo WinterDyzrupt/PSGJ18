@@ -2,8 +2,8 @@ namespace ScenePlaymat.Scripts
 {
     public enum AgentStatus
     {
-        Ready,
-        Traveling,
+        Idle,
+        Deploying,
         AttemptingMission,
         Returning,
         Resting

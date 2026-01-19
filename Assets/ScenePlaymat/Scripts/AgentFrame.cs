@@ -9,7 +9,7 @@ namespace ScenePlaymat.Scripts
         [SerializeField] private Agent agent;
 
         [SerializeField] private Transform completionBar;
-        
+
         [SerializeField] private Image portrait;
 
         private void Start()
@@ -20,9 +20,9 @@ namespace ScenePlaymat.Scripts
 
         private void Update()
         {
-            if (agent.Status != AgentStatus.Ready)
+            if (agent.Status != AgentStatus.Idle || completionBar.localScale.y != 0)
             {
-                completionBar.localScale = new(0, 1f - agent.CompletionOfCurrentStatus, 0);
+                completionBar.localScale = new(0, 1f - (float)agent.CompletionOfCurrentStatus, 0);
             }
         }
     }

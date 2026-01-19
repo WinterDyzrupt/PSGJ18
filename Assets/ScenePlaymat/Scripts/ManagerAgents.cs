@@ -39,9 +39,9 @@ namespace ScenePlaymat.Scripts
             // If any agent is not Ready
             foreach (var agent in Roster)
             {
-                if (agent.Status != AgentStatus.Ready)
+                if (agent.Status != AgentStatus.Idle)
                 {
-                    agent.AdvanceMission(Time.deltaTime);
+                    agent.AdvanceMission();
                 }
             }
         }
