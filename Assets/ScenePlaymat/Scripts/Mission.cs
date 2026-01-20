@@ -8,19 +8,26 @@ namespace ScenePlaymat.Scripts
     {
         public string guid;
 
-        public string name;
+        public string missionName;
         public string description;
         public string completionText;
         public string failureText;
 
-        public float timeToTravelInSeconds;
-        public float timeToCompleteMissionInSeconds;
-        public float timeForRestingAfterMissionInSeconds;
+        public float embarkInSeconds;
+        public float performingMissionInSeconds;
+        public float returnInSeconds;
+        public float restingInSeconds;
+        
+        public TimeSpan EmbarkTimeSpan => TimeSpan.FromSeconds(embarkInSeconds);
+        public TimeSpan PerformingMissionTimeSpan => TimeSpan.FromSeconds(performingMissionInSeconds);
+        public TimeSpan ReturnTimeSpan => TimeSpan.FromSeconds(returnInSeconds);
+        public TimeSpan RestingTimeSpan => TimeSpan.FromSeconds(restingInSeconds);
 
         public TimeSpan MissionTotalTime => TimeSpan.FromSeconds(
-            timeToCompleteMissionInSeconds
-            + 2 * timeToTravelInSeconds
-            + timeForRestingAfterMissionInSeconds);
+            embarkInSeconds +
+            performingMissionInSeconds +
+            returnInSeconds +
+            restingInSeconds);
 
         /*******************
         No need for a constructor if everything is serializable
