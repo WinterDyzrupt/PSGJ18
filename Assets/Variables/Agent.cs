@@ -31,6 +31,9 @@ namespace Variables
         public double CompletionOfMission => Math.Clamp(
             _totalMissionStopwatch.Elapsed / _currentMission.MissionTotalTime, 0, 1);
 
+        // Initialization Function since this is a Scriptable Object
+        // SO's save information between run sessions. This is protection
+        // so that the mod doesn't carry over between runs.
         public void InitializeAgent()
         {
             attributes.muscleMod = 0;

@@ -34,9 +34,6 @@ namespace ScenePlaymat.Scripts
 
         private void Update()
         {
-            // if the panel is on AND
-            // if the agent is not null AND
-            // if the status is not idol OR the status bar hasn't been set to 0)
             if (_isPanelInfoOn && _agent && (_agent.Status != AgentStatus.Idle || statusProgress.localScale.x != 0))
             {
                 UpdateStatusBar();

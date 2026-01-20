@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65dfd3b9a5ee44408a52a9399eb5c60, type: 3}
   m_Name: Agent2
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
-  name: Lizard Man
-  muscleBase: 2
-  auraBase: 7
-  improvisationBase: 7
-  resilienceBase: 2
-  swiftnessBase: 4
+  agentName: Lizard Man
   portrait: {fileID: 21300000, guid: 3797fadccaf74304a8f3fabc9af779d7, type: 3}
-  muscleMod: 0
-  auraMod: 0
-  improvisationMod: 0
-  resilienceMod: 0
-  swiftnessMod: 0
+  mugshot: {fileID: 21300000, guid: 3797fadccaf74304a8f3fabc9af779d7, type: 3}
+  attributes:
+    muscleBase: 2
+    auraBase: 7
+    improvisationBase: 7
+    resilienceBase: 2
+    swiftnessBase: 4
+    muscleMod: 0
+    auraMod: 0
+    improvisationMod: 0
+    resilienceMod: 0
+    swiftnessMod: 0
