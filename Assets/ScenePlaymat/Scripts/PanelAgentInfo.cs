@@ -10,9 +10,8 @@ namespace ScenePlaymat.Scripts
         private Agent _agent;
         private bool _isPanelInfoOn = true;
 
-        [Header("Panel Components")] [SerializeField]
-        private TMP_Text agentName;
-
+        [Header("Panel Components")]
+        [SerializeField] private TMP_Text agentName;
         [SerializeField] private Image mugShotImage;
         [SerializeField] private Transform[] barBaseStats;
         [SerializeField] private Transform[] barTotalStats;
@@ -42,7 +41,18 @@ namespace ScenePlaymat.Scripts
 
         public void ChooseAgent(Agent newAgent)
         {
+            if (_agent != null)
+            {
+                _agent.ChangeInStatus -= UpdateStatusText;
+            }
+            
             _agent = newAgent;
+            
+            if (_agent != null)
+            {
+                _agent.ChangeInStatus += UpdateStatusText;
+            }
+            
             InitializePanel();
         }
 
@@ -56,8 +66,8 @@ namespace ScenePlaymat.Scripts
             {
                 if (!_isPanelInfoOn) TogglePanelVisibility();
 
-                agentName.text = _agent.AgentName;
                 mugShotImage.sprite = _agent.mugshot;
+                agentName.text = _agent.AgentName;
 
                 for (int i = 0; i < barBaseStats.Length; i++)
                 {
@@ -65,14 +75,19 @@ namespace ScenePlaymat.Scripts
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 0, 0);
                 }
                 
+                UpdateStatusText(_agent.Status);
                 UpdateStatusBar();
             }
         }
 
         private void UpdateStatusBar()
         {
-            statusText.text = _agent.Status.ToString();
-            statusProgress.localScale = new(1f - (float)_agent.CompletionOfCurrentStatus, 0, 0);
+            statusProgress.localScale = new((float)_agent.CompletionOfCurrentStatus, 0, 0);
+        }
+
+        private void UpdateStatusText(AgentStatus status)
+        {
+            statusText.text = status.ToString();
         }
 
         private void TogglePanelVisibility()

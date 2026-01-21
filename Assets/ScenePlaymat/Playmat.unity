@@ -508,6 +508,10 @@ PrefabInstance:
       propertyPath: agent
       value: 
       objectReference: {fileID: 11400000, guid: 410d7a235b12ab043a4db0e0abd2235d, type: 2}
+    - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
+      propertyPath: actingAgent
+      value: 
+      objectReference: {fileID: 11400000, guid: 410d7a235b12ab043a4db0e0abd2235d, type: 2}
     - target: {fileID: 3296156064316498421, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -617,6 +621,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
       propertyPath: agent
+      value: 
+      objectReference: {fileID: 11400000, guid: 4665fab0833ac90479d1ed5a026d30d8, type: 2}
+    - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
+      propertyPath: actingAgent
       value: 
       objectReference: {fileID: 11400000, guid: 4665fab0833ac90479d1ed5a026d30d8, type: 2}
     - target: {fileID: 3296156064316498421, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
@@ -1417,6 +1425,10 @@ PrefabInstance:
       propertyPath: agent
       value: 
       objectReference: {fileID: 11400000, guid: e40b3a3c76afbf64ca97d2afe5bea774, type: 2}
+    - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
+      propertyPath: actingAgent
+      value: 
+      objectReference: {fileID: 11400000, guid: e40b3a3c76afbf64ca97d2afe5bea774, type: 2}
     - target: {fileID: 3296156064316498421, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1521,6 +1533,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
       propertyPath: agent
+      value: 
+      objectReference: {fileID: 11400000, guid: 67622c0443671354993a03539d5b1d96, type: 2}
+    - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
+      propertyPath: actingAgent
       value: 
       objectReference: {fileID: 11400000, guid: 67622c0443671354993a03539d5b1d96, type: 2}
     - target: {fileID: 3296156064316498421, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
@@ -2705,6 +2721,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
       propertyPath: agent
+      value: 
+      objectReference: {fileID: 11400000, guid: 32b346f27645160479f3ae3c8c9b91ba, type: 2}
+    - target: {fileID: 1539845668014535136, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}
+      propertyPath: actingAgent
       value: 
       objectReference: {fileID: 11400000, guid: 32b346f27645160479f3ae3c8c9b91ba, type: 2}
     - target: {fileID: 3296156064316498421, guid: 64b132f2a316f8649b18bb5bfeae2d31, type: 3}

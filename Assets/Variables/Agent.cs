@@ -31,6 +31,8 @@ namespace Variables
         public double CompletionOfMission => Math.Clamp(
             _totalMissionStopwatch.Elapsed / _currentMission.MissionTotalTime, 0, 1);
 
+        public event Action<AgentStatus> ChangeInStatus;
+        
         // Initialization Function since this is a Scriptable Object
         // SO's save information between run sessions. This is protection
         // so that the mod doesn't carry over between runs.
@@ -80,6 +82,7 @@ namespace Variables
                         // Debug.Log($"{name} completed their missions!");
                         // Debug.Log($"Status is 100%: {(CompletionOfCurrentStatus == 1f).ToString()}");
                         // Debug.Log($"Mission is 100%: {(CompletionOfMission == 1f).ToString()}");
+                        ChangeInStatus?.Invoke(Status);
                         return;
                     case AgentStatus.Idle:
                     default:
@@ -88,6 +91,7 @@ namespace Variables
                 }
 
                 // Debug.Log($"{name}'s status has moved to {Status}.");
+                ChangeInStatus?.Invoke(Status);
                 _currentStatusStopwatch.Restart();
             }
         }
