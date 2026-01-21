@@ -1,4 +1,4 @@
-namespace PersistentData.Missions
+namespace ScenePlaymat.Data.Missions
 {
     using System;
     

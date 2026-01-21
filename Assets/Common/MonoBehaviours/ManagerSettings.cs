@@ -1,7 +1,7 @@
 using UnityEngine;
-using Variables;
+using Common.Data;
 
-namespace Generic.Scripts
+namespace Common.MonoBehaviours
 {
     public class SettingsManager : MonoBehaviour
     {

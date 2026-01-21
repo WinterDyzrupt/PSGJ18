@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace Variables
+namespace Common.Data
 {
-    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Persistent Data/BoolVariable")]
+    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Data/BoolVariable")]
     public class BoolVariable : ScriptableObject
     {
         [SerializeField] private bool boolValue;

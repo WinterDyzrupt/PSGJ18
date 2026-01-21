@@ -1,4 +1,4 @@
-namespace Generic.Scripts
+namespace Common.Utils
 {
     public static class SceneData
     {

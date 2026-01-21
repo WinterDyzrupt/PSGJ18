@@ -1,9 +1,9 @@
-namespace PersistentData.Missions
+namespace ScenePlaymat.Data.Missions
 {
     using System;
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "Mission", menuName = "Persistent Data/Missions/Mission")]
+    [CreateAssetMenu(fileName = "Mission", menuName = "Data/Missions/Mission")]
     public class Mission : ScriptableObject
     {
         public int defaultDurationToDisplayBeforeExpirationInSeconds = 10;
