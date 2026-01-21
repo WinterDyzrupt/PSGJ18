@@ -1,9 +1,9 @@
-using Generic.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Variables;
+using Common.Data;
+using Common.Utils;
 
-namespace SceneTitle.Scripts
+namespace SceneTitle.MonoBehaviours
 {
     public class ManagerTitle : MonoBehaviour
     {

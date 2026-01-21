@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Variables;
+using ScenePlaymat.Data.Agents;
+using ScenePlaymat.Utils;
 
-namespace ScenePlaymat.Scripts
+namespace ScenePlaymat.MonoBehaviours
 {
     public class AgentFrame : MonoBehaviour
     {

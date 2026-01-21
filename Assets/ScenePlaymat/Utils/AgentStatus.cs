@@ -1,4 +1,4 @@
-namespace ScenePlaymat.Scripts
+namespace ScenePlaymat.Utils
 {
     public enum AgentStatus
     {

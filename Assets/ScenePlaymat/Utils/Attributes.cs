@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ScenePlaymat.Scripts
+namespace ScenePlaymat.Utils
 {
     [Serializable]
     public class Attributes

@@ -1,13 +1,13 @@
 using System;
 using System.Diagnostics;
 using UnityEngine;
-using ScenePlaymat.Scripts;
-using PersistentData.Missions;
+using ScenePlaymat.Utils;
+using ScenePlaymat.Data.Missions;
 using Debug = UnityEngine.Debug;
 
-namespace Variables
+namespace ScenePlaymat.Data.Agents
 {
-    [CreateAssetMenu(fileName = "Agent", menuName = "Persistent Data/Agent")]
+    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent")]
     public class Agent : ScriptableObject
     {
         [Header("Agent Information")]
