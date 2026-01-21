@@ -56,7 +56,7 @@ namespace ScenePlaymat.Scripts
             {
                 if (!_isPanelInfoOn) TogglePanelVisibility();
 
-                agentName.text = _agent.AgentName;
+                agentName.text = _agent.DisplayName;
                 mugShotImage.sprite = _agent.mugshot;
 
                 for (int i = 0; i < barBaseStats.Length; i++)
