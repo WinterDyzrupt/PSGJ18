@@ -2,16 +2,17 @@ using System;
 using System.Diagnostics;
 using UnityEngine;
 using ScenePlaymat.Scripts;
+using PersistentData.Missions;
 using Debug = UnityEngine.Debug;
 
 namespace Variables
 {
-    [CreateAssetMenu(fileName = "Agent", menuName = "Object Variables/Agent")]
+    [CreateAssetMenu(fileName = "Agent", menuName = "Persistent Data/Agent")]
     public class Agent : ScriptableObject
     {
         [Header("Agent Information")]
         [SerializeField] private string agentName;
-        public string AgentName => agentName;
+        public string DisplayName => agentName;
         
         public Sprite portrait;
         public Sprite mugshot;
@@ -29,11 +30,13 @@ namespace Variables
         public double CompletionOfCurrentStatus => Math.Clamp(
             _currentStatusStopwatch.Elapsed / _currentStatusDuration, 0, 1);
         public double CompletionOfMission => Math.Clamp(
-            _totalMissionStopwatch.Elapsed / _currentMission.MissionTotalTime, 0, 1);
+            _totalMissionStopwatch.Elapsed / _currentMission.data.TotalDuration, 0, 1);
 
-        // Initialization Function since this is a Scriptable Object
-        // SO's save information between run sessions. This is protection
-        // so that the mod doesn't carry over between runs.
+        /// <summary>
+        /// Initialization Function since this is a Scriptable Object
+        /// SO's save information between run sessions. This is protection
+        /// so that the mod doesn't carry over between runs. 
+        /// </summary>
         public void InitializeAgent()
         {
             attributes.muscleMod = 0;
@@ -45,9 +48,12 @@ namespace Variables
 
         public void AcceptMission(Mission mission)
         {
+            Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
+            Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
+
             _currentMission = mission;
             Status = AgentStatus.Deploying;
-            _currentStatusDuration = mission.EmbarkTimeSpan;
+            _currentStatusDuration = mission.data.DurationToTravelTo;
 
             _currentStatusStopwatch.Restart();
             _totalMissionStopwatch.Restart();
@@ -63,15 +69,15 @@ namespace Variables
                 {
                     case AgentStatus.Deploying:
                         Status = AgentStatus.AttemptingMission;
-                        _currentStatusDuration = _currentMission.PerformingMissionTimeSpan;
+                        _currentStatusDuration = _currentMission.data.DurationToPerform;
                         break;
                     case AgentStatus.AttemptingMission:
                         Status = AgentStatus.Returning;
-                        _currentStatusDuration = _currentMission.ReturnTimeSpan;
+                        _currentStatusDuration = _currentMission.data.DurationToReturnFrom;
                         break;
                     case AgentStatus.Returning:
                         Status = AgentStatus.Resting;
-                        _currentStatusDuration = _currentMission.RestingTimeSpan;
+                        _currentStatusDuration = _currentMission.data.DurationToRest;
                         break;
                     case AgentStatus.Resting:
                         Status = AgentStatus.Idle;
@@ -83,7 +89,7 @@ namespace Variables
                         return;
                     case AgentStatus.Idle:
                     default:
-                        Debug.LogError($"Agent {AgentName} had impossible status of {Status}.");
+                        Debug.LogError($"Agent {DisplayName} had impossible status of {Status}.");
                         break;
                 }
 

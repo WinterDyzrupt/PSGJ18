@@ -3,17 +3,19 @@ using UnityEngine;
 
 namespace Variables
 {
-    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Object Variables/Bool")]
+    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Persistent Data/BoolVariable")]
     public class BoolVariable : ScriptableObject
     {
         [SerializeField] private bool boolValue;
-        public bool Bool => boolValue;
+        // (not used)
+        //public bool Bool => boolValue;
         public bool defaultState;
 
         public event Action BoolChanged;
 
         public void Awake()
         {
+            // TODO: Fix once we actually use this
             boolValue = defaultState;
         }
 

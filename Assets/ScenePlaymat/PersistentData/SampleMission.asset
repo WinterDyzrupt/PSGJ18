@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70874602d06c85a4c90ec54009646ee0, type: 3}
+  m_Name: SampleMission
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentData.Mission
+  defaultDurationToDisplayBeforeExpirationInSeconds: 5
+  data:
+    guid: 
+    displayName: Sample Mission
+    description: This mission is just a sample
+    completionText: Sample mission complete
+    failureText: Sample mission failed
+    embarkInSeconds: 3
+    performingMissionInSeconds: 5
+    returnInSeconds: 3
+    restingInSeconds: 5
