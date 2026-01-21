@@ -43,7 +43,18 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void ChooseAgent(Agent newAgent)
         {
+            if (_agent != null)
+            {
+                _agent.ChangeInStatus -= UpdateStatusText;
+            }
+
             _agent = newAgent;
+
+            if (_agent != null)
+            {
+                _agent.ChangeInStatus += UpdateStatusText;
+            }
+
             InitializePanel();
         }
 
@@ -65,15 +76,20 @@ namespace ScenePlaymat.MonoBehaviours
                     barBaseStats[i].localScale = new(0.1f * _agent.attributes.AttributesBase[i], 0, 0);
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 0, 0);
                 }
-                
+
+                UpdateStatusText(_agent.Status);
                 UpdateStatusBar();
             }
         }
 
         private void UpdateStatusBar()
         {
-            statusText.text = _agent.Status.ToString();
-            statusProgress.localScale = new(1f - (float)_agent.CompletionOfCurrentStatus, 0, 0);
+            statusProgress.localScale = new((float)_agent.CompletionOfCurrentStatus, 0, 0);
+        }
+
+        private void UpdateStatusText(AgentStatus status)
+        {
+            statusText.text = status.ToString();
         }
 
         private void TogglePanelVisibility()

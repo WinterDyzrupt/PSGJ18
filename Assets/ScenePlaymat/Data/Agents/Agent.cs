@@ -32,6 +32,8 @@ namespace ScenePlaymat.Data.Agents
         public double CompletionOfMission => Math.Clamp(
             _totalMissionStopwatch.Elapsed / _currentMission.data.TotalDuration, 0, 1);
 
+        public event Action<AgentStatus> ChangeInStatus;
+        
         /// <summary>
         /// Initialization Function since this is a Scriptable Object
         /// SO's save information between run sessions. This is protection
@@ -86,6 +88,7 @@ namespace ScenePlaymat.Data.Agents
                         // Debug.Log($"{name} completed their missions!");
                         // Debug.Log($"Status is 100%: {(CompletionOfCurrentStatus == 1f).ToString()}");
                         // Debug.Log($"Mission is 100%: {(CompletionOfMission == 1f).ToString()}");
+                        ChangeInStatus?.Invoke(Status);
                         return;
                     case AgentStatus.Idle:
                     default:
@@ -94,6 +97,7 @@ namespace ScenePlaymat.Data.Agents
                 }
 
                 // Debug.Log($"{name}'s status has moved to {Status}.");
+                ChangeInStatus?.Invoke(Status);
                 _currentStatusStopwatch.Restart();
             }
         }
