@@ -20,6 +20,9 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(portrait != null, $"{name} doesn't have a portrait assigned in the Inspector.");
 
             portrait.sprite = actingAgent.portrait;
+
+            // TODO: Uncomment when we're doing polish animation
+            // actingAgent.ChangeInStatus += AgentFinishedMission;
         }
 
         private void Update()
@@ -29,5 +32,16 @@ namespace ScenePlaymat.MonoBehaviours
                 completionBar.localScale = new(0, 1f - (float)actingAgent.CompletionOfMission, 0);
             }
         }
+
+        // TODO: This can be used to animate the frame a bit when the agent becomes available
+        /*
+        private void AgentFinishedMission(AgentStatus status)
+        {
+            if (status == AgentStatus.Idle)
+            {
+
+            }
+        }
+        */
     }
 }
