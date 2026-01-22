@@ -1,7 +1,8 @@
+using System;
+using ScenePlaymat.Utils;
+
 namespace ScenePlaymat.Data.Missions
 {
-    using System;
-    
     /// <summary>
     /// Wrapper of data related to a mission to extract from a file.
     /// </summary>
@@ -19,6 +20,8 @@ namespace ScenePlaymat.Data.Missions
         public float durationToPerformInSeconds;
         public float durationToReturnFromInSeconds;
         public float durationToRestAfterInSeconds;
+        
+        public Attributes missionAttributes;
         
         public TimeSpan DurationToTravelTo => TimeSpan.FromSeconds(durationToTravelToInSeconds);
         public TimeSpan DurationToPerform => TimeSpan.FromSeconds(durationToPerformInSeconds);

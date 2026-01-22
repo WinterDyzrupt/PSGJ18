@@ -7,7 +7,7 @@ using Debug = UnityEngine.Debug;
 
 namespace ScenePlaymat.Data.Agents
 {
-    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent")]
+    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent/Agent")]
     public class Agent : ScriptableObject
     {
         [Header("Agent Information")]
