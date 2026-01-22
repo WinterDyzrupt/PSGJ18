@@ -19,6 +19,9 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Transform[] barTotalStats;
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private Transform statusProgress;
+        
+        [Header("Active Agent Reference")]
+        [SerializeField] private AgentReference selectedAgent;
 
 
         private void Awake()
@@ -29,7 +32,11 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(barTotalStats?.Length > 0, "Bar TotalStats is missing in inspector!");
             Debug.Assert(statusText != null, "StatusText is missing in inspector!");
             Debug.Assert(statusProgress != null, "StatusProgress is missing in inspector!");
+            
+            Debug.Assert(selectedAgent != null, "SelectedAgent is missing in inspector!");
 
+            selectedAgent.AgentHasChanged += ChooseAgent;
+            
             InitializePanel();
         }
 
@@ -73,12 +80,12 @@ namespace ScenePlaymat.MonoBehaviours
 
                 for (int i = 0; i < barBaseStats.Length; i++)
                 {
-                    barBaseStats[i].localScale = new(0.1f * _agent.attributes.AttributesBase[i], 0, 0);
-                    barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 0, 0);
+                    barBaseStats[i].localScale = new(0.1f * _agent.attributes.AttributesBase[i], 1, 1);
+                    barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 1, 1);
                 }
 
                 UpdateStatusText(_agent.Status);
-                UpdateStatusBar();
+                if (_agent.Status != AgentStatus.Idle) UpdateStatusBar();
             }
         }
 
