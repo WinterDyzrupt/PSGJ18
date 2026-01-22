@@ -1042,6 +1042,7 @@ GameObject:
   - component: {fileID: 1009401947}
   - component: {fileID: 1009401949}
   - component: {fileID: 1009401948}
+  - component: {fileID: 1009401950}
   m_Layer: 5
   m_Name: DoomLaserBar
   m_TagString: Untagged
@@ -1106,6 +1107,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009401946}
   m_CullTransparentMesh: 1
+--- !u!114 &1009401950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009401946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456fc686b88f9824290c591e88c09fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionScheduler
+  durationBetweenNewMissionsInSeconds: 5
+  allMissions: {fileID: 11400000, guid: ff7b66e00ffefb14f98fd9d4fffd5044, type: 2}
+  raiseMissionEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1017120750
 GameObject:
   m_ObjectHideFlags: 0
