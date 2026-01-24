@@ -1,3 +1,4 @@
+using System;
 using Common.Data;
 using UnityEngine;
 
@@ -5,14 +6,23 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class ProgressBarFiller : MonoBehaviour
     {
-        [SerializeField] private FloatVariable floatVariable;
+        [SerializeField] private FloatWrapper floatVariable;
 
         private void Start()
         {
             Debug.Assert(floatVariable != null, $"{name} is no assigned float variable in the inspector!");
 
+            UpdateBar(floatVariable);
+        }
+
+        private void OnEnable()
+        {
             floatVariable.FloatChanged += UpdateBar;
-            UpdateBar(floatVariable.FloatValue);
+        }
+
+        private void OnDisable()
+        {
+            floatVariable.FloatChanged -= UpdateBar;
         }
 
         private void UpdateBar(float value)

@@ -7,36 +7,44 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class AgentFrame : MonoBehaviour
     {
-        public Agent frameAgent;
+        public Agent agent;
 
+        [Header("Display Components")]
         [SerializeField] private Transform completionBar;
         [SerializeField] private Image portrait;
-        [SerializeField] private AgentReference selectedAgent;
+        
+        [Header("Selected Agent Wrapper")]
+        [SerializeField] private AgentWrapper selectedAgent;
 
         private void Start()
         {
-            Debug.Assert(frameAgent != null, $"{name} doesn't have an agent assigned in the Inspector.");
-            Debug.Assert(completionBar != null, $"{name} doesn't have an completion Bar assigned in the Inspector.");
+            Debug.Assert(agent != null, $"{name} doesn't have an agent assigned in the Inspector.");
+            Debug.Assert(completionBar != null, $"{name} doesn't have a completion Bar assigned in the Inspector.");
             Debug.Assert(portrait != null, $"{name} doesn't have a portrait assigned in the Inspector.");
-            Debug.Assert(selectedAgent != null, $"{name} doesn't have an Selected Agent reference assigned in the Inspector.");
+            Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned in the Inspector.");
             
-            portrait.sprite = frameAgent.portrait;
+            portrait.sprite = agent.portrait;
+            
+            agent.InitializeAgent();
 
             // TODO: Uncomment when we're doing polish animation
             // actingAgent.ChangeInStatus += AgentFinishedMission;
+            // put this in OnEnable/OnDisable
         }
 
         private void Update()
         {
-            if (frameAgent.Status != AgentStatus.Idle || completionBar.localScale.y != 0)
+            if (agent.Status != AgentStatus.Idle) agent.AdvanceAgentTimers();
+            
+            if (agent.Status != AgentStatus.Idle || completionBar.localScale.y != 0)
             {
-                completionBar.localScale = new(0, 1f - (float)frameAgent.CompletionOfMission, 0);
+                completionBar.localScale = new(0, 1f - (float)agent.CompletionOfMission, 0);
             }
         }
 
-        public void PanelClicked()
+        public void FrameClicked()
         {
-            selectedAgent.ChangeAgent(frameAgent);
+            selectedAgent.ChangeAgent(agent);
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace ScenePlaymat.Data.Agents
 {
-    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent/Agent Reference")]
-    public class AgentReference : ScriptableObject
+    [CreateAssetMenu(fileName = "AgentWrapper", menuName = "Data/Agent/Agent Wrapper")]
+    public class AgentWrapper : ScriptableObject
     {
         public Agent Agent { get; private set; }
 
@@ -13,7 +13,7 @@ namespace ScenePlaymat.Data.Agents
         public void ChangeAgent(Agent agent)
         {
             if (Agent == agent) return;
-            
+
             Agent = agent;
             AgentHasChanged?.Invoke(agent);
         }

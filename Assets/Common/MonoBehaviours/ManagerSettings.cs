@@ -5,7 +5,7 @@ namespace Common.MonoBehaviours
 {
     public class SettingsManager : MonoBehaviour
     {
-        [SerializeField] private BoolVariable settingBool; 
+        [SerializeField] private BoolWrapper settingBool; 
         
         [SerializeField] private GameObject settingsPrefab;
 

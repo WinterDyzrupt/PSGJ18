@@ -7,9 +7,9 @@ namespace SceneTitle.MonoBehaviours
 {
     public class ManagerTitle : MonoBehaviour
     {
-        [SerializeField] private BoolVariable startBool;
-        [SerializeField] private BoolVariable manualBool;
-        [SerializeField] private BoolVariable creditsBool;
+        [SerializeField] private BoolWrapper startBool;
+        [SerializeField] private BoolWrapper manualBool;
+        [SerializeField] private BoolWrapper creditsBool;
 
         [SerializeField] private GameObject manualPanel;
         [SerializeField] private GameObject creditsPanel;

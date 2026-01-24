@@ -63,7 +63,7 @@ namespace ScenePlaymat.Data.Agents
             // Debug.Log($"Agent {AgentName} accepted the mission: {_currentMission.missionName}");
         }
 
-        public void AdvanceMission()
+        public void AdvanceAgentTimers()
         {
             if (_currentStatusStopwatch.Elapsed >= _currentStatusDuration)
             {
