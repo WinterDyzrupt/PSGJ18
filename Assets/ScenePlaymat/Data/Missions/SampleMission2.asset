@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70874602d06c85a4c90ec54009646ee0, type: 3}
-  m_Name: SampleMission
-  m_EditorClassIdentifier: Assembly-CSharp::PersistentData.Mission
-  defaultDurationToDisplayBeforeExpirationInSeconds: 5
+  m_Name: SampleMission2
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.Data.Missions.Mission
+  defaultDurationToDisplayBeforeExpirationInSeconds: 10
   data:
     guid: 
-    displayName: Sample Mission
-    description: This mission is just a sample
-    completionText: Sample mission complete
-    failureText: Sample mission failed
+    displayName: Sample mission 2
+    description: Sample mission 2 description
+    completionText: Aw
+    failureText: Yay
     durationToTravelToInSeconds: 5
     durationToPerformInSeconds: 5
     durationToReturnFromInSeconds: 5
