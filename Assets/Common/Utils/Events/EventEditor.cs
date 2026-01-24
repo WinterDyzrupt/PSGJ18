@@ -1,5 +1,7 @@
 namespace Common.Utils.Events
 {
+    // Editor namespace breaks compilation for WebGL
+    #if UNITY_EDITOR
     using UnityEditor;
     using UnityEngine;
 
@@ -23,4 +25,5 @@ namespace Common.Utils.Events
             }
         }
     }
+    #endif
 }
