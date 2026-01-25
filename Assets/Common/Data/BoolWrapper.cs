@@ -13,7 +13,6 @@ namespace Common.Data
 
         private void Awake()
         {
-            // TODO: Fix once we actually use this
             currentValue = defaultValue;
         }
 

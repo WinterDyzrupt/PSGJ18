@@ -203,8 +203,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 1c37a7d92fc501f43899ac4e4e7cec3d, type: 2}
-        m_TargetAssemblyTypeName: Variables.BoolVariable, Assembly-CSharp
-        m_MethodName: ToggleBool
+        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -336,8 +336,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 1c37a7d92fc501f43899ac4e4e7cec3d, type: 2}
-        m_TargetAssemblyTypeName: Variables.BoolVariable, Assembly-CSharp
-        m_MethodName: ToggleBool
+        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -824,8 +824,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 1deb295331537df4b986c81451107ed1, type: 2}
-        m_TargetAssemblyTypeName: Variables.BoolVariable, Assembly-CSharp
-        m_MethodName: ToggleBool
+        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1437,8 +1437,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 8cd2fa91bc05d4f438cd2ae9f484e10b, type: 2}
-        m_TargetAssemblyTypeName: Variables.BoolVariable, Assembly-CSharp
-        m_MethodName: ToggleBool
+        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1707,8 +1707,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 1deb295331537df4b986c81451107ed1, type: 2}
-        m_TargetAssemblyTypeName: Variables.BoolVariable, Assembly-CSharp
-        m_MethodName: ToggleBool
+        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1833,7 +1833,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

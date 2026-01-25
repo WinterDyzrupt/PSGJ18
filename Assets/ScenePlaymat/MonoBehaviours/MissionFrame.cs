@@ -54,7 +54,7 @@ namespace ScenePlaymat.MonoBehaviours
             }
             
             _mission = newMission.Mission;
-            _mission.AdvanceMission(); // Mission has been posted
+            _mission.AdvanceMissionPhase(); // Mission has been posted
 
             _mission.HasExpired += MissionHasExpiredOrFinished;
             _mission.HasBeenCompleted += MissionHasExpiredOrFinished;
@@ -65,23 +65,28 @@ namespace ScenePlaymat.MonoBehaviours
             switch (_mission.Phase)
             {
                 case MissionPhase.Posted: // Didn't expire yet, update bar
-                    completionBar.localScale = (float)_mission.CompletionPercentage * Vector3.one;
+                    UpdateProgressBarUI(completionBar,(float)_mission.ExpirationPercentage);
                     break;
                 case MissionPhase.Expired: // Posting JUST expired, set bar to 100%
-                    completionBar.localScale = Vector3.one;
+                    UpdateProgressBarUI(completionBar,1f);
                     break;
                 case MissionPhase.Performing: // Didn't complete mission yet, update bar
-                    if(expirationBar.localScale != Vector3.zero) expirationBar.localScale = Vector3.zero;
-                    completionBar.localScale = (float)_mission.CompletionPercentage * Vector3.one;
+                    if(expirationBar.localScale.y != 0) UpdateProgressBarUI(expirationBar,0);
+                    UpdateProgressBarUI(completionBar, (float)_mission.CompletionPercentage);
                     break;
                 case MissionPhase.Completed: // Mission JUST completed, set bar to 100%
-                    completionBar.localScale = Vector3.one;
+                    UpdateProgressBarUI(completionBar,1f);
                     break;
                 case MissionPhase.Posting:
                 case MissionPhase.Assigned:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void UpdateProgressBarUI(Transform barTransform, float decimalPercentage)
+        {
+            barTransform.localScale = new(1f, decimalPercentage, 1f);
         }
 
         public void FrameClicked()

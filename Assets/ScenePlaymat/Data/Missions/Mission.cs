@@ -26,18 +26,18 @@ namespace ScenePlaymat.Data.Missions
         public double CompletionPercentage => Math.Clamp(
             _missionProgressStopwatch.Elapsed / data.DurationToPerform, 0, 1);
 
-        public void AdvanceMission()
+        public void AdvanceMissionPhase()
         {
             switch (Phase)
             {
-                case MissionPhase.Posting: // Start Expiration Timer
+                case MissionPhase.Posting: // Start Expiration Timer, From Mission Frame
                     Phase = MissionPhase.Posted;
                     _expiringStopwatch.Start();
                     break;
-                case MissionPhase.Posted: // Mission was Assigned to an Agent
+                case MissionPhase.Posted: // Mission was Assigned to an Agent, From Agent
                     Phase = MissionPhase.Assigned;
                     break;
-                case MissionPhase.Assigned:// Agent Arrived, Start Performing
+                case MissionPhase.Assigned:// Agent Arrived, Start Performing, From Agent
                     _expiringStopwatch.Stop();
                     _expiringStopwatch.Reset();
                     Phase = MissionPhase.Performing;

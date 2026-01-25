@@ -60,7 +60,7 @@ namespace ScenePlaymat.Data.Agents
             Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
 
             _currentMission = mission;
-            _currentMission.AdvanceMission(); // Agent accepted mission, advance phase to Assigned
+            _currentMission.AdvanceMissionPhase(); // Agent accepted mission, advance phase to Assigned
             _currentMission.HasBeenCompleted += MissionHasCompleted;
             ChangeStatus(AgentStatus.Deploying);
             
@@ -79,6 +79,7 @@ namespace ScenePlaymat.Data.Agents
 
         private void MissionHasCompleted(Mission _)
         {
+            _currentMission.HasBeenCompleted -= MissionHasCompleted;
             ChangeStatus(AgentStatus.Returning);
             _returningStopwatch.Start();
         }
@@ -93,7 +94,7 @@ namespace ScenePlaymat.Data.Agents
                     if (CompletionOfDeploying >= 1)
                     {
                         _deployingStopWatch.Stop();
-                        _currentMission.AdvanceMission(); // Agent is starting mission
+                        _currentMission.AdvanceMissionPhase(); // Agent is starting mission
                         ChangeStatus(AgentStatus.AttemptingMission);
                     }
                     break;

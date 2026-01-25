@@ -91,9 +91,9 @@ namespace ScenePlaymat.MonoBehaviours
             statusText.text = status.ToString();
         }
 
-        private void UpdateCompletionBar(float decPercentage)
+        private void UpdateCompletionBar(float decimalPercentage)
         {
-            completionBar.localScale = new(1f, decPercentage, 1f);
+            completionBar.localScale = new(1f, decimalPercentage, 1f);
         }
 
         public void FrameClicked()
