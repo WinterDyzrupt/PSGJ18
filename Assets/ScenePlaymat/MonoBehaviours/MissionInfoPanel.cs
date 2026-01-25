@@ -1,5 +1,6 @@
 using ScenePlaymat.Data.Agents;
 using ScenePlaymat.Data.Missions;
+using ScenePlaymat.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +15,6 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private TMP_Text descriptionText;
         [SerializeField] private Transform[] statBars;
         [SerializeField] private Button acceptMissionButton;
-        [SerializeField] private TMP_Text statusText; // TODO: Implement in Unity
-        [SerializeField] private Transform statusBar; // TODO: Implement in Unity
         
         [Header("Selected Wrappers")]
         [SerializeField] private AgentWrapper selectedAgent;
@@ -29,8 +28,6 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(statBars != null, "Mission Stat Bars are not assigned!");
             Debug.Assert(acceptMissionButton != null, "Accept Mission button is not assigned!");
             Debug.Assert(selectedAgent != null, "Selected Agent reference is not assigned!");
-            Debug.Assert(statusText != null, "Mission Status Text is not assigned!");
-            Debug.Assert(statusBar != null, "Mission Status Bar is not assigned!");
 
             infoPanel.SetActive(false);
         }
@@ -49,6 +46,12 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateMissionPanel(Mission mission)
         {
+            if (mission == null)
+            {
+                Debug.LogWarning($"{name} was told to update with a null mission!");
+                return;
+            }
+            
             infoPanel.SetActive(true);
             nameText.text = mission.data.displayName;
             descriptionText.text = mission.data.description;
@@ -63,14 +66,14 @@ namespace ScenePlaymat.MonoBehaviours
         {
             infoPanel.SetActive(false);
             
-            // TODO: Have the mission accepted, which will cause the mission button to animate
-            // _viewingMission.AcceptMission();
             selectedAgent.Agent.AcceptMission(selectedMission.Mission);
+            ToggleAcceptMissionButton(null);
         }
 
         private void ToggleAcceptMissionButton(Agent agent)
         {
-            acceptMissionButton.interactable = agent != null;
+            var turnOn = agent != null && agent.Status == AgentStatus.Idle;
+            acceptMissionButton.interactable = turnOn;
         }
     }
 }

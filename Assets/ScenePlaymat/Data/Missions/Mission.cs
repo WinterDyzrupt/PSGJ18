@@ -18,38 +18,62 @@ namespace ScenePlaymat.Data.Missions
         private readonly Stopwatch _expiringStopwatch = new();
         private readonly Stopwatch _missionProgressStopwatch = new();
         
-        public event Action<MissionPhase> ChangeInPhase;
-        public event Action<Mission> MissionAccomplished;
+        public event Action<Mission> HasExpired;
+        public event Action<Mission> HasBeenCompleted;
         
         public double ExpirationPercentage => Math.Clamp(
             _expiringStopwatch.Elapsed / data.DurationToExpiration, 0, 1);
         public double CompletionPercentage => Math.Clamp(
             _missionProgressStopwatch.Elapsed / data.DurationToPerform, 0, 1);
 
-        public void StartMission()
-        {
-            
-        }
-        
-        public void AdvanceMissionTimers()
+        public void AdvanceMission()
         {
             switch (Phase)
             {
-                case MissionPhase.Posted:
+                case MissionPhase.Posting: // Start Expiration Timer
+                    Phase = MissionPhase.Posted;
+                    _expiringStopwatch.Start();
                     break;
-                case MissionPhase.Pending:
+                case MissionPhase.Posted: // Mission was Assigned to an Agent
+                    Phase = MissionPhase.Assigned;
+                    break;
+                case MissionPhase.Assigned:// Agent Arrived, Start Performing
+                    _expiringStopwatch.Stop();
+                    _expiringStopwatch.Reset();
+                    Phase = MissionPhase.Performing;
+                    _missionProgressStopwatch.Start();
                     break;
                 case MissionPhase.Performing:
-                    break;
+                case MissionPhase.Expired:
                 case MissionPhase.Completed:
-                    break;
                 default:
-                    Debug.LogError($"Agent {name} had impossible phase of {Phase}.");
+                    Debug.LogWarning($"{name} was told to advance but was in the {Phase} phase and isn't allowed.");
                     break;
             }
-            // Debug.Log($"{name}'s phase has moved to {Phase}.");
-            // ChangeInStatus?.Invoke(Status);
-            // _currentStatusStopwatch.Restart();
+        }
+        
+        public void CheckMissionTimers()
+        {
+            if (Phase == MissionPhase.Posted && ExpirationPercentage >= 1) MissionExpired();
+            else if (Phase == MissionPhase.Performing && CompletionPercentage >= 1) MissionFinished();
+        }
+
+        private void MissionExpired()
+        {
+            _expiringStopwatch.Stop();
+            
+            HasExpired?.Invoke(this);
+
+            Phase = MissionPhase.Expired;
+        }
+
+        private void MissionFinished()
+        {
+            _missionProgressStopwatch.Stop();
+            
+            HasBeenCompleted?.Invoke(this);
+            
+            Phase = MissionPhase.Completed;
         }
     }
 }

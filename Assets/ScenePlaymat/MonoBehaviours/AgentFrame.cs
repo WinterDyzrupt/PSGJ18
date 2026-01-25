@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using ScenePlaymat.Data.Agents;
 using ScenePlaymat.Utils;
+using TMPro;
 
 namespace ScenePlaymat.MonoBehaviours
 {
@@ -12,6 +14,7 @@ namespace ScenePlaymat.MonoBehaviours
         [Header("Display Components")]
         [SerializeField] private Transform completionBar;
         [SerializeField] private Image portrait;
+        [SerializeField] private TMP_Text statusText;
         
         [Header("Selected Agent Wrapper")]
         [SerializeField] private AgentWrapper selectedAgent;
@@ -21,25 +24,76 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(agent != null, $"{name} doesn't have an agent assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a completion Bar assigned in the Inspector.");
             Debug.Assert(portrait != null, $"{name} doesn't have a portrait assigned in the Inspector.");
+            Debug.Assert(statusText != null, $"{name} doesn't have status text assigned in the Inspector.");
             Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned in the Inspector.");
             
             portrait.sprite = agent.portrait;
             
             agent.InitializeAgent();
-
-            // TODO: Uncomment when we're doing polish animation
-            // actingAgent.ChangeInStatus += AgentFinishedMission;
-            // put this in OnEnable/OnDisable
         }
 
         private void Update()
         {
-            if (agent.Status != AgentStatus.Idle) agent.AdvanceAgentTimers();
-            
-            if (agent.Status != AgentStatus.Idle || completionBar.localScale.y != 0)
+            switch (agent.Status)
             {
-                completionBar.localScale = new(0, 1f - (float)agent.CompletionOfMission, 0);
+                case AgentStatus.Idle: // do nothing
+                    break;
+                case AgentStatus.Deploying:
+                    UpdateCompletionBar((float)agent.CompletionOfDeploying);
+                    agent.CheckAgentTimers();
+                    break;
+                case AgentStatus.AttemptingMission: // do nothing
+                    break;
+                case AgentStatus.Returning:
+                    UpdateCompletionBar(1f - (float)agent.CompletionOfReturning);
+                    agent.CheckAgentTimers();
+                    break;
+                case AgentStatus.Resting:
+                    UpdateCompletionBar(1f - (float)agent.CompletionOfResting);
+                    agent.CheckAgentTimers();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void OnEnable()
+        {
+            agent.ChangeInStatus += AgentStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            agent.ChangeInStatus -= AgentStatusChanged;
+        }
+
+        private void AgentStatusChanged(AgentStatus status)
+        {
+            switch (status)
+            {
+                case AgentStatus.Idle: // from resting, reset bars to 0, empty text
+                    statusText.text = string.Empty;
+                    UpdateCompletionBar(0);
+                    return;
+                case AgentStatus.Deploying: // from resting
+                    break;
+                case AgentStatus.AttemptingMission: // from deploying, set bar to full update text
+                    UpdateCompletionBar(1f);
+                    break;
+                case AgentStatus.Returning: // from attempting
+                case AgentStatus.Resting: // from returning
+                    break;
+                default:
+                    Debug.LogError($"{name}'s agent had impossible status of {status}.");
+                    break;
+            }
+            
+            statusText.text = status.ToString();
+        }
+
+        private void UpdateCompletionBar(float decPercentage)
+        {
+            completionBar.localScale = new(1f, decPercentage, 1f);
         }
 
         public void FrameClicked()

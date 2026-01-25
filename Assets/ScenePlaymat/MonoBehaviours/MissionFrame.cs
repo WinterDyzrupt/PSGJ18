@@ -1,4 +1,4 @@
-using ScenePlaymat.Data.Agents;
+using System;
 using ScenePlaymat.Data.Missions;
 using ScenePlaymat.Utils;
 using UnityEngine;
@@ -7,42 +7,86 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionFrame : MonoBehaviour
     {
-        public Mission mission;
+        private Mission _mission;
 
         [Header("Display Components")]
+        [SerializeField] private Transform expirationBar;
         [SerializeField] private Transform completionBar;
         
-        [Header("Selected Mission Wrapper")]
+        [Header("Mission Wrappers")]
         [SerializeField] private MissionWrapper selectedMission;
+        [SerializeField] private MissionWrapper newMission;
 
         private void Start()
         {
-            Debug.Assert(completionBar != null, $"{name} doesn't have a completion Bar assigned in the Inspector.");
+            Debug.Assert(expirationBar != null, $"{name} doesn't have an Expiration Bar assigned in the Inspector.");
+            Debug.Assert(completionBar != null, $"{name} doesn't have a Completion Bar assigned in the Inspector.");
+            
+            GrabCurrentMission();
         }
 
         private void Update()
         {
-            if (mission.Phase is not MissionPhase.Pending or MissionPhase.Completed)
+            if (_mission.Phase is MissionPhase.Posted or MissionPhase.Performing)
             {
-                mission.AdvanceMissionTimers();
+                _mission.CheckMissionTimers();
+                UpdateProgressBars();
+            }
+        }
+
+        private void MissionHasExpiredOrFinished(Mission _)
+        {
+            // TODO: Have the mission remove itself after confirmation window? I'm not sure.
+        }
+
+        private void GrabCurrentMission()
+        {
+            if (_mission != null)
+            {
+                Debug.LogWarning($"{name} was assigned a mission but already had one!");
+                return;
+            }
+
+            if (newMission.Mission == null )
+            {
+                Debug.LogWarning($"{name} was created but no new active mission!");
+                return;
+            }
+            
+            _mission = newMission.Mission;
+            _mission.AdvanceMission(); // Mission has been posted
+
+            _mission.HasExpired += MissionHasExpiredOrFinished;
+            _mission.HasBeenCompleted += MissionHasExpiredOrFinished;
+        }
+
+        private void UpdateProgressBars()
+        {
+            switch (_mission.Phase)
+            {
+                case MissionPhase.Posted: // Didn't expire yet, update bar
+                    completionBar.localScale = (float)_mission.CompletionPercentage * Vector3.one;
+                    break;
+                case MissionPhase.Expired: // Posting JUST expired, set bar to 100%
+                    completionBar.localScale = Vector3.one;
+                    break;
+                case MissionPhase.Performing: // Didn't complete mission yet, update bar
+                    if(expirationBar.localScale != Vector3.zero) expirationBar.localScale = Vector3.zero;
+                    completionBar.localScale = (float)_mission.CompletionPercentage * Vector3.one;
+                    break;
+                case MissionPhase.Completed: // Mission JUST completed, set bar to 100%
+                    completionBar.localScale = Vector3.one;
+                    break;
+                case MissionPhase.Posting:
+                case MissionPhase.Assigned:
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         public void FrameClicked()
         {
-            selectedMission.ChangeMission(mission);
-        }
-
-        private void MissionPhaseChanged(MissionPhase newPhase)
-        {
-            // TODO: UI Updates, switch from Expire bar to no bar to completion bar.
-        }
-
-        public void AcceptMission(Mission incomingMission)
-        {
-            mission = incomingMission;
-
-            mission.ChangeInPhase += MissionPhaseChanged;
+            selectedMission.ChangeMission(_mission);
         }
     }
 }

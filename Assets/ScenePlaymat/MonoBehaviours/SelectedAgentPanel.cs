@@ -99,7 +99,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateStatusBar()
         {
-            Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfCurrentStatus, 1f);
+            Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
             var isAgentIdle = _agent.Status == AgentStatus.Idle;
             statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
         }

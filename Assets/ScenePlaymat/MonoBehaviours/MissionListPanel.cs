@@ -1,24 +1,35 @@
 using ScenePlaymat.Data.Missions;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionListPanel : MonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] private GameObject missionButton;
-
-        [Header("Content Panel")]
+        [SerializeField] private GameObject missionFrame;
         [SerializeField] private Transform content;
+        
+        [Header("Mission Wrappers")]
+        [SerializeField] private MissionWrapper newMission;
 
         private void Awake()
         {
-            Debug.Assert(missionButton != null, "Mission Button prefab is not assigned!");
-            Debug.Assert(content != null, "Content transform is not assigned!");
+            Debug.Assert(missionFrame != null, $"{name} doesn't have the Mission Frame prefab assigned!");
+            Debug.Assert(content != null, $"{name} doesn't have the Content object assigned!");
+            Debug.Assert(newMission != null, $"{name} doesn't have the New Mission wrapper assigned!");
         }
 
-        public void AddMissions(Mission mission)
+        private void OnEnable()
+        {
+            newMission.MissionHasChanged += AddMission;
+        }
+        
+        private void OnDisable()
+        {
+            newMission.MissionHasChanged -= AddMission;
+        }
+
+        private void AddMission(Mission mission)
         {
             if (mission == null)
             {
@@ -26,8 +37,7 @@ namespace ScenePlaymat.MonoBehaviours
                 return;
             }
 
-            var newButtonGameObject = Instantiate(missionButton, content);
+            Instantiate(missionFrame, content);
         }
-
     }
 }
