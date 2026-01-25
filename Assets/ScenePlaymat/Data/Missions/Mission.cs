@@ -75,5 +75,7 @@ namespace ScenePlaymat.Data.Missions
             
             Phase = MissionPhase.Completed;
         }
+
+        public override string ToString() => data.displayName;
     }
 }
