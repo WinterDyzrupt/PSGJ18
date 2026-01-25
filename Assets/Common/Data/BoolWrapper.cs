@@ -9,7 +9,7 @@ namespace Common.Data
         [SerializeField] private bool currentValue;
         [SerializeField] public bool defaultValue;
 
-        public event Action BoolChanged;
+        public event Action Changed;
 
         private void Awake()
         {
@@ -20,13 +20,13 @@ namespace Common.Data
         {
             if (currentValue == newBool) return;
             currentValue = newBool;
-            BoolChanged?.Invoke();
+            Changed?.Invoke();
         }
 
         public void Toggle()
         {
             currentValue = !currentValue;
-            BoolChanged?.Invoke();
+            Changed?.Invoke();
         }
 
         public static implicit operator bool(BoolWrapper value) => value.currentValue;

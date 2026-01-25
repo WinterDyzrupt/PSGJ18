@@ -17,7 +17,7 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private MissionWrapper selectedMission;
         [SerializeField] private MissionWrapper newMission;
 
-        private void Start()
+        private void Awake()
         {
             Debug.Assert(expirationBar != null, $"{name} doesn't have an Expiration Bar assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a Completion Bar assigned in the Inspector.");
@@ -27,9 +27,14 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void Update()
         {
-            if (_mission.Phase is MissionPhase.Posted or MissionPhase.Performing)
+            if (!_mission)
             {
-                _mission.CheckMissionTimers();
+                Debug.LogError($"{name} was never assigned a mission!");
+                return;
+            }
+            
+            if (_mission.Status is MissionStatus.Posted or MissionStatus.InProgress)
+            {
                 UpdateProgressBars();
             }
         }
@@ -54,33 +59,35 @@ namespace ScenePlaymat.MonoBehaviours
             }
             
             _mission = newMission.Mission;
-            _mission.AdvanceMissionPhase(); // Mission has been posted
 
-            _mission.HasExpired += MissionHasExpiredOrFinished;
-            _mission.HasBeenCompleted += MissionHasExpiredOrFinished;
+            _mission.Expired += MissionHasExpiredOrFinished;
+            _mission.Completed += MissionHasExpiredOrFinished;
+            
+            _mission.Post();
         }
 
         private void UpdateProgressBars()
         {
-            switch (_mission.Phase)
+            switch (_mission.FetchCurrentStatus())
             {
-                case MissionPhase.Posted: // Didn't expire yet, update bar
-                    UpdateProgressBarUI(completionBar,(float)_mission.ExpirationPercentage);
+                case MissionStatus.Posted: // Didn't expire yet, update bar
+                    UpdateProgressBarUI(completionBar,(float)_mission.ExpirationDecimalPercentage);
                     break;
-                case MissionPhase.Expired: // Posting JUST expired, set bar to 100%
+                case MissionStatus.Expired: // Posting JUST expired, set bar to 100%
                     UpdateProgressBarUI(completionBar,1f);
                     break;
-                case MissionPhase.Performing: // Didn't complete mission yet, update bar
+                case MissionStatus.InProgress: // Didn't complete mission yet, update bar
                     if(expirationBar.localScale.y != 0) UpdateProgressBarUI(expirationBar,0);
-                    UpdateProgressBarUI(completionBar, (float)_mission.CompletionPercentage);
+                    UpdateProgressBarUI(completionBar, (float)_mission.CompletionDecimalPercentage);
                     break;
-                case MissionPhase.Completed: // Mission JUST completed, set bar to 100%
+                case MissionStatus.Completed: // Mission JUST completed, set bar to 100%
                     UpdateProgressBarUI(completionBar,1f);
                     break;
-                case MissionPhase.Posting:
-                case MissionPhase.Assigned:
+                case MissionStatus.Inactive:
+                case MissionStatus.Claimed:
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    Debug.LogError($"{name} tried to update progress bars but {_mission.Status} is invalid!");
+                    break;
             }
         }
 
@@ -91,7 +98,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            selectedMission.ChangeMission(_mission);
+            selectedMission.Set(_mission);
         }
     }
 }

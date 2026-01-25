@@ -15,7 +15,7 @@ namespace Common.MonoBehaviours
             
             Debug.Assert(settingsPrefab != null, "SettingsPrefab is null! Assign in inspector!.");
 
-            settingBool.BoolChanged += ToggleSettingsPanel;
+            settingBool.Changed += ToggleSettingsPanel;
         }
         
         private void ToggleSettingsPanel()

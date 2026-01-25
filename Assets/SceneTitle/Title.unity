@@ -1348,9 +1348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aebfc86798fa0834ea49ea87a374d516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Manager_Title
-  startBool: {fileID: 11400000, guid: 8cd2fa91bc05d4f438cd2ae9f484e10b, type: 2}
-  manualBool: {fileID: 11400000, guid: 1deb295331537df4b986c81451107ed1, type: 2}
-  creditsBool: {fileID: 11400000, guid: 1c37a7d92fc501f43899ac4e4e7cec3d, type: 2}
+  isStartEnabled: {fileID: 11400000, guid: 8cd2fa91bc05d4f438cd2ae9f484e10b, type: 2}
+  isManualEnabled: {fileID: 11400000, guid: 1deb295331537df4b986c81451107ed1, type: 2}
+  isCreditsEnabled: {fileID: 11400000, guid: 1c37a7d92fc501f43899ac4e4e7cec3d, type: 2}
   manualPanel: {fileID: 378110199}
   creditsPanel: {fileID: 2058214709}
 --- !u!1 &1197248928

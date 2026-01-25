@@ -8,7 +8,7 @@ namespace ScenePlaymat.MonoBehaviours
     {
         [SerializeField] private FloatWrapper floatVariable;
 
-        private void Start()
+        private void Awake()
         {
             Debug.Assert(floatVariable != null, $"{name} is no assigned float variable in the inspector!");
 
@@ -17,12 +17,14 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void OnEnable()
         {
-            floatVariable.FloatChanged += UpdateBar;
+            floatVariable.Changed += UpdateBar;
+            
+            UpdateBar(floatVariable);
         }
 
         private void OnDisable()
         {
-            floatVariable.FloatChanged -= UpdateBar;
+            floatVariable.Changed -= UpdateBar;
         }
 
         private void UpdateBar(float value)

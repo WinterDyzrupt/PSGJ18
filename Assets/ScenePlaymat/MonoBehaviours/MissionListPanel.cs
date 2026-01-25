@@ -21,12 +21,12 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void OnEnable()
         {
-            newMission.MissionHasChanged += AddMission;
+            newMission.Changed += AddMission;
         }
         
         private void OnDisable()
         {
-            newMission.MissionHasChanged -= AddMission;
+            newMission.Changed -= AddMission;
         }
 
         private void AddMission(Mission mission)

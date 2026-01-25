@@ -22,26 +22,29 @@ namespace ScenePlaymat.MonoBehaviours
         
         private void Awake()
         {
-            Debug.Assert(infoPanel != null, "Mission Info panel is not assigned!");
-            Debug.Assert(nameText != null, "Mission Name Text is not assigned!");
-            Debug.Assert(descriptionText != null, "Mission Description Text is not assigned!");
-            Debug.Assert(statBars != null, "Mission Stat Bars are not assigned!");
-            Debug.Assert(acceptMissionButton != null, "Accept Mission button is not assigned!");
-            Debug.Assert(selectedAgent != null, "Selected Agent reference is not assigned!");
+            Debug.Assert(infoPanel != null, $"{name} doesn't have a Mission Info panel assigned!");
+            Debug.Assert(nameText != null, $"{name} doesn't have a Mission Name Text assigned!");
+            Debug.Assert(descriptionText != null, $"{name} doesn't have a Mission Description Text assigned!");
+            Debug.Assert(statBars != null, $"{name} doesn't have a Mission Stat Bars assigned!");
+            Debug.Assert(acceptMissionButton != null, $"{name} doesn't have a Accept Mission button assigned!");
+            Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned!");
+            
+            Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned!");
+            Debug.Assert(selectedMission != null, $"{name} doesn't have a Selected Mission reference assigned!");
 
             infoPanel.SetActive(false);
         }
 
         private void OnEnable()
         {
-            selectedAgent.AgentHasChanged += ToggleAcceptMissionButton;
-            selectedMission.MissionHasChanged += UpdateMissionPanel;
+            selectedAgent.Changed += ToggleAcceptMissionButton;
+            selectedMission.Changed += UpdateMissionPanel;
         }
 
         private void OnDisable()
         {
-            selectedAgent.AgentHasChanged -= ToggleAcceptMissionButton;
-            selectedMission.MissionHasChanged -= UpdateMissionPanel;
+            selectedAgent.Changed -= ToggleAcceptMissionButton;
+            selectedMission.Changed -= UpdateMissionPanel;
         }
 
         private void UpdateMissionPanel(Mission mission)
@@ -64,15 +67,19 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void AcceptMissionButtonPressed()
         {
-            infoPanel.SetActive(false);
-            
             selectedAgent.Agent.AcceptMission(selectedMission.Mission);
-            ToggleAcceptMissionButton(null);
+            ToggleAcceptMissionButton(false);
+            
+            infoPanel.SetActive(false);
         }
 
         private void ToggleAcceptMissionButton(Agent agent)
         {
-            var turnOn = agent != null && agent.Status == AgentStatus.Idle;
+            ToggleAcceptMissionButton(agent != null && agent.FetchCurrentStatus() == AgentStatus.Idle);
+        }
+
+        private void ToggleAcceptMissionButton(bool turnOn)
+        {
             acceptMissionButton.interactable = turnOn;
         }
     }

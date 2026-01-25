@@ -8,14 +8,14 @@ namespace ScenePlaymat.Data.Agents
     {
         public Agent Agent { get; private set; }
 
-        public event Action<Agent> AgentHasChanged;
+        public event Action<Agent> Changed;
 
-        public void ChangeAgent(Agent agent)
+        public void Set(Agent agent)
         {
             if (Agent == agent) return;
 
             Agent = agent;
-            AgentHasChanged?.Invoke(agent);
+            Changed?.Invoke(agent);
         }
     }
 }

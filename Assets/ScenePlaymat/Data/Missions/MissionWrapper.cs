@@ -8,14 +8,14 @@ namespace ScenePlaymat.Data.Missions
     {
         public Mission Mission { get; private set; }
 
-        public event Action<Mission> MissionHasChanged;
+        public event Action<Mission> Changed;
 
-        public void ChangeMission(Mission mission)
+        public void Set(Mission mission)
         {
             if (Mission == mission) return;
 
             Mission = mission;
-            MissionHasChanged?.Invoke(Mission);
+            Changed?.Invoke(Mission);
         }
     }
 }

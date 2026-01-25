@@ -28,7 +28,7 @@ namespace ScenePlaymat.Data.Missions
         public TimeSpan DurationToPerform => TimeSpan.FromSeconds(durationToPerformInSeconds);
         public TimeSpan DurationToReturnFrom => TimeSpan.FromSeconds(durationToReturnFromInSeconds);
         public TimeSpan DurationToRest => TimeSpan.FromSeconds(durationToRestAfterInSeconds);
-        public TimeSpan DurationToExpiration => TimeSpan.FromSeconds(durationToExpirationInSeconds);
+        public TimeSpan DurationToExpire => TimeSpan.FromSeconds(durationToExpirationInSeconds);
 
         public TimeSpan TotalDuration => TimeSpan.FromSeconds(
             durationToTravelToInSeconds +

@@ -9,7 +9,7 @@ namespace Common.Data
         [SerializeField] private float currentValue;
         [SerializeField] private float defaultValue;
 
-        public event Action<float> FloatChanged;
+        public event Action<float> Changed;
 
         private void Awake()
         {
@@ -20,7 +20,7 @@ namespace Common.Data
         {
             if (currentValue == value) return;
             currentValue = value;
-            FloatChanged?.Invoke(currentValue);
+            Changed?.Invoke(currentValue);
         }
 
         public static implicit operator float(FloatWrapper value) => value.currentValue;

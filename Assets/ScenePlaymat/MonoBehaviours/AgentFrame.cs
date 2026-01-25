@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using ScenePlaymat.Data.Agents;
@@ -19,17 +18,19 @@ namespace ScenePlaymat.MonoBehaviours
         [Header("Selected Agent Wrapper")]
         [SerializeField] private AgentWrapper selectedAgent;
 
-        private void Start()
+        private void Awake()
         {
             Debug.Assert(agent != null, $"{name} doesn't have an agent assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a completion Bar assigned in the Inspector.");
             Debug.Assert(portrait != null, $"{name} doesn't have a portrait assigned in the Inspector.");
             Debug.Assert(statusText != null, $"{name} doesn't have status text assigned in the Inspector.");
             Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned in the Inspector.");
-            
+        }
+
+        private void Start()
+        {
             portrait.sprite = agent.portrait;
             
-            agent.InitializeAgent();
         }
 
         private void Update()
@@ -40,20 +41,21 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
                 case AgentStatus.Deploying:
                     UpdateCompletionBar((float)agent.CompletionOfDeploying);
-                    agent.CheckAgentTimers();
+                    agent.FetchCurrentStatus();
                     break;
                 case AgentStatus.AttemptingMission: // do nothing
                     break;
                 case AgentStatus.Returning:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfReturning);
-                    agent.CheckAgentTimers();
+                    agent.FetchCurrentStatus();
                     break;
                 case AgentStatus.Resting:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfResting);
-                    agent.CheckAgentTimers();
+                    agent.FetchCurrentStatus();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    Debug.LogError($"{agent.DisplayName}'s status({agent.Status}) was impossible.");
+                    break;
             }
         }
 
@@ -98,7 +100,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            selectedAgent.ChangeAgent(agent);
+            selectedAgent.Set(agent);
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

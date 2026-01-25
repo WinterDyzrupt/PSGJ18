@@ -19,17 +19,16 @@ namespace ScenePlaymat.Data.Agents
 
         public Attributes attributes;
 
-        [Header("Mission Information")]
-        public AgentStatus Status { get; private set; } = AgentStatus.Idle;
+        public AgentStatus Status { get; private set; }
 
         private Mission _currentMission;
         
         private TimeSpan _deployingDuration;
         private TimeSpan _returningDuration;
         private TimeSpan _restingDuration;
-        private readonly Stopwatch _deployingStopWatch = new();
-        private readonly Stopwatch _returningStopwatch = new();
-        private readonly Stopwatch _restingStopwatch = new();
+        private Stopwatch _deployingStopWatch;
+        private Stopwatch _returningStopwatch;
+        private Stopwatch _restingStopwatch;
 
         public double CompletionOfDeploying => Math.Clamp(
             _deployingStopWatch.Elapsed / _deployingDuration, 0, 1);
@@ -41,12 +40,21 @@ namespace ScenePlaymat.Data.Agents
         public event Action<AgentStatus> ChangeInStatus;
         
         /// <summary>
-        /// Initialization Function since this is a Scriptable Object
+        /// Initialization since this is a Scriptable Object
         /// SO's save information between run sessions. This is protection
-        /// so that the mod doesn't carry over between runs. 
+        /// so that the values don't carry over between runs. 
         /// </summary>
-        public void InitializeAgent()
+        private void Awake()
         {
+            Status = AgentStatus.Idle;
+            _currentMission = null;
+            
+            _deployingStopWatch = new();
+            _returningStopwatch = new();
+            _restingStopwatch  = new();
+            
+            ChangeInStatus = null;
+            
             attributes.muscleMod = 0;
             attributes.auraMod = 0;
             attributes.improvisationMod = 0;
@@ -59,9 +67,15 @@ namespace ScenePlaymat.Data.Agents
             Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
             Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
 
+            if (_currentMission != null)
+            {
+                Debug.LogError($"{DisplayName} already has an active mission.");
+                return;
+            }
+
             _currentMission = mission;
-            _currentMission.AdvanceMissionPhase(); // Agent accepted mission, advance phase to Assigned
-            _currentMission.HasBeenCompleted += MissionHasCompleted;
+            _currentMission.Claim();
+            _currentMission.Completed += ActiveMissionCompleted;
             ChangeStatus(AgentStatus.Deploying);
             
             _deployingDuration = mission.data.DurationToTravelTo;
@@ -77,14 +91,15 @@ namespace ScenePlaymat.Data.Agents
             // Debug.Log($"Agent {AgentName} accepted the mission: {_currentMission.missionName}");
         }
 
-        private void MissionHasCompleted(Mission _)
+        private void ActiveMissionCompleted(Mission _)
         {
-            _currentMission.HasBeenCompleted -= MissionHasCompleted;
+            _currentMission.Completed -= ActiveMissionCompleted;
             ChangeStatus(AgentStatus.Returning);
+            _currentMission =  null;
             _returningStopwatch.Start();
         }
 
-        public void CheckAgentTimers()
+        public AgentStatus FetchCurrentStatus()
         {
             switch (Status)
             {
@@ -94,7 +109,7 @@ namespace ScenePlaymat.Data.Agents
                     if (CompletionOfDeploying >= 1)
                     {
                         _deployingStopWatch.Stop();
-                        _currentMission.AdvanceMissionPhase(); // Agent is starting mission
+                        _currentMission.StartMission();
                         ChangeStatus(AgentStatus.AttemptingMission);
                     }
                     break;
@@ -119,6 +134,8 @@ namespace ScenePlaymat.Data.Agents
                     Debug.LogError($"{DisplayName} had impossible status of {Status}.");
                     break;
             }
+
+            return Status;
         }
 
         private void ChangeStatus(AgentStatus newStatus)

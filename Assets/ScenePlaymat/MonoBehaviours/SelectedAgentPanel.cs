@@ -9,20 +9,17 @@ namespace ScenePlaymat.MonoBehaviours
     public class SelectedAgentPanel : MonoBehaviour
     {
         private Agent _agent;
-        private bool _isPanelInfoOn = true;
+        
+        [SerializeField] private AgentWrapper selectedAgent;
 
-        [Header("Panel Components")] [SerializeField]
-        private TMP_Text agentName;
-
+        [Header("Panel Components")]
+        [SerializeField] private TMP_Text agentName;
         [SerializeField] private Image mugShotImage;
         [SerializeField] private Transform[] barBaseStats;
         [SerializeField] private Transform[] barTotalStats;
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private Transform statusProgress;
         
-        [Header("Selected Agent")]
-        [SerializeField] private AgentWrapper selectedAgent;
-
         private void Awake()
         {
             Debug.Assert(agentName != null, "AgentName Text is missing in inspector!");
@@ -39,7 +36,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void Update()
         {
-            if (_isPanelInfoOn && _agent && statusProgress.localScale != Vector3.zero)
+            if (_agent)
             {
                 UpdateStatusBar();
             }
@@ -47,12 +44,12 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void OnEnable()
         {
-            selectedAgent.AgentHasChanged += ChooseAgent;
+            selectedAgent.Changed += ChooseAgent;
         }
 
         private void OnDisable()
         {
-            selectedAgent.AgentHasChanged -= ChooseAgent;
+            selectedAgent.Changed -= ChooseAgent;
         }
 
         private void ChooseAgent(Agent newAgent)
@@ -74,14 +71,8 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void InitializePanel()
         {
-            if (_agent == null)
+            if (_agent != null)
             {
-                if (_isPanelInfoOn) TogglePanelVisibility();
-            }
-            else
-            {
-                if (!_isPanelInfoOn) TogglePanelVisibility();
-
                 agentName.text = _agent.DisplayName;
                 mugShotImage.sprite = _agent.mugshot;
 
@@ -91,8 +82,9 @@ namespace ScenePlaymat.MonoBehaviours
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 1, 1);
                 }
 
-                UpdateStatusText(_agent.Status);
-                if (_agent.Status != AgentStatus.Idle) UpdateStatusBar();
+                var currentStatus = _agent.FetchCurrentStatus();
+                UpdateStatusText(currentStatus);
+                if (currentStatus != AgentStatus.Idle) UpdateStatusBar();
                 else statusProgress.localScale = new(1f, 0, 1f);
             }
         }
@@ -100,23 +92,13 @@ namespace ScenePlaymat.MonoBehaviours
         private void UpdateStatusBar()
         {
             Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
-            var isAgentIdle = _agent.Status == AgentStatus.Idle;
+            var isAgentIdle = _agent.FetchCurrentStatus() == AgentStatus.Idle;
             statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
         }
 
         private void UpdateStatusText(AgentStatus status)
         {
             statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
-        }
-
-        private void TogglePanelVisibility()
-        {
-            _isPanelInfoOn = !_isPanelInfoOn;
-
-            agentName.gameObject.SetActive(_isPanelInfoOn);
-            mugShotImage.gameObject.SetActive(_isPanelInfoOn);
-            barBaseStats[0].parent.parent.gameObject.SetActive(_isPanelInfoOn);
-            statusText.transform.parent.gameObject.SetActive(_isPanelInfoOn);
         }
     }
 }

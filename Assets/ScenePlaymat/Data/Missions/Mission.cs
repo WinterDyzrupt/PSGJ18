@@ -12,68 +12,99 @@ namespace ScenePlaymat.Data.Missions
 
         public MissionData data;
 
-        public MissionPhase Phase { get; private set; } = MissionPhase.Posting;
+        public MissionStatus Status { get; private set; }
         
-        private TimeSpan _currentPhaseDuration;
-        private readonly Stopwatch _expiringStopwatch = new();
-        private readonly Stopwatch _missionProgressStopwatch = new();
+        private TimeSpan _currentStatusDuration;
+        private Stopwatch _expiringStopwatch;
+        private Stopwatch _missionProgressStopwatch;
         
-        public event Action<Mission> HasExpired;
-        public event Action<Mission> HasBeenCompleted;
+        public event Action<Mission> Expired;
+        public event Action<Mission> Completed;
         
-        public double ExpirationPercentage => Math.Clamp(
-            _expiringStopwatch.Elapsed / data.DurationToExpiration, 0, 1);
-        public double CompletionPercentage => Math.Clamp(
+        public double ExpirationDecimalPercentage => Math.Clamp(
+            _expiringStopwatch.Elapsed / data.DurationToExpire, 0, 1);
+        public double CompletionDecimalPercentage => Math.Clamp(
             _missionProgressStopwatch.Elapsed / data.DurationToPerform, 0, 1);
 
-        public void AdvanceMissionPhase()
+        /// <summary>
+        /// Initialization since this is a Scriptable Object
+        /// SO's save information between run sessions. This is protection
+        /// so that the values don't carry over between runs. 
+        /// </summary>
+        public void Awake()
         {
-            switch (Phase)
+            Status = MissionStatus.Inactive;
+            
+            _expiringStopwatch = new();
+            _missionProgressStopwatch = new();
+            
+            Expired = null;
+            Completed = null;
+        }
+
+        public void Post()
+        {
+            if (Status == MissionStatus.Inactive)
             {
-                case MissionPhase.Posting: // Start Expiration Timer, From Mission Frame
-                    Phase = MissionPhase.Posted;
-                    _expiringStopwatch.Start();
-                    break;
-                case MissionPhase.Posted: // Mission was Assigned to an Agent, From Agent
-                    Phase = MissionPhase.Assigned;
-                    break;
-                case MissionPhase.Assigned:// Agent Arrived, Start Performing, From Agent
-                    _expiringStopwatch.Stop();
-                    _expiringStopwatch.Reset();
-                    Phase = MissionPhase.Performing;
-                    _missionProgressStopwatch.Start();
-                    break;
-                case MissionPhase.Performing:
-                case MissionPhase.Expired:
-                case MissionPhase.Completed:
-                default:
-                    Debug.LogWarning($"{name} was told to advance but was in the {Phase} phase and isn't allowed.");
-                    break;
+                Status = MissionStatus.Posted;
+                _expiringStopwatch.Start();
+            }
+            else
+            {
+                Debug.LogError($"{name} was told to post but its status is {Status} and is not allowed!");
+            }
+        }
+
+        public void Claim()
+        {
+            if (Status == MissionStatus.Posted)
+            {
+                Status = MissionStatus.Claimed;
+            }
+            else
+            {
+                Debug.LogError($"{name} was claimed but its status is {Status} and is not allowed!");
             }
         }
         
-        public void CheckMissionTimers()
+        public void StartMission()
         {
-            if (Phase == MissionPhase.Posted && ExpirationPercentage >= 1) MissionExpired();
-            else if (Phase == MissionPhase.Performing && CompletionPercentage >= 1) MissionFinished();
+            if (Status == MissionStatus.Claimed)
+            {
+                _expiringStopwatch.Stop();
+                _expiringStopwatch.Reset();
+                Status = MissionStatus.InProgress;
+                _missionProgressStopwatch.Start();
+            }
+            else
+            {
+                Debug.LogError($"{name} was started but its status is {Status} and is not allowed!");
+            }
+        }
+        
+        public MissionStatus FetchCurrentStatus()
+        {
+            if (Status == MissionStatus.Posted && ExpirationDecimalPercentage >= 1) MissionExpired();
+            else if (Status == MissionStatus.InProgress && CompletionDecimalPercentage >= 1) MissionFinished();
+            return Status;
         }
 
         private void MissionExpired()
         {
             _expiringStopwatch.Stop();
             
-            HasExpired?.Invoke(this);
+            Expired?.Invoke(this);
 
-            Phase = MissionPhase.Expired;
+            Status = MissionStatus.Expired;
         }
 
         private void MissionFinished()
         {
             _missionProgressStopwatch.Stop();
             
-            HasBeenCompleted?.Invoke(this);
+            Completed?.Invoke(this);
             
-            Phase = MissionPhase.Completed;
+            Status = MissionStatus.Completed;
         }
 
         public override string ToString() => data.displayName;
