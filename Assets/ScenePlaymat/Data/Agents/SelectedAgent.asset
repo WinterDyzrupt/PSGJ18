@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93e98afce4e047f40a1eaea2e90fd42d, type: 3}
-  m_Name: StartState
-  m_EditorClassIdentifier: Assembly-CSharp::Variables.BoolVariable
-  boolValue: 0
-  defaultState: 0
+  m_Script: {fileID: 11500000, guid: d18b71aba01349ca83de28fe340a3717, type: 3}
+  m_Name: SelectedAgent
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.Data.Agents.AgentReference

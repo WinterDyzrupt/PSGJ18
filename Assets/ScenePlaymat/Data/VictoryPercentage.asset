@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93e98afce4e047f40a1eaea2e90fd42d, type: 3}
-  m_Name: CreditsState
-  m_EditorClassIdentifier: Assembly-CSharp::Variables.BoolVariable
-  boolValue: 0
-  defaultState: 0
+  m_Script: {fileID: 11500000, guid: 3891551c24424204cbcc7a03f8437216, type: 3}
+  m_Name: VictoryPercentage
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Data.FloatVariable
+  floatValue: 0
+  defaultValue: 0

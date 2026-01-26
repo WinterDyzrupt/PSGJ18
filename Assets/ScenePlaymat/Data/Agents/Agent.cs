@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
 using ScenePlaymat.Utils;
@@ -7,7 +8,7 @@ using Debug = UnityEngine.Debug;
 
 namespace ScenePlaymat.Data.Agents
 {
-    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent")]
+    [CreateAssetMenu(fileName = "Agent", menuName = "Data/Agent/Agent")]
     public class Agent : ScriptableObject
     {
         [Header("Agent Information")]
@@ -19,28 +20,46 @@ namespace ScenePlaymat.Data.Agents
 
         public Attributes attributes;
 
-        [Header("Mission Information")]
-        public AgentStatus Status { get; private set; } = AgentStatus.Idle;
+        public AgentStatus Status { get; private set; }
 
         private Mission _currentMission;
-        private TimeSpan _currentStatusDuration;
-        private readonly Stopwatch _currentStatusStopwatch = new();
-        private readonly Stopwatch _totalMissionStopwatch = new();
+        
+        private TimeSpan _deployingDuration;
+        private TimeSpan _returningDuration;
+        private TimeSpan _restingDuration;
+        private Stopwatch _deployingStopWatch;
+        private Stopwatch _returningStopwatch;
+        private Stopwatch _restingStopwatch;
 
-        public double CompletionOfCurrentStatus => Math.Clamp(
-            _currentStatusStopwatch.Elapsed / _currentStatusDuration, 0, 1);
-        public double CompletionOfMission => Math.Clamp(
-            _totalMissionStopwatch.Elapsed / _currentMission.data.TotalDuration, 0, 1);
+        public double CompletionOfDeploying => Math.Clamp(
+            _deployingStopWatch.Elapsed / _deployingDuration, 0, 1);
+        public double CompletionOfReturning => Math.Clamp(
+            _returningStopwatch.Elapsed / _returningDuration, 0, 1);
+        public double CompletionOfResting => Math.Clamp(
+            _restingStopwatch.Elapsed / _restingDuration, 0, 1);
 
-        public event Action<AgentStatus> ChangeInStatus;
+        public event Action<AgentStatus> StatusChanged;
+
+        // public event Action<AgentStatus, float> ProgressUpdate;
         
         /// <summary>
-        /// Initialization Function since this is a Scriptable Object
+        /// Initialization since this is a Scriptable Object
         /// SO's save information between run sessions. This is protection
-        /// so that the mod doesn't carry over between runs. 
+        /// so that the values don't carry over between runs. 
         /// </summary>
-        public void InitializeAgent()
+        // TODO: Check To verify these are necessary / need more in other places
+        private void Awake()
         {
+            Debug.Log($"{DisplayName} initialized.");
+            Status = AgentStatus.Idle;
+            _currentMission = null;
+            
+            _deployingStopWatch = new();
+            _returningStopwatch = new();
+            _restingStopwatch  = new();
+            
+            StatusChanged = null;
+            
             attributes.muscleMod = 0;
             attributes.auraMod = 0;
             attributes.improvisationMod = 0;
@@ -52,56 +71,123 @@ namespace ScenePlaymat.Data.Agents
         {
             Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
             Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
-
+            Debug.Assert(_currentMission == null, $"{DisplayName} already has an active mission.");
+            
             _currentMission = mission;
-            Status = AgentStatus.Deploying;
-            _currentStatusDuration = mission.data.DurationToTravelTo;
+            _currentMission.Claim();
+            _currentMission.Completed += ActiveMissionCompleted;
+            ChangeStatus(AgentStatus.Deploying);
+            
+            _deployingDuration = mission.data.DurationToTravelTo;
+            _returningDuration = mission.data.DurationToReturnFrom;
+            _restingDuration = mission.data.DurationToRest;
 
-            _currentStatusStopwatch.Restart();
-            _totalMissionStopwatch.Restart();
+            _deployingStopWatch.Reset();
+            _returningStopwatch.Reset();
+            _restingStopwatch.Reset();
+            
+            _deployingStopWatch.Start();
             
             // Debug.Log($"Agent {AgentName} accepted the mission: {_currentMission.missionName}");
         }
 
-        public void AdvanceMission()
+        private void ActiveMissionCompleted(Mission _)
         {
-            if (_currentStatusStopwatch.Elapsed >= _currentStatusDuration)
-            {
-                switch (Status)
-                {
-                    case AgentStatus.Deploying:
-                        Status = AgentStatus.AttemptingMission;
-                        _currentStatusDuration = _currentMission.data.DurationToPerform;
-                        break;
-                    case AgentStatus.AttemptingMission:
-                        Status = AgentStatus.Returning;
-                        _currentStatusDuration = _currentMission.data.DurationToReturnFrom;
-                        break;
-                    case AgentStatus.Returning:
-                        Status = AgentStatus.Resting;
-                        _currentStatusDuration = _currentMission.data.DurationToRest;
-                        break;
-                    case AgentStatus.Resting:
-                        Status = AgentStatus.Idle;
-                        _totalMissionStopwatch.Stop();
-                        _currentStatusStopwatch.Stop();
-                        // Debug.Log($"{name} completed their missions!");
-                        // Debug.Log($"Status is 100%: {(CompletionOfCurrentStatus == 1f).ToString()}");
-                        // Debug.Log($"Mission is 100%: {(CompletionOfMission == 1f).ToString()}");
-                        ChangeInStatus?.Invoke(Status);
-                        return;
-                    case AgentStatus.Idle:
-                    default:
-                        Debug.LogError($"Agent {DisplayName} had impossible status of {Status}.");
-                        break;
-                }
+            _currentMission.Completed -= ActiveMissionCompleted;
+            ChangeStatus(AgentStatus.Returning);
+            _currentMission =  null;
+            _returningStopwatch.Start();
+        }
 
-                // Debug.Log($"{name}'s status has moved to {Status}.");
-                ChangeInStatus?.Invoke(Status);
-                _currentStatusStopwatch.Restart();
+        public AgentStatus FetchCurrentStatus()
+        {
+            switch (Status)
+            {
+                case AgentStatus.Idle: // Do nothing
+                    break;
+                case AgentStatus.Deploying: // Check to see if agent arrived
+                    if (CompletionOfDeploying >= 1)
+                    {
+                        _deployingStopWatch.Stop();
+                        _currentMission.StartMission();
+                        ChangeStatus(AgentStatus.AttemptingMission);
+                    }
+                    break;
+                case AgentStatus.AttemptingMission: // Do nothing
+                    break;
+                case AgentStatus.Returning: // Check to see if agent returned
+                    if (CompletionOfReturning >= 1)
+                    {
+                        _returningStopwatch.Stop();
+                        ChangeStatus(AgentStatus.Resting);
+                        _restingStopwatch.Start();
+                    }
+                    break;
+                case AgentStatus.Resting: // check to see if agent rested
+                    if (CompletionOfResting >= 1)
+                    {
+                        _returningStopwatch.Stop();
+                        ChangeStatus(AgentStatus.Idle);
+                    }
+                    break;
+                default:
+                    Debug.LogError($"{DisplayName} had impossible status of {Status}.");
+                    break;
             }
+
+            return Status;
+        }
+
+        private void ChangeStatus(AgentStatus newStatus)
+        {
+            Status = newStatus;
+            StatusChanged?.Invoke(Status);
         }
 
         public override string ToString() => agentName;
+
+        
+        /*
+        private float totalDurationEx = 10f;
+        private float timerTime;
+        
+        bool timerIsRunning = true;
+        
+        private IEnumerator StateTimer()
+        {
+            // p1
+            timerTime = 0;
+            
+            // p2
+            while (timerTime <= totalDurationEx)
+            {
+                ProgressUpdate?.Invoke(Status, timerTime / totalDurationEx);
+                timerTime += Time.deltaTime;
+                
+                if (timerIsRunning) yield return null;
+                else
+                {
+                    // do what happens if timer ends early
+                }
+            }
+            
+            // p3
+            switch (Status)
+            {
+                case AgentStatus.Idle: // no timer, coroutine would not be running
+                    break;
+                case AgentStatus.Deploying: // timer
+                    break;
+                case AgentStatus.AttemptingMission: // no timer, coroutine would not be running
+                    break;
+                case AgentStatus.Returning: // timer
+                    break;
+                case AgentStatus.Resting: // timer
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        */
     }
 }

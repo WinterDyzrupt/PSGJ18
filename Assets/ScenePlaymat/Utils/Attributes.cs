@@ -12,11 +12,11 @@ namespace ScenePlaymat.Utils
         [SerializeField] private int resilienceBase;
         [SerializeField] private int swiftnessBase;
 
-        [HideInInspector] public int muscleMod;
-        [HideInInspector] public int auraMod;
-        [HideInInspector] public int improvisationMod;
-        [HideInInspector] public int resilienceMod;
-        [HideInInspector] public int swiftnessMod;
+        public int muscleMod;
+        public int auraMod;
+        public int improvisationMod;
+        public int resilienceMod;
+        public int swiftnessMod;
 
         public int Muscle => muscleBase + muscleMod;
         public int Aura => auraBase + auraMod;
