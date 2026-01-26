@@ -15,4 +15,14 @@ namespace ScenePlaymat.Data.Missions
             return data.displayName;
         }
     }
+    
+    /// <summary>
+    /// Unity serialization doesn't support SOs nested within SOs, so this is a tiny duplicate-ish class for
+    /// serialization.
+    /// </summary>
+    [Serializable]
+    public class MissionSerializationHelper
+    {
+        public MissionData data;
+    }
 }
