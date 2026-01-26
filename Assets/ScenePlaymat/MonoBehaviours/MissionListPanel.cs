@@ -19,23 +19,19 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(newMission != null, $"{name} doesn't have the New Mission wrapper assigned!");
         }
 
-        private void OnEnable()
+        private void Start()
         {
             newMission.Changed += AddMission;
         }
         
-        private void OnDisable()
+        private void OnDestroy()
         {
             newMission.Changed -= AddMission;
         }
 
         private void AddMission(Mission mission)
         {
-            if (mission == null)
-            {
-                Debug.LogError("Null Missions are not accepted.");
-                return;
-            }
+            Debug.Assert(mission != null, $"{name}: was given a null mission!");
 
             Instantiate(missionFrame, content);
         }

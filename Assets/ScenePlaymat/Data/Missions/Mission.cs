@@ -45,42 +45,30 @@ namespace ScenePlaymat.Data.Missions
 
         public void Post()
         {
-            if (Status == MissionStatus.Inactive)
-            {
-                Status = MissionStatus.Posted;
-                _expiringStopwatch.Start();
-            }
-            else
-            {
-                Debug.LogError($"{name} was told to post but its status is {Status} and is not allowed!");
-            }
+            Debug.Assert(Status == MissionStatus.Inactive,
+                $"{data.displayName} was told to Post but its status is {Status} and is not allowed!");
+
+            Status = MissionStatus.Posted;
+            _expiringStopwatch.Start();
         }
 
         public void Claim()
         {
-            if (Status == MissionStatus.Posted)
-            {
-                Status = MissionStatus.Claimed;
-            }
-            else
-            {
-                Debug.LogError($"{name} was claimed but its status is {Status} and is not allowed!");
-            }
+            Debug.Assert(Status == MissionStatus.Posted,
+                $"{data.displayName} was told to Claim but its status is {Status} and is not allowed!");
+            
+            Status = MissionStatus.Claimed;
         }
         
         public void StartMission()
         {
-            if (Status == MissionStatus.Claimed)
-            {
-                _expiringStopwatch.Stop();
-                _expiringStopwatch.Reset();
-                Status = MissionStatus.InProgress;
-                _missionProgressStopwatch.Start();
-            }
-            else
-            {
-                Debug.LogError($"{name} was started but its status is {Status} and is not allowed!");
-            }
+            Debug.Assert(Status == MissionStatus.Claimed,
+                $"{data.displayName} was told to StartMission but its status is {Status} and is not allowed!");
+            
+             _expiringStopwatch.Stop();
+             _expiringStopwatch.Reset();
+             Status = MissionStatus.InProgress;
+             _missionProgressStopwatch.Start();
         }
         
         public MissionStatus FetchCurrentStatus()

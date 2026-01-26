@@ -35,13 +35,13 @@ namespace ScenePlaymat.MonoBehaviours
             infoPanel.SetActive(false);
         }
 
-        private void OnEnable()
+        private void Start()
         {
             selectedAgent.Changed += ToggleAcceptMissionButton;
             selectedMission.Changed += UpdateMissionPanel;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             selectedAgent.Changed -= ToggleAcceptMissionButton;
             selectedMission.Changed -= UpdateMissionPanel;

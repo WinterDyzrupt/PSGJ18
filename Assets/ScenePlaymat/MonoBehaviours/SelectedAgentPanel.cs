@@ -34,6 +34,11 @@ namespace ScenePlaymat.MonoBehaviours
             InitializePanel();
         }
 
+        private void Start()
+        {
+            selectedAgent.Changed += ChooseAgent;
+        }
+
         private void Update()
         {
             if (_agent)
@@ -42,28 +47,23 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
-        private void OnEnable()
-        {
-            selectedAgent.Changed += ChooseAgent;
-        }
-
-        private void OnDisable()
+        private void OnDestroy()
         {
             selectedAgent.Changed -= ChooseAgent;
         }
 
         private void ChooseAgent(Agent newAgent)
         {
-            if (_agent != null)
+            if (_agent)
             {
-                _agent.ChangeInStatus -= UpdateStatusText;
+                _agent.StatusChanged -= UpdateStatusText;
             }
 
             _agent = newAgent;
 
-            if (_agent != null)
+            if (_agent)
             {
-                _agent.ChangeInStatus += UpdateStatusText;
+                _agent.StatusChanged += UpdateStatusText;
             }
 
             InitializePanel();

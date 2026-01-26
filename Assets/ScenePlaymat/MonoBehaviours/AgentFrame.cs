@@ -31,6 +31,7 @@ namespace ScenePlaymat.MonoBehaviours
         {
             portrait.sprite = agent.portrait;
             
+            agent.StatusChanged += AgentStatusChanged;
         }
 
         private void Update()
@@ -59,14 +60,9 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            agent.ChangeInStatus += AgentStatusChanged;
-        }
-
-        private void OnDisable()
-        {
-            agent.ChangeInStatus -= AgentStatusChanged;
+            agent.StatusChanged -= AgentStatusChanged;
         }
 
         private void AgentStatusChanged(AgentStatus status)
@@ -74,9 +70,8 @@ namespace ScenePlaymat.MonoBehaviours
             switch (status)
             {
                 case AgentStatus.Idle: // from resting, reset bars to 0, empty text
-                    statusText.text = string.Empty;
                     UpdateCompletionBar(0);
-                    return;
+                    break;
                 case AgentStatus.Deploying: // from resting
                     break;
                 case AgentStatus.AttemptingMission: // from deploying, set bar to full update text
@@ -90,7 +85,7 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
             }
             
-            statusText.text = status.ToString();
+            statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
         }
 
         private void UpdateCompletionBar(float decimalPercentage)

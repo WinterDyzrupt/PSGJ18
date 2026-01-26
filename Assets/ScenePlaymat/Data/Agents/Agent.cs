@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
 using ScenePlaymat.Utils;
@@ -37,7 +38,9 @@ namespace ScenePlaymat.Data.Agents
         public double CompletionOfResting => Math.Clamp(
             _restingStopwatch.Elapsed / _restingDuration, 0, 1);
 
-        public event Action<AgentStatus> ChangeInStatus;
+        public event Action<AgentStatus> StatusChanged;
+
+        // public event Action<AgentStatus, float> ProgressUpdate;
         
         /// <summary>
         /// Initialization since this is a Scriptable Object
@@ -55,7 +58,7 @@ namespace ScenePlaymat.Data.Agents
             _returningStopwatch = new();
             _restingStopwatch  = new();
             
-            ChangeInStatus = null;
+            StatusChanged = null;
             
             attributes.muscleMod = 0;
             attributes.auraMod = 0;
@@ -68,13 +71,8 @@ namespace ScenePlaymat.Data.Agents
         {
             Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
             Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
-
-            if (_currentMission != null)
-            {
-                Debug.LogError($"{DisplayName} already has an active mission.");
-                return;
-            }
-
+            Debug.Assert(_currentMission == null, $"{DisplayName} already has an active mission.");
+            
             _currentMission = mission;
             _currentMission.Claim();
             _currentMission.Completed += ActiveMissionCompleted;
@@ -143,9 +141,53 @@ namespace ScenePlaymat.Data.Agents
         private void ChangeStatus(AgentStatus newStatus)
         {
             Status = newStatus;
-            ChangeInStatus?.Invoke(Status);
+            StatusChanged?.Invoke(Status);
         }
 
         public override string ToString() => agentName;
+
+        
+        /*
+        private float totalDurationEx = 10f;
+        private float timerTime;
+        
+        bool timerIsRunning = true;
+        
+        private IEnumerator StateTimer()
+        {
+            // p1
+            timerTime = 0;
+            
+            // p2
+            while (timerTime <= totalDurationEx)
+            {
+                ProgressUpdate?.Invoke(Status, timerTime / totalDurationEx);
+                timerTime += Time.deltaTime;
+                
+                if (timerIsRunning) yield return null;
+                else
+                {
+                    // do what happens if timer ends early
+                }
+            }
+            
+            // p3
+            switch (Status)
+            {
+                case AgentStatus.Idle: // no timer, coroutine would not be running
+                    break;
+                case AgentStatus.Deploying: // timer
+                    break;
+                case AgentStatus.AttemptingMission: // no timer, coroutine would not be running
+                    break;
+                case AgentStatus.Returning: // timer
+                    break;
+                case AgentStatus.Resting: // timer
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        */
     }
 }
