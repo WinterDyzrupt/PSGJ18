@@ -3,7 +3,6 @@ namespace ScenePlaymat.MonoBehaviours
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using UnityEngine;
     using Data.Missions;
 
@@ -23,14 +22,8 @@ namespace ScenePlaymat.MonoBehaviours
         // ... prevent a situation where you can run out of missions before without filling a bar
         // ... (e.g. final missions give +/- 100%)
 
-        private TimeSpan DurationBetweenNewMissions => TimeSpan.FromSeconds(durationBetweenNewMissionsInSeconds);
-
         public event Action<Mission> NewMissionAdded; 
-        
-        /// <summary>
-        /// Note: C#'s Timer is not supported in WebGL.
-        /// </summary>
-        private Stopwatch _missionTimer;
+
         private bool _isInitialized;
         private bool _isRunning;
 
@@ -38,94 +31,66 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void Awake()
         {
-            _missionTimer = Stopwatch.StartNew();
-            _isInitialized = true;
-            _isRunning = false;
             _missionEnumerator = allMissions.missions.GetEnumerator();
         }
 
-        /// <summary>
-        /// Starts or resumes the scheduler's timer.
-        /// </summary>
-        public void StartOrResume()
+        public void StartScheduler()
         {
-            Debug.Log($"Attempted to resume: {nameof(_isInitialized)}: {_isInitialized}, {nameof(_isRunning)}: {_isRunning}");
-            if (_isInitialized && !_isRunning)
+            Debug.Log($"MissionScheduler: Starting: {nameof(_isInitialized)}: {_isInitialized}, {nameof(_isRunning)}: {_isRunning}.");
+
+            if (!_isInitialized)
             {
-                Debug.Log("Starting mission scheduler.");
-                _missionTimer.Start();
+                Debug.Log("MissionScheduler: Initializing.");
+                _isInitialized = true;
                 _isRunning = true;
                 StartCoroutine(RaiseNewMissionAtInterval());
             }
-        }
-
-        public void Pause()
-        {
-            Debug.Log($"Attempted to pause: {nameof(_isInitialized)}: {_isInitialized}, {nameof(_isRunning)}: {_isRunning}");
-            if (_isInitialized && _isRunning)
+            else
             {
-                Debug.Log("Pausing mission scheduler.");
-                _missionTimer.Stop();
-                _isRunning = false;
+                Debug.Log("MissionScheduler: Resuming.");
+                _isRunning = true;
             }
         }
 
-        public void Stop()
+        public void StopScheduler()
         {
-            _missionTimer?.Stop();
             _isRunning = false;
         }
 
-        IEnumerator RaiseNewMissionAtInterval()
+        private IEnumerator RaiseNewMissionAtInterval()
         {
-            while (_isInitialized)
+            while (_isInitialized && _isRunning)
             {
-                if (_isRunning && _missionTimer.Elapsed >= DurationBetweenNewMissions && NewMissionAdded != null)
+                Debug.Log($"MissionHandler: Waiting: {durationBetweenNewMissionsInSeconds} seconds.");
+                yield return new WaitForSeconds(durationBetweenNewMissionsInSeconds);
+
+                if (_missionEnumerator.MoveNext())
                 {
-                    var hasNewMission = _missionEnumerator.MoveNext();
                     var newMission = _missionEnumerator.Current;
-
-                    if (hasNewMission && newMission != null)
+                    if (newMission != null && NewMissionAdded != null)
                     {
-                        Debug.Log("MissionScheduler: New mission: " + newMission);
-
-                        // Last-minute check in case the last listener stopped listening in the middle of this block.
-                        if (NewMissionAdded != null)
-                        {
-                            NewMissionAdded.Invoke(newMission);
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"MissionHandler: {nameof(NewMissionAdded)} is null; skipping.");
-                        }
+                        NewMissionAdded.Invoke(newMission);
                     }
-                    else if (hasNewMission && newMission == null)
+                    else if (newMission == null)
                     {
-                        Debug.LogWarning("MissionHandler: Tried to raise a null mission; check the list.");
+                        Debug.LogError("MissionHandler: Tried to raise a null mission; check the list.");
                     }
                     else
                     {
-                        Debug.LogWarning("MissionScheduler: Time to raise a new mission, but there are no more.");
+                        Debug.LogError($"MissionHandler: {nameof(NewMissionAdded)} is null.");
                     }
-
-                    Debug.Log("MissionScheduler: Restarting timer, duration: " + DurationBetweenNewMissions);
-                    _missionTimer.Restart();
                 }
-                else if (_isRunning && _missionTimer.Elapsed >= DurationBetweenNewMissions && NewMissionAdded == null)
+                else
                 {
-                    Debug.LogWarning("MissionScheduler: Time to raise an event, but there are no listeners; why isn't this paused? ... restarting");
-                    // TODO: Pause itself when there are no listeners?
-                    _missionTimer.Restart();
+                    Debug.LogWarning("MissionScheduler: Ran out of missions.");
                 }
-
-                yield return null;
             }
         }
 
         public void OnDestroy()
         {
             _isInitialized = false;
-            Stop();
+            StopScheduler();
         }
     }
 }

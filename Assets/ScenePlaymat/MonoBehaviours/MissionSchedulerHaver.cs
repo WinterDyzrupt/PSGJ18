@@ -17,7 +17,7 @@ namespace ScenePlaymat.MonoBehaviours
         private void Start()
         {
             // TODO: Start after some delay or prompt?
-            _missionScheduler.StartOrResume();
+            _missionScheduler.StartScheduler();
         }
 
         private void OnNewMission(Mission newMission)
