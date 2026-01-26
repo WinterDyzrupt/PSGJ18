@@ -44,8 +44,10 @@ namespace ScenePlaymat.Data.Agents
         /// SO's save information between run sessions. This is protection
         /// so that the values don't carry over between runs. 
         /// </summary>
+        // TODO: Check To verify these are necessary / need more in other places
         private void Awake()
         {
+            Debug.Log($"{DisplayName} initialized.");
             Status = AgentStatus.Idle;
             _currentMission = null;
             

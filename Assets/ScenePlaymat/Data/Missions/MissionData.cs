@@ -16,11 +16,11 @@ namespace ScenePlaymat.Data.Missions
         public string completionText;
         public string failureText;
 
-        public float durationToTravelToInSeconds;
-        public float durationToPerformInSeconds;
-        public float durationToReturnFromInSeconds;
-        public float durationToRestAfterInSeconds;
-        public float durationToExpirationInSeconds;
+        public float durationToTravelToInSeconds = 10;
+        public float durationToPerformInSeconds = 10;
+        public float durationToReturnFromInSeconds = 10;
+        public float durationToRestAfterInSeconds = 10;
+        public float durationToExpirationInSeconds = 10;
 
         public Attributes missionAttributes;
         
