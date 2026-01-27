@@ -33,10 +33,6 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(selectedMission != null, $"{name} doesn't have a Selected Mission reference assigned!");
 
             infoPanel.SetActive(false);
-        }
-
-        private void Start()
-        {
             selectedAgent.Changed += ToggleAcceptMissionButton;
             selectedMission.Changed += UpdateMissionPanel;
         }
@@ -55,7 +51,6 @@ namespace ScenePlaymat.MonoBehaviours
                 return;
             }
             
-            infoPanel.SetActive(true);
             nameText.text = mission.data.displayName;
             descriptionText.text = mission.data.description;
             var missionAttributes = mission.data.missionAttributes.AttributesTotal;
@@ -63,6 +58,7 @@ namespace ScenePlaymat.MonoBehaviours
             {
                 statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
             }
+            infoPanel.SetActive(true);
         }
 
         public void AcceptMissionButtonPressed()

@@ -15,8 +15,8 @@ namespace ScenePlaymat.Data.Missions
         public MissionStatus Status { get; private set; }
         
         private TimeSpan _currentStatusDuration;
-        private Stopwatch _expiringStopwatch;
-        private Stopwatch _missionProgressStopwatch;
+        private readonly Stopwatch _expiringStopwatch = new();
+        private readonly Stopwatch _missionProgressStopwatch = new();
         
         public event Action<Mission> Expired;
         public event Action<Mission> Completed;
@@ -32,16 +32,16 @@ namespace ScenePlaymat.Data.Missions
         /// so that the values don't carry over between runs. 
         /// </summary>
         // TODO: Check To verify these are necessary / need more in other places
-        public void Awake()
-        {
-            Status = MissionStatus.Inactive;
-            
-            _expiringStopwatch = new();
-            _missionProgressStopwatch = new();
-            
-            Expired = null;
-            Completed = null;
-        }
+        // ScriptableObject.Awake() is not called when restarting the same scene in the editor,
+        // so this is only for starting the game fresh, from the title scene.   OnEnable() is also executed
+        // when restarting the same scene, so probably put any necessary initializations in OnEnable() instead.
+        // public void Awake()
+        // {
+        //     Status = MissionStatus.Inactive;
+        //     
+        //     Expired = null;
+        //     Completed = null;
+        // }
 
         public void Post()
         {

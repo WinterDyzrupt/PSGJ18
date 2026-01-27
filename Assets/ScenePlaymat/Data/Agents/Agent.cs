@@ -27,9 +27,9 @@ namespace ScenePlaymat.Data.Agents
         private TimeSpan _deployingDuration;
         private TimeSpan _returningDuration;
         private TimeSpan _restingDuration;
-        private Stopwatch _deployingStopWatch;
-        private Stopwatch _returningStopwatch;
-        private Stopwatch _restingStopwatch;
+        private readonly Stopwatch _deployingStopWatch = new();
+        private readonly Stopwatch _returningStopwatch =  new();
+        private readonly Stopwatch _restingStopwatch = new();
 
         public double CompletionOfDeploying => Math.Clamp(
             _deployingStopWatch.Elapsed / _deployingDuration, 0, 1);
@@ -47,25 +47,24 @@ namespace ScenePlaymat.Data.Agents
         /// SO's save information between run sessions. This is protection
         /// so that the values don't carry over between runs. 
         /// </summary>
-        // TODO: Check To verify these are necessary / need more in other places
-        private void Awake()
-        {
-            Debug.Log($"{DisplayName} initialized.");
-            Status = AgentStatus.Idle;
-            _currentMission = null;
-            
-            _deployingStopWatch = new();
-            _returningStopwatch = new();
-            _restingStopwatch  = new();
-            
-            StatusChanged = null;
-            
-            attributes.muscleMod = 0;
-            attributes.auraMod = 0;
-            attributes.improvisationMod = 0;
-            attributes.resilienceMod = 0;
-            attributes.swiftnessMod = 0;
-        }
+        // TODO: Check to verify these are necessary / need more in other places
+        // ScriptableObject.Awake() is not called when restarting the same scene in the editor,
+        // so this is only for starting the game fresh, from the title scene.  OnEnable() is also executed
+        // when restarting the same scene, so probably put any necessary initializations in OnEnable() instead.
+        // private void Awake()
+        // {
+        //     Debug.Log($"{DisplayName} initialized.");
+        //     Status = AgentStatus.Idle;
+        //     _currentMission = null;
+        //
+        //     StatusChanged = null;
+        //     
+        //     attributes.muscleMod = 0;
+        //     attributes.auraMod = 0;
+        //     attributes.improvisationMod = 0;
+        //     attributes.resilienceMod = 0;
+        //     attributes.swiftnessMod = 0;
+        // }
 
         public void AcceptMission(Mission mission)
         {
