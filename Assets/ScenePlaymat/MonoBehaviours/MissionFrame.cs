@@ -13,15 +13,12 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Transform completionBar;
         
         [Header("Mission Wrappers")]
-        [SerializeField] private MissionWrapper selectedMission;
-        [SerializeField] private MissionWrapper newMission;
+        [SerializeField] private MissionWrapper selectedMissionWrapper;
 
         private void Awake()
         {
             Debug.Assert(expirationBar != null, $"{name} doesn't have an Expiration Bar assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a Completion Bar assigned in the Inspector.");
-            
-            GrabCurrentMission();
         }
 
         private void Update()
@@ -38,31 +35,19 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
+        public void PostMission(Mission missionToPost)
+        {
+            Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
+            
+            _mission = missionToPost;
+            _mission.Expired += MissionHasExpiredOrFinished;
+            _mission.Completed += MissionHasExpiredOrFinished;
+            _mission.Post();
+        }
+        
         private void MissionHasExpiredOrFinished(Mission _)
         {
             // TODO: Have the mission remove itself after confirmation window? I'm not sure.
-        }
-
-        private void GrabCurrentMission()
-        {
-            if (_mission != null)
-            {
-                Debug.LogWarning($"{name} was assigned a mission but already had one!");
-                return;
-            }
-
-            if (newMission.Mission == null )
-            {
-                Debug.LogWarning($"{name} was created but no new active mission!");
-                return;
-            }
-            
-            _mission = newMission.Mission;
-
-            _mission.Expired += MissionHasExpiredOrFinished;
-            _mission.Completed += MissionHasExpiredOrFinished;
-            
-            _mission.Post();
         }
 
         private void UpdateProgressBars()
@@ -97,7 +82,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            selectedMission.Set(_mission);
+            selectedMissionWrapper.Set(_mission);
         }
     }
 }

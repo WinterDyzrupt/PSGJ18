@@ -11,6 +11,12 @@ namespace ScenePlaymat.Data.Agents
 
         public event Action<Agent> Changed;
 
+        private void OnEnable()
+        {
+            // Reset to null for re-running the same scene in the editor.
+            agent = null;
+        }
+
         public void Set(Agent newAgent)
         {
             if (Agent == newAgent) return;

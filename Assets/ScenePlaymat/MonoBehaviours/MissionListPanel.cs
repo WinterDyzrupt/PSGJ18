@@ -5,35 +5,42 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionListPanel : MonoBehaviour
     {
+        public MissionScheduler scheduler;
+        
         [Header("Prefabs")]
         [SerializeField] private GameObject missionFrame;
         [SerializeField] private Transform content;
-        
-        [Header("Mission Wrappers")]
-        [SerializeField] private MissionWrapper newMission;
 
         private void Awake()
         {
             Debug.Assert(missionFrame != null, $"{name} doesn't have the Mission Frame prefab assigned!");
             Debug.Assert(content != null, $"{name} doesn't have the Content object assigned!");
-            Debug.Assert(newMission != null, $"{name} doesn't have the New Mission wrapper assigned!");
+            Debug.Assert(scheduler != null, $"{name}: doesn't have a {nameof(scheduler)} assigned in the editor!");
         }
 
         private void Start()
         {
-            newMission.Changed += AddMission;
-        }
-        
-        private void OnDestroy()
-        {
-            newMission.Changed -= AddMission;
+            scheduler.NewMissionAdded += AddMission;
+            scheduler.StartScheduler();
         }
 
         private void AddMission(Mission mission)
         {
             Debug.Assert(mission != null, $"{name}: was given a null mission!");
 
-            Instantiate(missionFrame, content);
+            Debug.Log($"MissionListPanel: Adding new mission: {mission.data.displayName}");
+            var newMissionFrame = Instantiate(missionFrame, content);
+            var missionFrameMonoBehaviour = newMissionFrame.GetComponentInChildren<MissionFrame>();
+            missionFrameMonoBehaviour.PostMission(mission);
+        }
+
+        private void OnDestroy()
+        {
+            if (scheduler != null)
+            {
+                scheduler.NewMissionAdded -= AddMission;
+                scheduler.StopScheduler();
+            }
         }
     }
 }

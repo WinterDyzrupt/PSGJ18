@@ -6,16 +6,33 @@ namespace ScenePlaymat.Data.Missions
     [CreateAssetMenu(fileName = "MissionWrapper", menuName = "Data/Missions/Mission Wrapper")]
     public class MissionWrapper : ScriptableObject
     {
-        public Mission Mission { get; private set; }
+        [SerializeField] private Mission mission;
+        public Mission Mission => mission;
 
         public event Action<Mission> Changed;
 
-        public void Set(Mission mission)
+        private void OnEnable()
         {
-            if (Mission == mission) return;
+            mission = null;
+        }
 
-            Mission = mission;
-            Changed?.Invoke(Mission);
+        public void Set(Mission newMission)
+        {
+            if (mission == newMission)
+            {
+                Debug.Log("MissionWrapper.Set: Attempted to change mission to the same mission.");
+                return;
+            }
+
+            mission = newMission;
+            if (Changed != null)
+            {
+                Changed.Invoke(mission);
+            }
+            else
+            {
+                Debug.LogWarning("MissionWrapper.Set: No listener was set.");
+            }
         }
     }
 }

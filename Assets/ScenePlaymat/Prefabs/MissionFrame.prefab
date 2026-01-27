@@ -336,8 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionFrame
   expirationBar: {fileID: 8479581123778905113}
   completionBar: {fileID: 3920408480452062775}
-  selectedMission: {fileID: 11400000, guid: f3f5efe91e44ddd45ae3ab48ac84d3ab, type: 2}
-  newMission: {fileID: 11400000, guid: f3f5efe91e44ddd45ae3ab48ac84d3ab, type: 2}
+  selectedMissionWrapper: {fileID: 11400000, guid: c0ce05b6c7cd81d4289e92f7b3ce0a40, type: 2}
 --- !u!1 &8013878433056352715
 GameObject:
   m_ObjectHideFlags: 0

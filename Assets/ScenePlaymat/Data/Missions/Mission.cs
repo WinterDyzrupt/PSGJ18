@@ -12,7 +12,8 @@ namespace ScenePlaymat.Data.Missions
 
         public MissionData data;
 
-        public MissionStatus Status { get; private set; }
+        [SerializeField] private MissionStatus status;
+        public MissionStatus Status => status;
         
         private TimeSpan _currentStatusDuration;
         private readonly Stopwatch _expiringStopwatch = new();
@@ -27,55 +28,46 @@ namespace ScenePlaymat.Data.Missions
             _missionProgressStopwatch.Elapsed / data.DurationToPerform, 0, 1);
 
         /// <summary>
-        /// Initialization since this is a Scriptable Object
-        /// SO's save information between run sessions. This is protection
-        /// so that the values don't carry over between runs. 
+        /// Reset status to default for use in unity editor (otherwise values will persist if restarting the same scene).
         /// </summary>
-        // TODO: Check To verify these are necessary / need more in other places
-        // ScriptableObject.Awake() is not called when restarting the same scene in the editor,
-        // so this is only for starting the game fresh, from the title scene.   OnEnable() is also executed
-        // when restarting the same scene, so probably put any necessary initializations in OnEnable() instead.
-        // public void Awake()
-        // {
-        //     Status = MissionStatus.Inactive;
-        //     
-        //     Expired = null;
-        //     Completed = null;
-        // }
+        private void OnEnable()
+        {
+            status = MissionStatus.Inactive;
+        }
 
         public void Post()
         {
             Debug.Assert(Status == MissionStatus.Inactive,
-                $"{data.displayName} was told to Post but its status is {Status} and is not allowed!");
+                $"{data.displayName} was told to Post but its status is {status} and is not allowed!");
 
-            Status = MissionStatus.Posted;
+            status = MissionStatus.Posted;
             _expiringStopwatch.Start();
         }
 
         public void Claim()
         {
             Debug.Assert(Status == MissionStatus.Posted,
-                $"{data.displayName} was told to Claim but its status is {Status} and is not allowed!");
+                $"{data.displayName} was told to Claim but its status is {status} and is not allowed!");
             
-            Status = MissionStatus.Claimed;
+            status = MissionStatus.Claimed;
         }
         
         public void StartMission()
         {
             Debug.Assert(Status == MissionStatus.Claimed,
-                $"{data.displayName} was told to StartMission but its status is {Status} and is not allowed!");
+                $"{data.displayName} was told to StartMission but its status is {status} and is not allowed!");
             
              _expiringStopwatch.Stop();
              _expiringStopwatch.Reset();
-             Status = MissionStatus.InProgress;
+             status = MissionStatus.InProgress;
              _missionProgressStopwatch.Start();
         }
         
         public MissionStatus FetchCurrentStatus()
         {
-            if (Status == MissionStatus.Posted && ExpirationDecimalPercentage >= 1) MissionExpired();
-            else if (Status == MissionStatus.InProgress && CompletionDecimalPercentage >= 1) MissionFinished();
-            return Status;
+            if (status == MissionStatus.Posted && ExpirationDecimalPercentage >= 1) MissionExpired();
+            else if (status == MissionStatus.InProgress && CompletionDecimalPercentage >= 1) MissionFinished();
+            return status;
         }
 
         private void MissionExpired()
@@ -84,7 +76,7 @@ namespace ScenePlaymat.Data.Missions
             
             Expired?.Invoke(this);
 
-            Status = MissionStatus.Expired;
+            status = MissionStatus.Expired;
         }
 
         private void MissionFinished()
@@ -93,7 +85,7 @@ namespace ScenePlaymat.Data.Missions
             
             Completed?.Invoke(this);
             
-            Status = MissionStatus.Completed;
+            status = MissionStatus.Completed;
         }
 
         public override string ToString() => data.displayName;
