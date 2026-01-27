@@ -6,16 +6,25 @@ namespace ScenePlaymat.Data.Agents
     [CreateAssetMenu(fileName = "AgentWrapper", menuName = "Data/Agent/Agent Wrapper")]
     public class AgentWrapper : ScriptableObject
     {
-        public Agent Agent { get; private set; }
+        [SerializeField] private Agent agent;
+        public Agent Agent => agent;
 
         public event Action<Agent> Changed;
 
-        public void Set(Agent agent)
+        public void Set(Agent newAgent)
         {
-            if (Agent == agent) return;
+            if (Agent == newAgent) return;
 
-            Agent = agent;
-            Changed?.Invoke(agent);
+            agent = newAgent;
+            if (Changed != null)
+            {
+                Changed?.Invoke(agent);
+                Debug.Log("Agent.Changed invoked");
+            }
+            else
+            {
+                Debug.Log("Agent.Changed is null, but agent just changed.");
+            }
         }
     }
 }

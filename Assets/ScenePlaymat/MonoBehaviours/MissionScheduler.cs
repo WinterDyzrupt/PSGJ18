@@ -36,7 +36,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void StartScheduler()
         {
-            Debug.Log($"MissionScheduler: Starting: {nameof(_isInitialized)}: {_isInitialized}, {nameof(_isRunning)}: {_isRunning}.");
+            //Debug.Log($"MissionScheduler: Starting: {nameof(_isInitialized)}: {_isInitialized}, {nameof(_isRunning)}: {_isRunning}.");
 
             if (!_isInitialized)
             {
@@ -61,7 +61,7 @@ namespace ScenePlaymat.MonoBehaviours
         {
             while (_isInitialized && _isRunning)
             {
-                Debug.Log($"MissionHandler: Waiting: {durationBetweenNewMissionsInSeconds} seconds.");
+                //Debug.Log($"MissionHandler: Waiting: {durationBetweenNewMissionsInSeconds} seconds.");
                 yield return new WaitForSeconds(durationBetweenNewMissionsInSeconds);
 
                 if (_missionEnumerator.MoveNext())

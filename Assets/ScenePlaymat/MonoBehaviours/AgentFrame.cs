@@ -95,6 +95,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
+            Debug.Log("Selected frame for agent: " + agent);
             selectedAgent.Set(agent);
         }
 

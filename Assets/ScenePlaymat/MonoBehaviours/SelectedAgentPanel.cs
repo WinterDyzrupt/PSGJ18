@@ -13,6 +13,7 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private AgentWrapper selectedAgent;
 
         [Header("Panel Components")]
+        [SerializeField] private GameObject panel;
         [SerializeField] private TMP_Text agentName;
         [SerializeField] private Image mugShotImage;
         [SerializeField] private Transform[] barBaseStats;
@@ -21,7 +22,7 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Transform statusProgress;
         
         private void Awake()
-        {
+        { 
             Debug.Assert(agentName != null, "AgentName Text is missing in inspector!");
             Debug.Assert(mugShotImage != null, "MugShot Image is missing in inspector!");
             Debug.Assert(barBaseStats?.Length > 0, "Bar Base Stats is missing in inspector!");
@@ -31,12 +32,8 @@ namespace ScenePlaymat.MonoBehaviours
             
             Debug.Assert(selectedAgent != null, "SelectedAgent is missing in inspector!");
             
-            InitializePanel();
-        }
-
-        private void Start()
-        {
-            selectedAgent.Changed += ChooseAgent;
+            panel.SetActive(false);
+            selectedAgent.Changed += NewAgentSelected;
         }
 
         private void Update()
@@ -49,11 +46,13 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void OnDestroy()
         {
-            selectedAgent.Changed -= ChooseAgent;
+            selectedAgent.Changed -= NewAgentSelected;
         }
 
-        private void ChooseAgent(Agent newAgent)
+        private void NewAgentSelected(Agent newAgent)
         {
+            Debug.Log("New Agent selected: " + newAgent);
+            
             if (_agent)
             {
                 _agent.StatusChanged -= UpdateStatusText;
@@ -66,10 +65,10 @@ namespace ScenePlaymat.MonoBehaviours
                 _agent.StatusChanged += UpdateStatusText;
             }
 
-            InitializePanel();
+            UpdatePanel();
         }
 
-        private void InitializePanel()
+        private void UpdatePanel()
         {
             if (_agent != null)
             {
@@ -86,6 +85,7 @@ namespace ScenePlaymat.MonoBehaviours
                 UpdateStatusText(currentStatus);
                 if (currentStatus != AgentStatus.Idle) UpdateStatusBar();
                 else statusProgress.localScale = new(1f, 0, 1f);
+                panel.SetActive(true);
             }
         }
 

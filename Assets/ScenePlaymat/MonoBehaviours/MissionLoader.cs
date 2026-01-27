@@ -59,7 +59,7 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Log("MissionLoader: Deserializing json: " + json);
             var missionGroupHelper = JsonUtility.FromJson<MissionGroupSerializationHelper>(json);
             Debug.Log("MissionLoader: MissionGroupHelper.missions.Count " + missionGroupHelper.missions.Count);
-            
+
             groupToPopulate.displayName = missionGroupHelper.displayName;
             groupToPopulate.description = missionGroupHelper.description;
             groupToPopulate.missions.Clear();
@@ -70,8 +70,8 @@ namespace ScenePlaymat.MonoBehaviours
                 groupToPopulate.missions.Add(realMission);
             }
 
-            Debug.Log("MissionLoader: groupToPopulate.missions.Count: " + groupToPopulate.missions.Count);
-            LogPopulatedMissionGroup(groupToPopulate);
+            //Debug.Log("MissionLoader: groupToPopulate.missions.Count: " + groupToPopulate.missions.Count);
+            //LogPopulatedMissionGroup(groupToPopulate);
         }
 
         public void LogPopulatedMissionGroup(MissionGroup groupToLog)

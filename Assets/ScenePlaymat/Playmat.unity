@@ -2481,7 +2481,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfc7cf733bd72043b1bc5082b183c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.Scripts.PanelAgentInfo
-  selectedAgent: {fileID: 0}
+  selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
+  panel: {fileID: 902410749}
   agentName: {fileID: 1984436590}
   mugShotImage: {fileID: 407958113}
   barBaseStats:
