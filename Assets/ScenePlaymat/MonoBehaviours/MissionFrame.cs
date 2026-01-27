@@ -20,8 +20,6 @@ namespace ScenePlaymat.MonoBehaviours
         {
             Debug.Assert(expirationBar != null, $"{name} doesn't have an Expiration Bar assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a Completion Bar assigned in the Inspector.");
-            
-            GrabCurrentMission();
         }
 
         private void Update()
@@ -38,6 +36,17 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
+        public void PostMission(Mission missionToPost)
+        {
+            Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
+            
+            Debug.Log($"MissionFrame: Posting new mission: {missionToPost.data.displayName}");
+            _mission = missionToPost;
+            _mission.Expired += MissionHasExpiredOrFinished;
+            _mission.Completed += MissionHasExpiredOrFinished;
+            _mission.Post();
+        }
+        
         private void MissionHasExpiredOrFinished(Mission _)
         {
             // TODO: Have the mission remove itself after confirmation window? I'm not sure.

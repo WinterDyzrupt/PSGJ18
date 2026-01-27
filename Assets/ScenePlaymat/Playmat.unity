@@ -1185,7 +1185,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 438007989}
         m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.PauseAndResumeHandler,
           Assembly-CSharp
         m_MethodName: Resume
@@ -1214,7 +1214,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 438007989}
         m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.PauseAndResumeHandler,
           Assembly-CSharp
         m_MethodName: Pause
@@ -3113,6 +3113,7 @@ GameObject:
   - component: {fileID: 1167202879}
   - component: {fileID: 1167202878}
   - component: {fileID: 1167202881}
+  - component: {fileID: 1167202882}
   m_Layer: 5
   m_Name: MissionList
   m_TagString: Untagged
@@ -3223,7 +3224,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionListPanel
   missionFrame: {fileID: 6895464149853482860, guid: 1835b2b46fd28354d8e6a0efcbdf417f, type: 3}
   content: {fileID: 269714927}
-  newMission: {fileID: 11400000, guid: f3f5efe91e44ddd45ae3ab48ac84d3ab, type: 2}
+--- !u!114 &1167202882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167202876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456fc686b88f9824290c591e88c09fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionScheduler
+  durationBetweenNewMissionsInSeconds: 5
+  allMissions: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
 --- !u!1001 &1184200358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4108,123 +4122,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 903ac353e2dcc7c4d9ae92f37a6821a1, type: 3}
---- !u!1 &1586710721
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1586710723}
-  - component: {fileID: 1586710722}
-  - component: {fileID: 1586710726}
-  - component: {fileID: 1586710725}
-  - component: {fileID: 1586710724}
-  m_Layer: 0
-  m_Name: MissionScheduler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1586710722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586710721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 456fc686b88f9824290c591e88c09fad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionScheduler
-  durationBetweenNewMissionsInSeconds: 5
-  allMissions: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
---- !u!4 &1586710723
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586710721}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1586710724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586710721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
-  Event: {fileID: 11400000, guid: 372c6e01562d232449f5462bd0460aa0, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1586710722}
-        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionScheduler, Assembly-CSharp
-        m_MethodName: StartOrResume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1586710725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586710721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
-  Event: {fileID: 11400000, guid: 29727d2df5c644347a4483357799d550, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1586710722}
-        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionScheduler, Assembly-CSharp
-        m_MethodName: Pause
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1586710726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586710721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dba8d623fe3fe0428c11253df118079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionSchedulerHaver
 --- !u!1 &1734595616
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,6 +5100,5 @@ SceneRoots:
   - {fileID: 100962236}
   - {fileID: 1070826256}
   - {fileID: 1761286571}
-  - {fileID: 1586710723}
   - {fileID: 438007990}
   - {fileID: 1527037707}

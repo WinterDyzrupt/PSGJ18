@@ -29,8 +29,9 @@ namespace ScenePlaymat.MonoBehaviours
 
         private List<Mission>.Enumerator _missionEnumerator;
 
-        private void Awake()
+        private void Start()
         {
+            // This needs to happen in Start() because the loader is loading and populating the missions in Awake().
             _missionEnumerator = allMissions.missions.GetEnumerator();
         }
 
