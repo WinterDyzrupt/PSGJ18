@@ -3222,6 +3222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd8d931f3a671b48a3bfb3448c67b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionListPanel
+  scheduler: {fileID: 1167202882}
   missionFrame: {fileID: 6895464149853482860, guid: 1835b2b46fd28354d8e6a0efcbdf417f, type: 3}
   content: {fileID: 269714927}
 --- !u!114 &1167202882

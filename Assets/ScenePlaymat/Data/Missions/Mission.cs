@@ -40,7 +40,6 @@ namespace ScenePlaymat.Data.Missions
             Debug.Assert(Status == MissionStatus.Inactive,
                 $"{data.displayName} was told to Post but its status is {status} and is not allowed!");
 
-            Debug.Log($"Mission ({data.displayName}): Posting self.");
             status = MissionStatus.Posted;
             _expiringStopwatch.Start();
         }

@@ -5,7 +5,7 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionListPanel : MonoBehaviour
     {
-        private MissionScheduler _scheduler;
+        public MissionScheduler scheduler;
         
         [Header("Prefabs")]
         [SerializeField] private GameObject missionFrame;
@@ -15,15 +15,13 @@ namespace ScenePlaymat.MonoBehaviours
         {
             Debug.Assert(missionFrame != null, $"{name} doesn't have the Mission Frame prefab assigned!");
             Debug.Assert(content != null, $"{name} doesn't have the Content object assigned!");
-            
-            _scheduler = GetComponentInChildren<MissionScheduler>(); 
-            Debug.Assert(_scheduler != null, $"{name}: doesn't have a {nameof(MissionScheduler)} component!");
+            Debug.Assert(scheduler != null, $"{name}: doesn't have a {nameof(scheduler)} assigned in the editor!");
         }
 
         private void Start()
         {
-            _scheduler.NewMissionAdded += AddMission;
-            _scheduler.StartScheduler();
+            scheduler.NewMissionAdded += AddMission;
+            scheduler.StartScheduler();
         }
 
         private void AddMission(Mission mission)
@@ -38,10 +36,10 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void OnDestroy()
         {
-            if (_scheduler != null)
+            if (scheduler != null)
             {
-                _scheduler.NewMissionAdded -= AddMission;
-                _scheduler.StopScheduler();
+                scheduler.NewMissionAdded -= AddMission;
+                scheduler.StopScheduler();
             }
         }
     }
