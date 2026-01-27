@@ -251,7 +251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Accept
+  m_text: Assign Agent
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2700,6 +2700,7 @@ MonoBehaviour:
   - {fileID: 815464438}
   - {fileID: 509048086}
   acceptMissionButton: {fileID: 1002781108}
+  acceptMissionButtonText: {fileID: 33280542}
   selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
   selectedMission: {fileID: 11400000, guid: c0ce05b6c7cd81d4289e92f7b3ce0a40, type: 2}
 --- !u!1 &1002781107
@@ -2765,8 +2766,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.PanelMission, Assembly-CSharp
+      - m_Target: {fileID: 993055465}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionInfoPanel, Assembly-CSharp
         m_MethodName: AcceptMissionButtonPressed
         m_Mode: 1
         m_Arguments:

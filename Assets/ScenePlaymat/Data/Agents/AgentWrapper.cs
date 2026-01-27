@@ -19,8 +19,11 @@ namespace ScenePlaymat.Data.Agents
 
         public void Set(Agent newAgent)
         {
+            // TODO: remove this after agent panel disappears to see if this is needed.
             if (Agent == newAgent) return;
 
+            // Even if newAgent is the same as current agent, raise the event because the user clicked on a button, so
+            // we should update the UI.
             agent = newAgent;
             if (Changed != null)
             {

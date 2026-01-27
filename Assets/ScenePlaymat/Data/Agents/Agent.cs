@@ -20,7 +20,8 @@ namespace ScenePlaymat.Data.Agents
 
         public Attributes attributes;
 
-        public AgentStatus Status { get; private set; }
+        [SerializeField] private AgentStatus status;
+        public AgentStatus Status => status;
 
         private Mission _currentMission;
         
@@ -41,7 +42,7 @@ namespace ScenePlaymat.Data.Agents
         public event Action<AgentStatus> StatusChanged;
 
         // public event Action<AgentStatus, float> ProgressUpdate;
-        
+
         /// <summary>
         /// Initialization since this is a Scriptable Object
         /// SO's save information between run sessions. This is protection
@@ -66,6 +67,12 @@ namespace ScenePlaymat.Data.Agents
         //     attributes.swiftnessMod = 0;
         // }
 
+        private void OnEnable()
+        {
+            // Reset state to default for restarting the scene in the editor.
+            status = AgentStatus.Idle;
+        }
+
         public void AcceptMission(Mission mission)
         {
             Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
@@ -73,7 +80,7 @@ namespace ScenePlaymat.Data.Agents
             Debug.Assert(_currentMission == null, $"{DisplayName} already has an active mission.");
             
             _currentMission = mission;
-            _currentMission.Claim();
+            _currentMission.AssignAgent(this);
             _currentMission.Completed += ActiveMissionCompleted;
             ChangeStatus(AgentStatus.Deploying);
             
@@ -139,8 +146,8 @@ namespace ScenePlaymat.Data.Agents
 
         private void ChangeStatus(AgentStatus newStatus)
         {
-            Status = newStatus;
-            StatusChanged?.Invoke(Status);
+            status = newStatus;
+            StatusChanged?.Invoke(status);
         }
 
         public override string ToString() => agentName;

@@ -13,17 +13,14 @@ namespace ScenePlaymat.Data.Missions
 
         private void OnEnable()
         {
+            // Reset for re-running the same scene in the editor.
             mission = null;
         }
 
         public void Set(Mission newMission)
         {
-            if (mission == newMission)
-            {
-                Debug.Log("MissionWrapper.Set: Attempted to change mission to the same mission.");
-                return;
-            }
-
+            // Even if newMission is the same as mission, still raise the event because the user clicked on a button;
+            // so we should show them the UI if it's not already shown.
             mission = newMission;
             if (Changed != null)
             {
