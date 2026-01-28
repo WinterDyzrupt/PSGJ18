@@ -112,14 +112,9 @@ namespace ScenePlaymat.MonoBehaviours
         /// </summary>
         public void OnMissionAssigned()
         {
-            HidePanel();
+            HidePanel(infoPanel);
         }
-
-        public void HidePanel()
-        {
-            infoPanel.SetActive(false);
-        }
-
+        
         private void UpdateAcceptMissionButton(Agent agent)
         {
             UpdateAcceptMissionButton(selectedMission.Mission, agent);
