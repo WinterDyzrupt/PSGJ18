@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
 using ScenePlaymat.Data.Agents;
@@ -14,6 +15,10 @@ namespace ScenePlaymat.Data.Missions
 
         [SerializeField] private MissionStatus status;
         public MissionStatus Status => status;
+
+        public bool IsExpired => status == MissionStatus.Expired;
+        public bool IsCompletedSuccessfully => status == MissionStatus.Successful;
+        public bool IsFailed => status == MissionStatus.Failed;
         
         [SerializeField] private Agent assignedAgent;
         public Agent AssignedAgent => assignedAgent;
@@ -22,7 +27,10 @@ namespace ScenePlaymat.Data.Missions
         private readonly Stopwatch _expiringStopwatch = new();
         private readonly Stopwatch _missionProgressStopwatch = new();
         
-        public event Action<Mission> Expired;
+        /// <summary>
+        /// Event indicating that the mission has reached one of the three final states:
+        /// expired, successful, or failed.
+        /// </summary>
         public event Action<Mission> Completed;
         
         public double ExpirationDecimalPercentage => Math.Clamp(
@@ -30,21 +38,34 @@ namespace ScenePlaymat.Data.Missions
         public double CompletionDecimalPercentage => Math.Clamp(
             _missionProgressStopwatch.Elapsed / data.DurationToPerform, 0, 1);
 
-        /// <summary>
-        /// Reset status to default for use in unity editor (otherwise values will persist if restarting the same scene).
-        /// </summary>
         private void OnEnable()
         {
+            // Reset status to default for use in unity editor (these will persist if restarting the same scene).
             status = MissionStatus.Inactive;
+            assignedAgent = null;
         }
 
-        public void Post()
+        /// <summary>
+        /// Asynchronously posts a mission and waits for it to expire.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator PostAsync()
         {
-            Debug.Assert(Status == MissionStatus.Inactive,
-                $"{data.displayName} was told to Post but its status is {status} and is not allowed!");
-
             status = MissionStatus.Posted;
             _expiringStopwatch.Start();
+            
+            while (status == MissionStatus.Posted && _expiringStopwatch.Elapsed < data.DurationToExpire)
+            {
+                yield return null;
+            }
+            _expiringStopwatch.Stop();
+
+            if (status == MissionStatus.Posted)
+            {
+                Debug.Log($"Mission ({data.displayName}) timed out.");
+                status = MissionStatus.Expired;
+                MissionCompleted();
+            }
         }
 
         public void AssignAgent(Agent agent)
@@ -53,43 +74,74 @@ namespace ScenePlaymat.Data.Missions
                 $"{data.displayName} was told to Claim but its status is {status} and is not allowed!");
             
             assignedAgent = agent;
-            status = MissionStatus.Claimed;
+            status = MissionStatus.Assigned;
         }
-        
-        public void StartMission()
+
+        public IEnumerator PerformAsync()
         {
-            Debug.Assert(Status == MissionStatus.Claimed,
-                $"{data.displayName} was told to StartMission but its status is {status} and is not allowed!");
+            Debug.Log("Performing mission: " + data.displayName);
             
-             _expiringStopwatch.Stop();
-             _expiringStopwatch.Reset();
-             status = MissionStatus.InProgress;
-             _missionProgressStopwatch.Start();
-        }
-        
-        public MissionStatus FetchCurrentStatus()
-        {
-            if (status == MissionStatus.Posted && ExpirationDecimalPercentage >= 1) MissionExpired();
-            else if (status == MissionStatus.InProgress && CompletionDecimalPercentage >= 1) MissionFinished();
-            return status;
-        }
-
-        private void MissionExpired()
-        {
-            _expiringStopwatch.Stop();
-            
-            Expired?.Invoke(this);
-
-            status = MissionStatus.Expired;
-        }
-
-        private void MissionFinished()
-        {
+            status = MissionStatus.InProgress;
+            _missionProgressStopwatch.Start();
+            yield return new WaitForSeconds(data.durationToPerformInSeconds);
             _missionProgressStopwatch.Stop();
+
+            status = DetermineMissionResult();
+            MissionCompleted();
+        }
+
+        private MissionStatus DetermineMissionResult()
+        {
+            return DetermineMissionResult(this);
+        }
+
+        private MissionStatus DetermineMissionResult(Mission mission)
+        {
+            Debug.Assert(mission.Status == MissionStatus.InProgress,
+                $"Mission.DetermineMissionResult status: {mission.Status}, but expected InProgress");
             
-            Completed?.Invoke(this);
-            
-            status = MissionStatus.Completed;
+            var missionResult = mission.Status;
+            if (mission.Status == MissionStatus.InProgress)
+            {
+                var attributeDifference = Attributes.GetDifferenceInAttributes(mission.AssignedAgent.attributes, mission.data.missionAttributes);
+                Debug.Log(
+                    $"DetermineMissionResults (Mission: {mission.data.displayName}): attribute difference: {attributeDifference}, max difference: {mission.data.maximumAttributeDifferenceForSuccess}");
+
+                if (attributeDifference > mission.data.maximumAttributeDifferenceForSuccess)
+                {
+                    missionResult = MissionStatus.Successful;
+                }
+                else
+                {
+                    missionResult = MissionStatus.Failed;
+                }
+            }
+
+            return missionResult;
+        }
+        
+        /// <summary>
+        /// The mission completed with some result, possibly expired, success or failure.
+        /// </summary>
+        private void MissionCompleted()
+        {
+            MissionCompleted(this);
+        }
+        
+        /// <summary>
+        /// The mission completed with some result, possibly expired, success or failure.
+        /// </summary>
+        private void MissionCompleted(Mission mission)
+        {
+            if (Completed != null)
+            {
+                Debug.Log($"Mission ({mission.data.displayName}) completed with status: {mission.Status}");
+                Completed.Invoke(mission);
+            }
+            else
+            {
+                Debug.LogError($"Mission ({mission.data.displayName}) completed ({mission.Status}) with no listener");
+            }
         }
 
         public void OnPause()

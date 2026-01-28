@@ -9,8 +9,9 @@ namespace ScenePlaymat.MonoBehaviours
     {
         public TextAsset missionsAsJson;
         public MissionGroup groupToPopulateFromJson;
-        public MissionGroup groupToSaveAsJson;
-
+        
+        public bool saveSampleMissionsAsJson;
+        public MissionGroup sampleMissionsToSaveAsJson;
         /// <summary>
         /// Only used when saving json; for loading, use the TextAsset, missionsAsJson.
         /// Note: this is only for dev/test.
@@ -20,8 +21,13 @@ namespace ScenePlaymat.MonoBehaviours
         
         private void Awake()
         {
-            Debug.Assert(groupToPopulateFromJson != null, $"Expected {nameof(groupToPopulateFromJson)} != null)");
-            //SaveMissionsAsJson(groupToSaveAsJson, pathToSaveJsonAt);
+            Debug.Assert(groupToPopulateFromJson != null, $"Expected {nameof(groupToPopulateFromJson)} != null.");
+            if (saveSampleMissionsAsJson)
+            {
+                Debug.Assert(sampleMissionsToSaveAsJson != null, $"Expected {nameof(sampleMissionsToSaveAsJson)} != null.");
+                SaveMissionsAsJson(sampleMissionsToSaveAsJson, pathToSaveJsonAt);
+            }
+            
             PopulateMissionsFromJson(groupToPopulateFromJson, missionsAsJson.text);
         }
 

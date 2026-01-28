@@ -20,6 +20,16 @@ namespace ScenePlaymat.Data.Agents
 
         public void Set(Agent newAgent)
         {
+            // Even if newAgent is the same as current agent, raise the event because the user clicked on a button, so
+            // we should update the UI.
+            agent = newAgent;
+            if (Changed != null)
+            {
+                Changed?.Invoke(agent);
+            }
+            else
+            {
+                Debug.Log("Agent.Changed is null, but agent just changed.");
             if (agent == newAgent)
             {
                 if (Reselected != null)
