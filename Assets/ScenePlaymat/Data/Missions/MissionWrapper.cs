@@ -30,5 +30,10 @@ namespace ScenePlaymat.Data.Missions
                 Debug.LogWarning("MissionWrapper.Set: No listener was set.");
             }
         }
+
+        public void Reset()
+        {
+            Set(null);
+        }
     }
 }

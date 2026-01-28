@@ -94,7 +94,7 @@ namespace ScenePlaymat.MonoBehaviours
             if (selectedMissionWrapper.Mission == mission)
             {
                 //Debug.Log("Selected currently selected mission again; unselecting mission.");
-                selectedMissionWrapper.Set(null);
+                selectedMissionWrapper.Reset();
             }
             else
             {

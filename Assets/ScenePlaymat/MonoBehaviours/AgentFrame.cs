@@ -106,7 +106,7 @@ namespace ScenePlaymat.MonoBehaviours
             if (selectedAgent.Agent == agent)
             {
                 //Debug.Log("Selected currently selected agent again; unselecting agent.");
-                selectedAgent.Set(null);
+                selectedAgent.Reset();
             }
             else
             {
