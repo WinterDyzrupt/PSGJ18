@@ -43,7 +43,7 @@ namespace ScenePlaymat.MonoBehaviours
                 case AgentStatus.Deploying:
                     UpdateCompletionBar((float)agent.CompletionOfDeploying);
                     break;
-                case AgentStatus.AttemptingMission: // do nothing
+                case AgentStatus.Working: // do nothing
                     break;
                 case AgentStatus.Returning:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfReturning);
@@ -71,7 +71,7 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
                 case AgentStatus.Deploying: // from resting
                     break;
-                case AgentStatus.AttemptingMission: // from deploying, set bar to full update text
+                case AgentStatus.Working: // from deploying, set bar to full update text
                     UpdateCompletionBar(1f);
                     break;
                 case AgentStatus.Returning: // from attempting

@@ -70,6 +70,7 @@ namespace ScenePlaymat.Data.Agents
             yield return new WaitForSeconds(mission.data.durationToTravelToInSeconds);
             _deployingStopWatch.Stop();
             
+            ChangeStatus(AgentStatus.Working);
             yield return mission.PerformAsync();
             currentMission = null;
             
