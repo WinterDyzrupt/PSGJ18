@@ -95,8 +95,16 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            Debug.Log("Selected frame for agent: " + agent);
-            selectedAgent.Set(agent);
+            if (selectedAgent.Agent == agent)
+            {
+                Debug.Log("Reselected frame for agent: " + agent);
+                selectedAgent.Reset();
+            }
+            else
+            {
+                Debug.Log("Selected frame for agent: " + agent);
+                selectedAgent.Set(agent);
+            }
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

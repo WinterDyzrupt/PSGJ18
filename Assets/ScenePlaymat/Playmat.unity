@@ -2483,6 +2483,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.Scripts.PanelAgentInfo
   selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
+  selectedMission: {fileID: 0}
+  pauseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  resumeEvent:
+    m_PersistentCalls:
+      m_Calls: []
   panel: {fileID: 902410749}
   agentName: {fileID: 1984436590}
   mugShotImage: {fileID: 407958113}
@@ -2736,6 +2743,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  pauseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  resumeEvent:
+    m_PersistentCalls:
+      m_Calls: []
   infoPanel: {fileID: 1822261995}
   nameText: {fileID: 1301045717}
   descriptionText: {fileID: 973468997}
@@ -3974,7 +3987,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionLoader
   missionsAsJson: {fileID: 4900000, guid: 7a3673ff470845944a5e3bdb80eece51, type: 3}
   groupToPopulateFromJson: {fileID: 11400000, guid: fd38dece18bfc8142948d21b68333afe, type: 2}
-  groupToSaveAsJson: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
+  groupToSaveAsJson: {fileID: 0}
   pathToSaveJsonAt: Assets/ScenePlaymat/Data/Missions/SampleMissions.json
 --- !u!4 &1527037707
 Transform:

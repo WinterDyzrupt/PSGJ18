@@ -10,6 +10,7 @@ namespace ScenePlaymat.Data.Agents
         public Agent Agent => agent;
 
         public event Action<Agent> Changed;
+        public event Action<Agent> Reselected;
 
         private void OnEnable()
         {
@@ -19,21 +20,37 @@ namespace ScenePlaymat.Data.Agents
 
         public void Set(Agent newAgent)
         {
-            // TODO: remove this after agent panel disappears to see if this is needed.
-            if (Agent == newAgent) return;
-
-            // Even if newAgent is the same as current agent, raise the event because the user clicked on a button, so
-            // we should update the UI.
-            agent = newAgent;
-            if (Changed != null)
+            if (agent == newAgent)
             {
-                Changed?.Invoke(agent);
-                Debug.Log("Agent.Changed invoked");
+                if (Reselected != null)
+                {
+                    Reselected.Invoke(agent);
+                    Debug.Log("Agent Reselected");
+                }
+                else
+                {
+                    Debug.Log("Agent.Reselected is null, but agent was just selected.");
+                }
             }
             else
             {
-                Debug.Log("Agent.Changed is null, but agent just changed.");
+                agent = newAgent;
+
+                if (Changed != null)
+                {
+                    Changed.Invoke(agent);
+                    Debug.Log("Agent.Changed invoked");
+                }
+                else
+                {
+                    Debug.Log("Agent.Changed is null, but agent just changed.");
+                }
             }
+        }
+
+        public void Reset()
+        {
+            Set(null);
         }
     }
 }

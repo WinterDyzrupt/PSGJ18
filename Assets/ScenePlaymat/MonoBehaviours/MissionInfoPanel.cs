@@ -11,6 +11,8 @@ namespace ScenePlaymat.MonoBehaviours
     public class MissionInfoPanel : MonoBehaviour
     {
         public UnityEvent missionAssignedEvent;
+        public UnityEvent pauseEvent;
+        public UnityEvent resumeEvent;
 
         [Header("Mission Info Panel")]
         [SerializeField] private GameObject infoPanel;
@@ -56,23 +58,45 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateMissionPanel(Mission mission)
         {
-            if (mission == null)
+            if (mission != null)
             {
-                Debug.LogWarning($"{name} was told to update with a null mission!");
-                return;
-            }
-            
-            nameText.text = mission.data.displayName;
-            descriptionText.text = mission.data.description;
-            var missionAttributes = mission.data.missionAttributes.AttributesTotal;
-            for (var i = 0; i < statBars.Length; i++)
-            {
-                statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
-            }
-            UpdateAcceptMissionButton(mission, selectedAgent.Agent);
-            infoPanel.SetActive(true);
-        }
+                nameText.text = mission.data.displayName;
+                descriptionText.text = mission.data.description;
+                var missionAttributes = mission.data.missionAttributes.AttributesTotal;
+                for (var i = 0; i < statBars.Length; i++)
+                {
+                    statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
+                }
 
+                UpdateAcceptMissionButton(mission, selectedAgent.Agent);
+                ShowPanel(infoPanel);
+            }
+            else
+            {
+                HidePanel(infoPanel);
+            }
+        }
+        
+        private void ShowPanel(GameObject panelToShow)
+        {
+            panelToShow.SetActive(true);
+            pauseEvent.Invoke();
+        }
+        
+        private void HidePanel(GameObject panelToHide)
+        {
+            panelToHide.SetActive(false);
+            if (selectedAgent.Agent == null)
+            {
+                Debug.Log("Mission panel closed and there is no selected agent; resuming.");
+                resumeEvent.Invoke();
+            }
+            else
+            {
+                Debug.Log("Mission panel closed, but an agent is selected; not resuming.");
+            }
+        }
+        
         public void AcceptMissionButtonPressed()
         {
             // The button gets disabled in UpdateAcceptMissionButton too, but it's a good idea to disable it ASAP to
