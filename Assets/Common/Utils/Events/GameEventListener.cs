@@ -20,7 +20,7 @@ namespace Common.Utils.Events
             Event.RegisterListener(this);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             Event.UnregisterListener(this);
         }

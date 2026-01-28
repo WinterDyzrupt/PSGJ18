@@ -9,7 +9,6 @@ namespace ScenePlaymat.MonoBehaviours
     public class SelectedAgentPanel : MonoBehaviour
     {
         private Agent _agent;
-        
         [SerializeField] private AgentWrapper selectedAgent;
 
         [Header("Panel Components")]
@@ -20,18 +19,18 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Transform[] barTotalStats;
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private Transform statusProgress;
-        
+
         private void Awake()
-        { 
+        {
             Debug.Assert(agentName != null, "AgentName Text is missing in inspector!");
             Debug.Assert(mugShotImage != null, "MugShot Image is missing in inspector!");
             Debug.Assert(barBaseStats?.Length > 0, "Bar Base Stats is missing in inspector!");
             Debug.Assert(barTotalStats?.Length > 0, "Bar TotalStats is missing in inspector!");
             Debug.Assert(statusText != null, "StatusText is missing in inspector!");
             Debug.Assert(statusProgress != null, "StatusProgress is missing in inspector!");
-            
+
             Debug.Assert(selectedAgent != null, "SelectedAgent is missing in inspector!");
-            
+
             panel.SetActive(false);
             selectedAgent.Changed += NewAgentSelected;
         }
@@ -52,7 +51,7 @@ namespace ScenePlaymat.MonoBehaviours
         private void NewAgentSelected(Agent newAgent)
         {
             Debug.Log("New Agent selected: " + newAgent);
-            
+
             if (_agent)
             {
                 _agent.StatusChanged -= UpdateStatusText;
@@ -66,6 +65,19 @@ namespace ScenePlaymat.MonoBehaviours
             }
 
             UpdatePanel();
+        }
+
+        /// <summary>
+        /// GameEventListener calls this while listening for the MissionAssigned event.
+        /// </summary>
+        public void OnMissionAssigned()
+        {
+            HidePanel();
+        }
+
+        public void HidePanel()
+        {
+            panel.SetActive(false);
         }
 
         private void UpdatePanel()

@@ -3,12 +3,15 @@ using ScenePlaymat.Data.Missions;
 using ScenePlaymat.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionInfoPanel : MonoBehaviour
     {
+        public UnityEvent missionAssignedEvent;
+
         [Header("Mission Info Panel")]
         [SerializeField] private GameObject infoPanel;
         [SerializeField] private TMP_Text nameText;
@@ -36,7 +39,6 @@ namespace ScenePlaymat.MonoBehaviours
             infoPanel.SetActive(false);
             selectedAgent.Changed += UpdateAcceptMissionButton;
             selectedMission.Changed += UpdateMissionPanel;
-            selectedMission.Changed += UpdateAcceptMissionButton;
         }
 
         private void Update()
@@ -50,7 +52,6 @@ namespace ScenePlaymat.MonoBehaviours
         {
             selectedAgent.Changed -= UpdateAcceptMissionButton;
             selectedMission.Changed -= UpdateMissionPanel;
-            selectedMission.Changed -= UpdateAcceptMissionButton;
         }
 
         private void UpdateMissionPanel(Mission mission)
@@ -68,6 +69,7 @@ namespace ScenePlaymat.MonoBehaviours
             {
                 statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
             }
+            UpdateAcceptMissionButton(mission, selectedAgent.Agent);
             infoPanel.SetActive(true);
         }
 
@@ -78,17 +80,25 @@ namespace ScenePlaymat.MonoBehaviours
             acceptMissionButton.interactable = false;
             selectedAgent.Agent.AcceptMission(selectedMission.Mission);
             UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
+            missionAssignedEvent.Invoke();
+        }
+
+        /// <summary>
+        /// GameEventListener calls this while listening for the MissionAssigned event.
+        /// </summary>
+        public void OnMissionAssigned()
+        {
+            HidePanel();
+        }
+
+        public void HidePanel()
+        {
             infoPanel.SetActive(false);
         }
 
         private void UpdateAcceptMissionButton(Agent agent)
         {
             UpdateAcceptMissionButton(selectedMission.Mission, agent);
-        }
-        
-        private void UpdateAcceptMissionButton(Mission mission)
-        {
-            UpdateAcceptMissionButton(mission, selectedAgent.Agent);
         }
 
         private void UpdateAcceptMissionButton(Mission mission, Agent agent)
