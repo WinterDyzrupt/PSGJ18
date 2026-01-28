@@ -36,11 +36,17 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
         
+        /// <summary>
+        /// Called by a GameEventListener to pause the mission in this frame.
+        /// </summary>
         public void OnPause()
         {
             mission.OnPause();
         }
 
+        /// <summary>
+        /// Called by a GameEventListner to resume the mission in this frame.
+        /// </summary>
         public void OnResume()
         {
             mission.OnResume();
