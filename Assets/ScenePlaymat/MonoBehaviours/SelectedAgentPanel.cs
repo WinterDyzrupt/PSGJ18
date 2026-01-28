@@ -97,6 +97,18 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
         
+        private void UpdateStatusBar()
+        {
+            Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
+            var isAgentIdle = _agent.Status == AgentStatus.Idle;
+            statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
+        }
+
+        private void UpdateStatusText(AgentStatus status)
+        {
+            statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
+        }
+        
         private void ShowPanel(GameObject panelToShow)
         {
             panelToShow.SetActive(true);
@@ -116,19 +128,6 @@ namespace ScenePlaymat.MonoBehaviours
                 //Debug.Log("Agent panel closed, but a mission is selected; not resuming.");
             }
         }
-
-        private void UpdateStatusBar()
-        {
-            Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
-            var isAgentIdle = _agent.Status == AgentStatus.Idle;
-            statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
-        }
-
-        private void UpdateStatusText(AgentStatus status)
-        {
-            statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
-        }
-
         /// <summary>
         /// GameEventListener calls this while listening for the MissionAssigned event.
         /// </summary>
