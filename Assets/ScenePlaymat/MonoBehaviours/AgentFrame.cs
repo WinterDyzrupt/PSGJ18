@@ -33,6 +33,11 @@ namespace ScenePlaymat.MonoBehaviours
             
             agent.StatusChanged += AgentStatusChanged;
         }
+        
+        private void OnDestroy()
+        {
+            agent.StatusChanged -= AgentStatusChanged;
+        }
 
         private void Update()
         {
@@ -57,9 +62,14 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
-        private void OnDestroy()
+        public void OnPause()
         {
-            agent.StatusChanged -= AgentStatusChanged;
+            agent.OnPause();
+        }
+
+        public void OnResume()
+        {
+            agent.OnResume();
         }
 
         private void AgentStatusChanged(AgentStatus status)
@@ -93,7 +103,15 @@ namespace ScenePlaymat.MonoBehaviours
         public void FrameClicked()
         {
             //Debug.Log("Selected frame for agent: " + agent);
-            selectedAgent.Set(agent);
+            if (selectedAgent.Agent == agent)
+            {
+                //Debug.Log("Selected currently selected agent again; unselecting agent.");
+                selectedAgent.Set(null);
+            }
+            else
+            {
+                selectedAgent.Set(agent);
+            }
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

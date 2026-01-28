@@ -10,7 +10,6 @@ namespace ScenePlaymat.Data.Agents
         public Agent Agent => agent;
 
         public event Action<Agent> Changed;
-        public event Action<Agent> Reselected;
 
         private void OnEnable()
         {
@@ -30,31 +29,6 @@ namespace ScenePlaymat.Data.Agents
             else
             {
                 Debug.Log("Agent.Changed is null, but agent just changed.");
-            if (agent == newAgent)
-            {
-                if (Reselected != null)
-                {
-                    Reselected.Invoke(agent);
-                    Debug.Log("Agent Reselected");
-                }
-                else
-                {
-                    Debug.Log("Agent.Reselected is null, but agent was just selected.");
-                }
-            }
-            else
-            {
-                agent = newAgent;
-
-                if (Changed != null)
-                {
-                    Changed.Invoke(agent);
-                    Debug.Log("Agent.Changed invoked");
-                }
-                else
-                {
-                    Debug.Log("Agent.Changed is null, but agent just changed.");
-                }
             }
         }
 

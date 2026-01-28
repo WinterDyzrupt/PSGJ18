@@ -10,7 +10,6 @@ namespace ScenePlaymat.Data.Missions
         public Mission Mission => mission;
 
         public event Action<Mission> Changed;
-        public event Action<Mission> Reselected;
 
         private void OnEnable()
         {
@@ -20,30 +19,15 @@ namespace ScenePlaymat.Data.Missions
 
         public void Set(Mission newMission)
         {
-            if (mission == newMission)
+            mission = newMission;
+
+            if (Changed != null)
             {
-                if (Reselected != null)
-                {
-                    Reselected.Invoke(mission);
-                    Debug.Log("Mission Reselected");
-                }
-                else
-                {
-                    Debug.Log("Mission.Reselected is null, but mission was just selected.");
-                }
+                Changed.Invoke(mission);
             }
             else
             {
-                mission = newMission;
-
-                if (Changed != null)
-                {
-                    Changed.Invoke(mission);
-                }
-                else
-                {
-                    Debug.LogWarning("MissionWrapper.Set: No listener was set.");
-                }
+                Debug.LogWarning("MissionWrapper.Set: No listener was set.");
             }
         }
     }

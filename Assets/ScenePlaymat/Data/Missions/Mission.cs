@@ -168,10 +168,11 @@ namespace ScenePlaymat.Data.Missions
                     break;
                 case MissionStatus.Inactive:
                 case MissionStatus.Expired:
-                case MissionStatus.Claimed:
-                case MissionStatus.Completed:
+                case MissionStatus.Assigned:
+                case MissionStatus.Successful:
+                case MissionStatus.Failed:
                 default:
-                    Debug.Log($"Mission ({data.displayName}) in status: {Status}; paused, but no stopwatches to stop");
+                    //Debug.Log($"Mission ({data.displayName}) in status: {Status}; paused, but no stopwatches to stop/start");
                     break;
             }
 

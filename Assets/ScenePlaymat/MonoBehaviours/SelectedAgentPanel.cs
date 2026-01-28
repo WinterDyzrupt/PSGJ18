@@ -108,12 +108,12 @@ namespace ScenePlaymat.MonoBehaviours
             panelToHide.SetActive(false);
             if (selectedMission.Mission == null)
             {
-                Debug.Log("Agent panel closed and there is no selected mission; resuming.");
+                //Debug.Log("Agent panel closed and there is no selected mission; resuming.");
                 resumeEvent.Invoke();
             }
             else
             {
-                Debug.Log("Agent panel closed, but a mission is selected; not resuming.");
+                //Debug.Log("Agent panel closed, but a mission is selected; not resuming.");
             }
         }
 
@@ -134,6 +134,7 @@ namespace ScenePlaymat.MonoBehaviours
         /// </summary>
         public void OnMissionAssigned()
         {
+            selectedAgent.Set(null);
             HidePanel(panel);
         }
     }

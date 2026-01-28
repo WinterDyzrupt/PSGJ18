@@ -58,6 +58,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateMissionPanel(Mission mission)
         {
+            Debug.Log("New mission selected: " + mission);
             if (mission != null)
             {
                 nameText.text = mission.data.displayName;
@@ -88,12 +89,12 @@ namespace ScenePlaymat.MonoBehaviours
             panelToHide.SetActive(false);
             if (selectedAgent.Agent == null)
             {
-                Debug.Log("Mission panel closed and there is no selected agent; resuming.");
+                //Debug.Log("Mission panel closed and there is no selected agent; resuming.");
                 resumeEvent.Invoke();
             }
             else
             {
-                Debug.Log("Mission panel closed, but an agent is selected; not resuming.");
+                //Debug.Log("Mission panel closed, but an agent is selected; not resuming.");
             }
         }
         
@@ -112,6 +113,7 @@ namespace ScenePlaymat.MonoBehaviours
         /// </summary>
         public void OnMissionAssigned()
         {
+            selectedMission.Set(null);
             HidePanel(infoPanel);
         }
         

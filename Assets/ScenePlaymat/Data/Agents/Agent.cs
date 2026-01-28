@@ -24,7 +24,7 @@ namespace ScenePlaymat.Data.Agents
         public AgentStatus Status => status;
 
         [SerializeField] private Mission currentMission;
-        public  Mission CurrentMission => currentMission;
+        public Mission CurrentMission => currentMission;
         
         private TimeSpan _deployingDuration;
         private TimeSpan _returningDuration;
@@ -90,6 +90,50 @@ namespace ScenePlaymat.Data.Agents
         {
             status = newStatus;
             StatusChanged?.Invoke(status);
+        }
+
+        public void OnPause()
+        {
+            PauseOrResume(true);
+        }
+
+        public void OnResume()
+        {
+            PauseOrResume(false);
+        }
+
+        private void PauseOrResume(bool pause)
+        {
+            Stopwatch currentStopwatch = null;
+            switch (Status)
+            {
+                case AgentStatus.Deploying:
+                    currentStopwatch = _deployingStopWatch;
+                    break;
+                case AgentStatus.Returning:
+                    currentStopwatch = _returningStopwatch;
+                    break;
+                case AgentStatus.Resting:
+                    currentStopwatch = _restingStopwatch;
+                    break;
+                case AgentStatus.Idle:
+                case AgentStatus.AttemptingMission:
+                default:
+                    //Debug.Log($"Agent {DisplayName} in status: {Status}; paused, but not stopwatch to stop/start.");
+                    break;
+            }
+
+            if (currentStopwatch != null)
+            {
+                if (pause)
+                {
+                    currentStopwatch.Stop();
+                }
+                else
+                {
+                    currentStopwatch.Start();
+                }
+            }
         }
 
         public override string ToString() => agentName;
