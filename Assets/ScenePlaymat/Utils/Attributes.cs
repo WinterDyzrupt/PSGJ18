@@ -50,5 +50,25 @@ namespace ScenePlaymat.Utils
             Resilience,
             Swiftness
         };
+
+        /// <summary>
+        /// Gets the difference in attributes, left - right.
+        /// </summary>
+        /// <param name="leftAttributes"></param>
+        /// <param name="rightAttributes"></param>
+        /// <returns></returns>
+        public static int GetDifferenceInAttributes(Attributes leftAttributes, Attributes rightAttributes)
+        {
+            Debug.Assert(leftAttributes.AttributesTotal.Length == rightAttributes.AttributesTotal.Length,
+                "Expected left and right attributes to have the same length");
+            
+            var attributeDifference = 0;
+            for (var index = 0; index < leftAttributes.AttributesTotal.Length; index++)
+            {
+                attributeDifference += leftAttributes.AttributesTotal[index] - rightAttributes.AttributesTotal[index];
+            }
+            
+            return attributeDifference;
+        }
     }
 }

@@ -42,17 +42,14 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
                 case AgentStatus.Deploying:
                     UpdateCompletionBar((float)agent.CompletionOfDeploying);
-                    agent.FetchCurrentStatus();
                     break;
                 case AgentStatus.AttemptingMission: // do nothing
                     break;
                 case AgentStatus.Returning:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfReturning);
-                    agent.FetchCurrentStatus();
                     break;
                 case AgentStatus.Resting:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfResting);
-                    agent.FetchCurrentStatus();
                     break;
                 default:
                     Debug.LogError($"{agent.DisplayName}'s status({agent.Status}) was impossible.");
@@ -95,7 +92,7 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            Debug.Log("Selected frame for agent: " + agent);
+            //Debug.Log("Selected frame for agent: " + agent);
             selectedAgent.Set(agent);
         }
 

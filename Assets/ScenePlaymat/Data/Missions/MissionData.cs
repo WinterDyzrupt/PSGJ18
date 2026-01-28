@@ -23,7 +23,10 @@ namespace ScenePlaymat.Data.Missions
         public float durationToExpirationInSeconds = 10;
 
         public Attributes missionAttributes;
-        
+        public int maximumAttributeDifferenceForSuccess;
+        public float successIncrement;
+        public float failureIncrement;
+        public float expirationIncrement;
         public TimeSpan DurationToTravelTo => TimeSpan.FromSeconds(durationToTravelToInSeconds);
         public TimeSpan DurationToPerform => TimeSpan.FromSeconds(durationToPerformInSeconds);
         public TimeSpan DurationToReturnFrom => TimeSpan.FromSeconds(durationToReturnFromInSeconds);

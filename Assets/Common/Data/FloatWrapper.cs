@@ -6,23 +6,27 @@ namespace Common.Data
     [CreateAssetMenu(fileName = "FloatWrapper", menuName = "Data/Float Wrapper")]
     public class FloatWrapper : ScriptableObject
     {
-        [SerializeField] private float currentValue;
+        [SerializeField] private float value;
+        public float Value => value; 
+        
         [SerializeField] private float defaultValue;
+        public float DefaultValue => defaultValue;
 
         public event Action<float> Changed;
 
-        private void Awake()
+        private void OnEnable()
         {
-            currentValue = defaultValue;
+            // Reset for re-running the same scene in the editor.
+            value = defaultValue;
         }
 
-        public void Set(float value)
+        public void Set(float newValue)
         {
-            if (currentValue == value) return;
-            currentValue = value;
-            Changed?.Invoke(currentValue);
+            if (value == newValue) return;
+            value = newValue;
+            Changed?.Invoke(value);
         }
 
-        public static implicit operator float(FloatWrapper value) => value.currentValue;
+        public static implicit operator float(FloatWrapper value) => value.Value;
     }
 }
