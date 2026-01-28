@@ -40,9 +40,8 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
             
             _mission = missionToPost;
-            _mission.Expired += MissionHasExpiredOrFinished;
             _mission.Completed += MissionHasExpiredOrFinished;
-            _mission.Post();
+            StartCoroutine(_mission.PostAsync());
         }
         
         private void MissionHasExpiredOrFinished(Mission _)
@@ -52,23 +51,22 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateProgressBars()
         {
-            switch (_mission.FetchCurrentStatus())
+            switch (_mission.Status)
             {
                 case MissionStatus.Posted: // Didn't expire yet, update bar
                     UpdateProgressBarUI(completionBar,(float)_mission.ExpirationDecimalPercentage);
-                    break;
-                case MissionStatus.Expired: // Posting JUST expired, set bar to 100%
-                    UpdateProgressBarUI(completionBar,1f);
                     break;
                 case MissionStatus.InProgress: // Didn't complete mission yet, update bar
                     if(expirationBar.localScale.y != 0) UpdateProgressBarUI(expirationBar,0);
                     UpdateProgressBarUI(completionBar, (float)_mission.CompletionDecimalPercentage);
                     break;
-                case MissionStatus.Completed: // Mission JUST completed, set bar to 100%
+                case MissionStatus.Successful: // Mission JUST completed, set bar to 100%
+                case MissionStatus.Expired:
+                case MissionStatus.Failed:
                     UpdateProgressBarUI(completionBar,1f);
                     break;
                 case MissionStatus.Inactive:
-                case MissionStatus.Claimed:
+                case MissionStatus.Assigned:
                 default:
                     Debug.LogError($"{name} tried to update progress bars but {_mission.Status} is invalid!");
                     break;

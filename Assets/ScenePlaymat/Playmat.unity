@@ -877,6 +877,7 @@ GameObject:
   - component: {fileID: 297059575}
   - component: {fileID: 297059574}
   - component: {fileID: 297059573}
+  - component: {fileID: 297059576}
   m_Layer: 5
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -910,7 +911,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297059571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5e903e3b3247e24e9df60a359cb961f, type: 3}
   m_Name: 
@@ -954,6 +955,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297059571}
   m_CullTransparentMesh: 1
+--- !u!114 &297059576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297059571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6b62a822d955e439613aeb961723d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.GameBarFiller
+  scheduler: {fileID: 649773881}
+  currentFillPercentageDecimal: 0
+  monitorSuccessfulMissions: 1
 --- !u!224 &324972446 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1352850416981252664, guid: 434b8943b71991c45b763d47f1781c2f, type: 3}
@@ -1867,6 +1883,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1689960602591734761, guid: 434b8943b71991c45b763d47f1781c2f, type: 3}
   m_PrefabInstance: {fileID: 629110291}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &649773880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 649773882}
+  - component: {fileID: 649773881}
+  m_Layer: 0
+  m_Name: MissionScheduler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &649773881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649773880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456fc686b88f9824290c591e88c09fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionScheduler
+  durationBetweenNewMissionsInSeconds: 5
+  allMissions: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
+--- !u!4 &649773882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649773880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &685056645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2090,6 +2152,7 @@ GameObject:
   - component: {fileID: 772509020}
   - component: {fileID: 772509019}
   - component: {fileID: 772509018}
+  - component: {fileID: 772509021}
   m_Layer: 5
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -2123,7 +2186,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772509016}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5e903e3b3247e24e9df60a359cb961f, type: 3}
   m_Name: 
@@ -2167,6 +2230,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772509016}
   m_CullTransparentMesh: 1
+--- !u!114 &772509021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772509016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6b62a822d955e439613aeb961723d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.GameBarFiller
+  scheduler: {fileID: 649773881}
+  currentFillPercentageDecimal: 0
+  monitorSuccessfulMissions: 0
 --- !u!1001 &815464437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3188,7 +3266,6 @@ GameObject:
   - component: {fileID: 1167202879}
   - component: {fileID: 1167202878}
   - component: {fileID: 1167202881}
-  - component: {fileID: 1167202882}
   m_Layer: 5
   m_Name: MissionList
   m_TagString: Untagged
@@ -3297,23 +3374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd8d931f3a671b48a3bfb3448c67b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionListPanel
-  scheduler: {fileID: 1167202882}
+  scheduler: {fileID: 649773881}
   missionFrame: {fileID: 6895464149853482860, guid: 1835b2b46fd28354d8e6a0efcbdf417f, type: 3}
   content: {fileID: 269714927}
---- !u!114 &1167202882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167202876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 456fc686b88f9824290c591e88c09fad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionScheduler
-  durationBetweenNewMissionsInSeconds: 5
-  allMissions: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
 --- !u!1001 &1184200358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3974,7 +4037,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionLoader
   missionsAsJson: {fileID: 4900000, guid: 7a3673ff470845944a5e3bdb80eece51, type: 3}
   groupToPopulateFromJson: {fileID: 11400000, guid: fd38dece18bfc8142948d21b68333afe, type: 2}
-  groupToSaveAsJson: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
+  saveSampleMissionsAsJson: 1
+  sampleMissionsToSaveAsJson: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}
   pathToSaveJsonAt: Assets/ScenePlaymat/Data/Missions/SampleMissions.json
 --- !u!4 &1527037707
 Transform:
@@ -5175,6 +5239,7 @@ SceneRoots:
   - {fileID: 2088326804}
   - {fileID: 100962236}
   - {fileID: 1070826256}
-  - {fileID: 1761286571}
-  - {fileID: 438007990}
+  - {fileID: 649773882}
   - {fileID: 1527037707}
+  - {fileID: 438007990}
+  - {fileID: 1761286571}

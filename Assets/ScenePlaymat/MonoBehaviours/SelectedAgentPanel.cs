@@ -93,7 +93,7 @@ namespace ScenePlaymat.MonoBehaviours
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 1, 1);
                 }
 
-                var currentStatus = _agent.FetchCurrentStatus();
+                var currentStatus = _agent.Status;
                 UpdateStatusText(currentStatus);
                 if (currentStatus != AgentStatus.Idle) UpdateStatusBar();
                 else statusProgress.localScale = new(1f, 0, 1f);
@@ -104,7 +104,7 @@ namespace ScenePlaymat.MonoBehaviours
         private void UpdateStatusBar()
         {
             Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
-            var isAgentIdle = _agent.FetchCurrentStatus() == AgentStatus.Idle;
+            var isAgentIdle = _agent.Status == AgentStatus.Idle;
             statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
         }
 

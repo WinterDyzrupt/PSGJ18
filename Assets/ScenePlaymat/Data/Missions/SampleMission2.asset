@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70874602d06c85a4c90ec54009646ee0, type: 3}
   m_Name: SampleMission2
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.Data.Missions.Mission
-  defaultDurationToDisplayBeforeExpirationInSeconds: 10
   data:
     guid: 
     displayName: Sample mission 2
@@ -23,3 +22,24 @@ MonoBehaviour:
     durationToPerformInSeconds: 5
     durationToReturnFromInSeconds: 5
     durationToRestAfterInSeconds: 5
+    durationToExpirationInSeconds: 10
+    missionAttributes:
+      muscleBase: 0
+      auraBase: 0
+      improvisationBase: 0
+      resilienceBase: 0
+      swiftnessBase: 0
+      muscleMod: 0
+      auraMod: 0
+      improvisationMod: 0
+      resilienceMod: 0
+      swiftnessMod: 0
+    maximumAttributeDifferenceForSuccess: 0
+    successIncrement: 0.5
+    failureIncrement: 0.5
+    expirationIncrement: 0.5
+  status: 0
+  isExpired: 0
+  isCompletedSuccessfully: 0
+  isFailed: 0
+  assignedAgent: {fileID: 0}

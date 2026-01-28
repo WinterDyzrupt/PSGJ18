@@ -23,7 +23,8 @@ namespace ScenePlaymat.Data.Agents
         [SerializeField] private AgentStatus status;
         public AgentStatus Status => status;
 
-        private Mission _currentMission;
+        [SerializeField] private Mission currentMission;
+        public  Mission CurrentMission => currentMission;
         
         private TimeSpan _deployingDuration;
         private TimeSpan _returningDuration;
@@ -41,49 +42,21 @@ namespace ScenePlaymat.Data.Agents
 
         public event Action<AgentStatus> StatusChanged;
 
-        // public event Action<AgentStatus, float> ProgressUpdate;
-
-        /// <summary>
-        /// Initialization since this is a Scriptable Object
-        /// SO's save information between run sessions. This is protection
-        /// so that the values don't carry over between runs. 
-        /// </summary>
-        // TODO: Check to verify these are necessary / need more in other places
-        // ScriptableObject.Awake() is not called when restarting the same scene in the editor,
-        // so this is only for starting the game fresh, from the title scene.  OnEnable() is also executed
-        // when restarting the same scene, so probably put any necessary initializations in OnEnable() instead.
-        // private void Awake()
-        // {
-        //     Debug.Log($"{DisplayName} initialized.");
-        //     Status = AgentStatus.Idle;
-        //     _currentMission = null;
-        //
-        //     StatusChanged = null;
-        //     
-        //     attributes.muscleMod = 0;
-        //     attributes.auraMod = 0;
-        //     attributes.improvisationMod = 0;
-        //     attributes.resilienceMod = 0;
-        //     attributes.swiftnessMod = 0;
-        // }
-
         private void OnEnable()
         {
             // Reset state to default for restarting the scene in the editor.
             status = AgentStatus.Idle;
+            currentMission = null;
         }
 
-        public void AcceptMission(Mission mission)
+        public IEnumerator StartMissionAsync(Mission mission)
         {
             Debug.Assert(mission != null, $"Expected {nameof(mission)} to be populated.");
             Debug.Assert(mission.data != null, $"Expected {nameof(mission)}.{nameof(mission.data)} to be populated.");
-            Debug.Assert(_currentMission == null, $"{DisplayName} already has an active mission.");
+            Debug.Assert(currentMission == null, $"{DisplayName} already has an active mission.");
             
-            _currentMission = mission;
-            _currentMission.AssignAgent(this);
-            _currentMission.Completed += ActiveMissionCompleted;
-            ChangeStatus(AgentStatus.Deploying);
-            
+            currentMission = mission;
+            currentMission.AssignAgent(this);
             _deployingDuration = mission.data.DurationToTravelTo;
             _returningDuration = mission.data.DurationToReturnFrom;
             _restingDuration = mission.data.DurationToRest;
@@ -91,57 +64,26 @@ namespace ScenePlaymat.Data.Agents
             _deployingStopWatch.Reset();
             _returningStopwatch.Reset();
             _restingStopwatch.Reset();
-            
+
+            ChangeStatus(AgentStatus.Deploying);
             _deployingStopWatch.Start();
+            yield return new WaitForSeconds(mission.data.durationToTravelToInSeconds);
+            _deployingStopWatch.Stop();
             
-            // Debug.Log($"Agent {AgentName} accepted the mission: {_currentMission.missionName}");
-        }
-
-        private void ActiveMissionCompleted(Mission _)
-        {
-            _currentMission.Completed -= ActiveMissionCompleted;
+            yield return mission.PerformAsync();
+            currentMission = null;
+            
             ChangeStatus(AgentStatus.Returning);
-            _currentMission =  null;
             _returningStopwatch.Start();
-        }
-
-        public AgentStatus FetchCurrentStatus()
-        {
-            switch (Status)
-            {
-                case AgentStatus.Idle: // Do nothing
-                    break;
-                case AgentStatus.Deploying: // Check to see if agent arrived
-                    if (CompletionOfDeploying >= 1)
-                    {
-                        _deployingStopWatch.Stop();
-                        _currentMission.StartMission();
-                        ChangeStatus(AgentStatus.AttemptingMission);
-                    }
-                    break;
-                case AgentStatus.AttemptingMission: // Do nothing
-                    break;
-                case AgentStatus.Returning: // Check to see if agent returned
-                    if (CompletionOfReturning >= 1)
-                    {
-                        _returningStopwatch.Stop();
-                        ChangeStatus(AgentStatus.Resting);
-                        _restingStopwatch.Start();
-                    }
-                    break;
-                case AgentStatus.Resting: // check to see if agent rested
-                    if (CompletionOfResting >= 1)
-                    {
-                        _returningStopwatch.Stop();
-                        ChangeStatus(AgentStatus.Idle);
-                    }
-                    break;
-                default:
-                    Debug.LogError($"{DisplayName} had impossible status of {Status}.");
-                    break;
-            }
-
-            return Status;
+            yield return new  WaitForSeconds(mission.data.durationToReturnFromInSeconds);
+            _returningStopwatch.Stop();
+            
+            ChangeStatus(AgentStatus.Resting);
+            _restingStopwatch.Start();
+            yield return new WaitForSeconds(mission.data.durationToRestAfterInSeconds);
+            _restingStopwatch.Stop();
+            
+            ChangeStatus(AgentStatus.Idle);
         }
 
         private void ChangeStatus(AgentStatus newStatus)
@@ -151,7 +93,6 @@ namespace ScenePlaymat.Data.Agents
         }
 
         public override string ToString() => agentName;
-
         
         /*
         private float totalDurationEx = 10f;

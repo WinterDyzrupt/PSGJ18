@@ -11,18 +11,12 @@ namespace ScenePlaymat.MonoBehaviours
         private void Awake()
         {
             Debug.Assert(floatVariable != null, $"{name} is no assigned float variable in the inspector!");
-
-            UpdateBar(floatVariable);
-        }
-
-        private void OnEnable()
-        {
             floatVariable.Changed += UpdateBar;
-            
+
             UpdateBar(floatVariable);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             floatVariable.Changed -= UpdateBar;
         }

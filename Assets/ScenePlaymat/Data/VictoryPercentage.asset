@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3891551c24424204cbcc7a03f8437216, type: 3}
   m_Name: VictoryPercentage
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.FloatVariable
-  floatValue: 0
+  value: 0
   defaultValue: 0

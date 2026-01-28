@@ -2,11 +2,40 @@ namespace ScenePlaymat.Utils
 {
     public enum MissionStatus
     {
-        Inactive, // Default State: The mission is in the bank
-        Posted, // The mission is waiting for an agent, start expiring
-        Expired, // The mission was left in Posted too long and expired
-        Claimed, // The mission has been accepted, waiting for agent to arrive
-        InProgress, // The mission is being carried out
-        Completed // The mission was completed by the agent (success or failure)
+        /// <summary>
+        /// Default State: The mission has not yet been made available.
+        /// </summary>
+        Inactive,
+        
+        /// <summary>
+        /// The mission is waiting for an agent to be assigned
+        /// </summary>
+        Posted,
+        
+        /// <summary>
+        /// The mission has been assigned to an agent, waiting for agent to perform the mission
+        /// </summary>
+        Assigned,
+        
+        /// <summary>
+        /// The mission is being carried out
+        /// </summary>
+        InProgress,
+        
+        /// <summary>
+        /// The mission was completed by the agent successfully
+        /// </summary>
+        Successful,
+        
+        /// <summary>
+        /// The mission lingered in the Posted state for too long
+        /// </summary>
+        Expired,
+        
+        /// <summary>
+        /// The mission was completed by the agent successfully
+        /// </summary>
+        Failed
+        
     }
 }
