@@ -118,7 +118,7 @@ namespace ScenePlaymat.Data.Agents
                     currentStopwatch = _restingStopwatch;
                     break;
                 case AgentStatus.Idle:
-                case AgentStatus.AttemptingMission:
+                case AgentStatus.Working:
                 default:
                     //Debug.Log($"Agent {DisplayName} in status: {Status}; paused, but not stopwatch to stop/start.");
                     break;
