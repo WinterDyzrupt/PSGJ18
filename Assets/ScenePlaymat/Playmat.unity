@@ -2402,6 +2402,7 @@ GameObject:
   - component: {fileID: 902410752}
   - component: {fileID: 902410751}
   - component: {fileID: 902410753}
+  - component: {fileID: 902410754}
   m_Layer: 5
   m_Name: SelectedAgentPanel
   m_TagString: Untagged
@@ -2499,6 +2500,35 @@ MonoBehaviour:
   - {fileID: 347882070}
   statusText: {fileID: 1834719342}
   statusProgress: {fileID: 9891487}
+--- !u!114 &902410754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902410749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 117f2ecd674c8184abc6f9a3956e02db, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 902410753}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.SelectedAgentPanel,
+          Assembly-CSharp
+        m_MethodName: OnMissionAssigned
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &973468996
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,6 +2681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 993055464}
   - component: {fileID: 993055465}
+  - component: {fileID: 993055466}
   m_Layer: 5
   m_Name: MissionInfo
   m_TagString: Untagged
@@ -2690,6 +2721,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d09ab5d108fc943a71c5c28ed19e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionInfoPanel
+  missionAssignedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 117f2ecd674c8184abc6f9a3956e02db, type: 2}
+        m_TargetAssemblyTypeName: Common.Utils.Events.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   infoPanel: {fileID: 1822261995}
   nameText: {fileID: 1301045717}
   descriptionText: {fileID: 973468997}
@@ -2703,6 +2749,34 @@ MonoBehaviour:
   acceptMissionButtonText: {fileID: 33280542}
   selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
   selectedMission: {fileID: 11400000, guid: c0ce05b6c7cd81d4289e92f7b3ce0a40, type: 2}
+--- !u!114 &993055466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993055463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 117f2ecd674c8184abc6f9a3956e02db, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 993055465}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionInfoPanel, Assembly-CSharp
+        m_MethodName: OnMissionAssigned
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1002781107
 GameObject:
   m_ObjectHideFlags: 0
