@@ -1,7 +1,8 @@
 using System;
 using System.Diagnostics;
-using ScenePlaymat.Utils;
 using UnityEngine;
+using ScenePlaymat.Data.Agents;
+using ScenePlaymat.Utils;
 using Debug = UnityEngine.Debug;
 
 namespace ScenePlaymat.Data.Missions
@@ -9,11 +10,13 @@ namespace ScenePlaymat.Data.Missions
     [CreateAssetMenu(fileName = "Mission", menuName = "Data/Missions/Mission")]
     public class Mission : ScriptableObject
     {
-
         public MissionData data;
 
         [SerializeField] private MissionStatus status;
         public MissionStatus Status => status;
+        
+        [SerializeField] private Agent assignedAgent;
+        public Agent AssignedAgent => assignedAgent;
         
         private TimeSpan _currentStatusDuration;
         private readonly Stopwatch _expiringStopwatch = new();
@@ -44,11 +47,12 @@ namespace ScenePlaymat.Data.Missions
             _expiringStopwatch.Start();
         }
 
-        public void Claim()
+        public void AssignAgent(Agent agent)
         {
             Debug.Assert(Status == MissionStatus.Posted,
                 $"{data.displayName} was told to Claim but its status is {status} and is not allowed!");
             
+            assignedAgent = agent;
             status = MissionStatus.Claimed;
         }
         
