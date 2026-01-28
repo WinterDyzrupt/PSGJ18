@@ -20,7 +20,8 @@ namespace ScenePlaymat.Data.Missions
         public void Set(Mission newMission)
         {
             mission = newMission;
-
+            // Even if newMission is the same as mission, still raise the event because the user clicked on a button;
+            // so we should show them the UI if it's not already shown.
             if (Changed != null)
             {
                 Changed.Invoke(mission);
