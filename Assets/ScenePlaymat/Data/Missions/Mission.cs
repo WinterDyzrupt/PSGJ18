@@ -144,6 +144,51 @@ namespace ScenePlaymat.Data.Missions
             }
         }
 
+        public void OnPause()
+        {
+            PauseOrResume(true);
+        }
+
+        public void OnResume()
+        {
+            PauseOrResume(false);
+        }
+
+        private void PauseOrResume(bool pause)
+        {
+            Stopwatch currentStopwatch = null;
+
+            switch (Status)
+            {
+                case MissionStatus.Posted:
+                    currentStopwatch = _expiringStopwatch;
+                    break;
+                case MissionStatus.InProgress:
+                    currentStopwatch = _missionProgressStopwatch;
+                    break;
+                case MissionStatus.Inactive:
+                case MissionStatus.Expired:
+                case MissionStatus.Assigned:
+                case MissionStatus.Successful:
+                case MissionStatus.Failed:
+                default:
+                    //Debug.Log($"Mission ({data.displayName}) in status: {Status}; paused, but no stopwatches to stop/start");
+                    break;
+            }
+
+            if (currentStopwatch != null)
+            {
+                if (pause)
+                {
+                    currentStopwatch.Stop();
+                }
+                else
+                {
+                    currentStopwatch.Start();
+                }
+            }
+        }
+
         public override string ToString() => data.displayName;
     }
     

@@ -31,5 +31,10 @@ namespace ScenePlaymat.Data.Agents
                 Debug.Log("Agent.Changed is null, but agent just changed.");
             }
         }
+
+        public void Reset()
+        {
+            Set(null);
+        }
     }
 }
