@@ -71,16 +71,17 @@ namespace ScenePlaymat.MonoBehaviours
             switch (mission.Status)
             {
                 case MissionStatus.Posted: // Didn't expire yet, update bar
-                    UpdateProgressBarUI(completionBar,(float)mission.ExpirationDecimalPercentage);
+                    var postedScale = (float)mission.ExpirationDecimalPercentage;
+                    UpdateProgressBarUI(expirationBar,postedScale,postedScale);
                     break;
                 case MissionStatus.InProgress: // Didn't complete mission yet, update bar
-                    if(expirationBar.localScale.y != 0) UpdateProgressBarUI(expirationBar,0);
-                    UpdateProgressBarUI(completionBar, (float)mission.CompletionDecimalPercentage);
+                    var progressScale = 1f -  (float)mission.CompletionDecimalPercentage;
+                    UpdateProgressBarUI(completionBar, 1f, progressScale);
                     break;
                 case MissionStatus.Successful: // Mission JUST completed, set bar to 100%
                 case MissionStatus.Expired:
                 case MissionStatus.Failed:
-                    UpdateProgressBarUI(completionBar,1f);
+                    UpdateProgressBarUI(completionBar,1f, 1f);
                     break;
                 case MissionStatus.Inactive:
                 case MissionStatus.Assigned:
@@ -90,9 +91,9 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
-        private void UpdateProgressBarUI(Transform barTransform, float decimalPercentage)
+        private void UpdateProgressBarUI(Transform barTransform, float xScale, float yScale)
         {
-            barTransform.localScale = new(1f, decimalPercentage, 1f);
+            barTransform.localScale = new(xScale, yScale, 1f);
         }
 
         public void FrameClicked()
