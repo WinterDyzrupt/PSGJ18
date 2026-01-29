@@ -13,6 +13,7 @@ namespace ScenePlaymat.MonoBehaviours
         [Header("Display Components")]
         [SerializeField] private Transform completionBar;
         [SerializeField] private Image portrait;
+        [SerializeField] private GameObject statusTextBacker;
         [SerializeField] private TMP_Text statusText;
         
         [Header("Selected Agent Wrapper")]
@@ -84,6 +85,7 @@ namespace ScenePlaymat.MonoBehaviours
             {
                 case AgentStatus.Idle: // from resting, reset bars to 0, empty text
                     UpdateCompletionBar(0);
+                    statusTextBacker.SetActive(false);
                     break;
                 case AgentStatus.Deploying: // from resting
                     break;
@@ -97,8 +99,12 @@ namespace ScenePlaymat.MonoBehaviours
                     Debug.LogError($"{name}'s agent had impossible status of {status}.");
                     break;
             }
-            
-            statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
+
+            if (status != AgentStatus.Idle)
+            {
+                statusTextBacker.SetActive(true);
+                statusText.text = status.ToString();
+            }
         }
 
         private void UpdateCompletionBar(float decimalPercentage)

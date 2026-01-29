@@ -432,12 +432,12 @@ GameObject:
   - component: {fileID: 3176852819319816797}
   - component: {fileID: 4830644819590234859}
   m_Layer: 5
-  m_Name: TextBacker
+  m_Name: StatusTextBacker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8886162431385757547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -668,6 +668,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   completionBar: {fileID: 7176769925812952293}
   portrait: {fileID: 6613933186028183472}
+  statusTextBacker: {fileID: 7991689592430754088}
   statusText: {fileID: 726893481176217770}
   selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
 --- !u!114 &8026882115539950369
