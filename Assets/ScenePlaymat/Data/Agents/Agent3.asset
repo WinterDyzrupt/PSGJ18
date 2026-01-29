@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Agent3
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
   agentName: Moth Man
-  portrait: {fileID: 21300000, guid: 05f3eed3b87fe604c843dc5cc298f7da, type: 3}
-  mugshot: {fileID: 21300000, guid: 05f3eed3b87fe604c843dc5cc298f7da, type: 3}
+  portrait: {fileID: 21300000, guid: bb1a930c674f29a48a69164ab32a37fc, type: 3}
+  mugshot: {fileID: 21300000, guid: bb1a930c674f29a48a69164ab32a37fc, type: 3}
   attributes:
     muscleBase: 4
     auraBase: 2
@@ -26,3 +26,4 @@ MonoBehaviour:
     improvisationMod: 0
     resilienceMod: 0
     swiftnessMod: 0
+  status: 0
