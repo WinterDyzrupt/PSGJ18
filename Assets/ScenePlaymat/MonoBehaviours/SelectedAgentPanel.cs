@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using ScenePlaymat.Data.Agents;
 using ScenePlaymat.Data.Missions;
-using ScenePlaymat.Utils;
 using UnityEngine.Events;
 
 namespace ScenePlaymat.MonoBehaviours
@@ -40,14 +39,6 @@ namespace ScenePlaymat.MonoBehaviours
             selectedAgent.Changed += NewAgentSelected;
         }
 
-        private void Update()
-        {
-            if (_agent)
-            {
-                UpdateStatusBar();
-            }
-        }
-
         private void OnDestroy()
         {
             selectedAgent.Changed -= NewAgentSelected;
@@ -56,18 +47,8 @@ namespace ScenePlaymat.MonoBehaviours
         private void NewAgentSelected(Agent newAgent)
         {
             Debug.Log("New Agent selected: " + newAgent);
-
-            if (_agent)
-            {
-                _agent.StatusChanged -= UpdateStatusText;
-            }
-
+            
             _agent = newAgent;
-
-            if (_agent)
-            {
-                _agent.StatusChanged += UpdateStatusText;
-            }
 
             UpdatePanel();
         }
@@ -85,28 +66,12 @@ namespace ScenePlaymat.MonoBehaviours
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 1, 1);
                 }
 
-                var currentStatus = _agent.Status;
-                UpdateStatusText(currentStatus);
-                if (currentStatus != AgentStatus.Idle) UpdateStatusBar();
-                else statusProgress.localScale = new(1f, 0, 1f);
                 ShowPanel(panel);
             }
             else
             {
                 HidePanel(panel);
             }
-        }
-        
-        private void UpdateStatusBar()
-        {
-            Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
-            var isAgentIdle = _agent.Status == AgentStatus.Idle;
-            statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
-        }
-
-        private void UpdateStatusText(AgentStatus status)
-        {
-            statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
         }
         
         private void ShowPanel(GameObject panelToShow)
