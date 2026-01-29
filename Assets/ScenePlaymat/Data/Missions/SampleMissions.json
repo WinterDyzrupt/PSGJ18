@@ -1,6 +1,6 @@
 {
-    "displayName": "All missions",
-    "description": "A complete list of all missions, populated from json",
+    "displayName": "TestList",
+    "description": "For manually modifying lists of missions",
     "missions": [
         {
             "data": {
@@ -12,7 +12,24 @@
                 "durationToTravelToInSeconds": 5.0,
                 "durationToPerformInSeconds": 5.0,
                 "durationToReturnFromInSeconds": 5.0,
-                "durationToRestAfterInSeconds": 5.0
+                "durationToRestAfterInSeconds": 5.0,
+                "durationToExpirationInSeconds": 10.0,
+                "missionAttributes": {
+                    "muscleBase": 0,
+                    "auraBase": 0,
+                    "improvisationBase": 0,
+                    "resilienceBase": 0,
+                    "swiftnessBase": 0,
+                    "muscleMod": 0,
+                    "auraMod": 0,
+                    "improvisationMod": 0,
+                    "resilienceMod": 0,
+                    "swiftnessMod": 0
+                },
+                "maximumAttributeDifferenceForSuccess": 0,
+                "successIncrement": 0.10000000149011612,
+                "failureIncrement": 0.10000000149011612,
+                "expirationIncrement": 0.10000000149011612
             }
         },
         {
@@ -25,7 +42,24 @@
                 "durationToTravelToInSeconds": 5.0,
                 "durationToPerformInSeconds": 5.0,
                 "durationToReturnFromInSeconds": 5.0,
-                "durationToRestAfterInSeconds": 5.0
+                "durationToRestAfterInSeconds": 5.0,
+                "durationToExpirationInSeconds": 10.0,
+                "missionAttributes": {
+                    "muscleBase": 0,
+                    "auraBase": 0,
+                    "improvisationBase": 0,
+                    "resilienceBase": 0,
+                    "swiftnessBase": 0,
+                    "muscleMod": 0,
+                    "auraMod": 0,
+                    "improvisationMod": 0,
+                    "resilienceMod": 0,
+                    "swiftnessMod": 0
+                },
+                "maximumAttributeDifferenceForSuccess": 0,
+                "successIncrement": 0.5,
+                "failureIncrement": 0.5,
+                "expirationIncrement": 0.5
             }
         }
     ]

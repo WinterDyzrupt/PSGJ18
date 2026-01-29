@@ -583,6 +583,8 @@ GameObject:
   - component: {fileID: 2879166964080514308}
   - component: {fileID: 3498550357455506670}
   - component: {fileID: 1539845668014535136}
+  - component: {fileID: 8026882115539950369}
+  - component: {fileID: 1699808487550182810}
   m_Layer: 5
   m_Name: AgentFrame
   m_TagString: Untagged
@@ -668,3 +670,59 @@ MonoBehaviour:
   portrait: {fileID: 6613933186028183472}
   statusText: {fileID: 726893481176217770}
   selectedAgent: {fileID: 11400000, guid: 2d2834f70b8c25942b0c6db10d989d51, type: 2}
+--- !u!114 &8026882115539950369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019131853763750298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 29727d2df5c644347a4483357799d550, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1539845668014535136}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.AgentFrame, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1699808487550182810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019131853763750298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 372c6e01562d232449f5462bd0460aa0, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1539845668014535136}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.AgentFrame, Assembly-CSharp
+        m_MethodName: OnResume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -11,6 +11,8 @@ namespace ScenePlaymat.MonoBehaviours
     public class MissionInfoPanel : MonoBehaviour
     {
         public UnityEvent missionAssignedEvent;
+        public UnityEvent pauseEvent;
+        public UnityEvent resumeEvent;
 
         [Header("Mission Info Panel")]
         [SerializeField] private GameObject infoPanel;
@@ -56,29 +58,52 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateMissionPanel(Mission mission)
         {
-            if (mission == null)
+            Debug.Log("New mission selected: " + mission);
+            if (mission != null)
             {
-                Debug.LogWarning($"{name} was told to update with a null mission!");
-                return;
-            }
-            
-            nameText.text = mission.data.displayName;
-            descriptionText.text = mission.data.description;
-            var missionAttributes = mission.data.missionAttributes.AttributesTotal;
-            for (var i = 0; i < statBars.Length; i++)
-            {
-                statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
-            }
-            UpdateAcceptMissionButton(mission, selectedAgent.Agent);
-            infoPanel.SetActive(true);
-        }
+                nameText.text = mission.data.displayName;
+                descriptionText.text = mission.data.description;
+                var missionAttributes = mission.data.missionAttributes.AttributesTotal;
+                for (var i = 0; i < statBars.Length; i++)
+                {
+                    statBars[i].localScale = new(0.1f * missionAttributes[i], 1f, 1f);
+                }
 
+                UpdateAcceptMissionButton(mission, selectedAgent.Agent);
+                ShowPanel(infoPanel);
+            }
+            else
+            {
+                HidePanel(infoPanel);
+            }
+        }
+        
+        private void ShowPanel(GameObject panelToShow)
+        {
+            panelToShow.SetActive(true);
+            pauseEvent.Invoke();
+        }
+        
+        private void HidePanel(GameObject panelToHide)
+        {
+            panelToHide.SetActive(false);
+            if (selectedAgent.Agent == null)
+            {
+                //Debug.Log("Mission panel closed and there is no selected agent; resuming.");
+                resumeEvent.Invoke();
+            }
+            else
+            {
+                //Debug.Log("Mission panel closed, but an agent is selected; not resuming.");
+            }
+        }
+        
         public void AcceptMissionButtonPressed()
         {
             // The button gets disabled in UpdateAcceptMissionButton too, but it's a good idea to disable it ASAP to
             // reduce the likelihood of it being clicked twice before being disabled.
             acceptMissionButton.interactable = false;
-            selectedAgent.Agent.AcceptMission(selectedMission.Mission);
+            StartCoroutine(selectedAgent.Agent.StartMissionAsync(selectedMission.Mission));
             UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
             missionAssignedEvent.Invoke();
         }
@@ -88,14 +113,10 @@ namespace ScenePlaymat.MonoBehaviours
         /// </summary>
         public void OnMissionAssigned()
         {
-            HidePanel();
+            selectedMission.Set(null);
+            HidePanel(infoPanel);
         }
-
-        public void HidePanel()
-        {
-            infoPanel.SetActive(false);
-        }
-
+        
         private void UpdateAcceptMissionButton(Agent agent)
         {
             UpdateAcceptMissionButton(selectedMission.Mission, agent);
@@ -110,43 +131,43 @@ namespace ScenePlaymat.MonoBehaviours
             }
             else
             {
+                acceptMissionButton.interactable =
+                    mission.Status == MissionStatus.Posted &&
+                    agent?.Status == AgentStatus.Idle;
+
                 switch (mission.Status)
                 {
                     case MissionStatus.Posted:
                         if (agent?.Status == AgentStatus.Idle)
                         {
-                            acceptMissionButton.interactable = true;
                             acceptMissionButtonText.text = "Assign Agent";
                         }
                         else if (agent)
                         {
-                            acceptMissionButton.interactable = false;
                             acceptMissionButtonText.text = "Agent Busy";
                         }
                         else
                         {
-                            acceptMissionButton.interactable = false;
                             acceptMissionButtonText.text = "Select Agent";
                         }
 
                         break;
-                    case MissionStatus.Claimed:
+                    case MissionStatus.Assigned:
                     case MissionStatus.InProgress:
-                        acceptMissionButton.interactable = false;
                         acceptMissionButtonText.text = "Assigned to " + mission.AssignedAgent.DisplayName;
                         break;
-                    case MissionStatus.Completed:
-                        acceptMissionButton.interactable = false;
+                    case MissionStatus.Successful:
                         acceptMissionButtonText.text = "Completed";
                         break;
                     case MissionStatus.Expired:
-                        acceptMissionButton.interactable = false;
                         acceptMissionButtonText.text = "Expired";
+                        break;
+                    case MissionStatus.Failed:
+                        acceptMissionButtonText.text = "Failed";
                         break;
                     case MissionStatus.Inactive:
                     default:
                         Debug.LogError("Unexpected mission status for accept mission button: " + mission.Status);
-                        acceptMissionButton.interactable = false;
                         acceptMissionButtonText.text = "It's a mystery";
                         break;
                 }

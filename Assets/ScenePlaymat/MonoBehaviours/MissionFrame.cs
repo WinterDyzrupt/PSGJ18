@@ -6,7 +6,8 @@ namespace ScenePlaymat.MonoBehaviours
 {
     public class MissionFrame : MonoBehaviour
     {
-        private Mission _mission;
+        [SerializeField] private Mission mission;
+        public Mission Mission => mission;
 
         [Header("Display Components")]
         [SerializeField] private Transform expirationBar;
@@ -23,26 +24,41 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void Update()
         {
-            if (!_mission)
+            if (!mission)
             {
                 Debug.LogError($"{name} was never assigned a mission!");
                 return;
             }
             
-            if (_mission.Status is MissionStatus.Posted or MissionStatus.InProgress)
+            if (mission.Status is MissionStatus.Posted or MissionStatus.InProgress)
             {
                 UpdateProgressBars();
             }
+        }
+        
+        /// <summary>
+        /// Called by a GameEventListener to pause the mission in this frame.
+        /// </summary>
+        public void OnPause()
+        {
+            mission.OnPause();
+        }
+
+        /// <summary>
+        /// Called by a GameEventListner to resume the mission in this frame.
+        /// </summary>
+        public void OnResume()
+        {
+            mission.OnResume();
         }
 
         public void PostMission(Mission missionToPost)
         {
             Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
             
-            _mission = missionToPost;
-            _mission.Expired += MissionHasExpiredOrFinished;
-            _mission.Completed += MissionHasExpiredOrFinished;
-            _mission.Post();
+            mission = missionToPost;
+            mission.Completed += MissionHasExpiredOrFinished;
+            StartCoroutine(mission.PostAsync());
         }
         
         private void MissionHasExpiredOrFinished(Mission _)
@@ -52,25 +68,24 @@ namespace ScenePlaymat.MonoBehaviours
 
         private void UpdateProgressBars()
         {
-            switch (_mission.FetchCurrentStatus())
+            switch (mission.Status)
             {
                 case MissionStatus.Posted: // Didn't expire yet, update bar
-                    UpdateProgressBarUI(completionBar,(float)_mission.ExpirationDecimalPercentage);
-                    break;
-                case MissionStatus.Expired: // Posting JUST expired, set bar to 100%
-                    UpdateProgressBarUI(completionBar,1f);
+                    UpdateProgressBarUI(completionBar,(float)mission.ExpirationDecimalPercentage);
                     break;
                 case MissionStatus.InProgress: // Didn't complete mission yet, update bar
                     if(expirationBar.localScale.y != 0) UpdateProgressBarUI(expirationBar,0);
-                    UpdateProgressBarUI(completionBar, (float)_mission.CompletionDecimalPercentage);
+                    UpdateProgressBarUI(completionBar, (float)mission.CompletionDecimalPercentage);
                     break;
-                case MissionStatus.Completed: // Mission JUST completed, set bar to 100%
+                case MissionStatus.Successful: // Mission JUST completed, set bar to 100%
+                case MissionStatus.Expired:
+                case MissionStatus.Failed:
                     UpdateProgressBarUI(completionBar,1f);
                     break;
                 case MissionStatus.Inactive:
-                case MissionStatus.Claimed:
+                case MissionStatus.Assigned:
                 default:
-                    Debug.LogError($"{name} tried to update progress bars but {_mission.Status} is invalid!");
+                    Debug.LogError($"{name} tried to update progress bars but {mission.Status} is invalid!");
                     break;
             }
         }
@@ -82,7 +97,15 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            selectedMissionWrapper.Set(_mission);
+            if (selectedMissionWrapper.Mission == mission)
+            {
+                //Debug.Log("Selected currently selected mission again; unselecting mission.");
+                selectedMissionWrapper.Reset();
+            }
+            else
+            {
+                selectedMissionWrapper.Set(mission);
+            }
         }
     }
 }

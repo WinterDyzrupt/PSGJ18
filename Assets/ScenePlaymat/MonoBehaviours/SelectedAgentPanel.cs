@@ -2,7 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using ScenePlaymat.Data.Agents;
+using ScenePlaymat.Data.Missions;
 using ScenePlaymat.Utils;
+using UnityEngine.Events;
 
 namespace ScenePlaymat.MonoBehaviours
 {
@@ -10,6 +12,9 @@ namespace ScenePlaymat.MonoBehaviours
     {
         private Agent _agent;
         [SerializeField] private AgentWrapper selectedAgent;
+        [SerializeField] private MissionWrapper selectedMission;
+        public UnityEvent pauseEvent;
+        public UnityEvent resumeEvent;
 
         [Header("Panel Components")]
         [SerializeField] private GameObject panel;
@@ -66,20 +71,7 @@ namespace ScenePlaymat.MonoBehaviours
 
             UpdatePanel();
         }
-
-        /// <summary>
-        /// GameEventListener calls this while listening for the MissionAssigned event.
-        /// </summary>
-        public void OnMissionAssigned()
-        {
-            HidePanel();
-        }
-
-        public void HidePanel()
-        {
-            panel.SetActive(false);
-        }
-
+        
         private void UpdatePanel()
         {
             if (_agent != null)
@@ -93,24 +85,56 @@ namespace ScenePlaymat.MonoBehaviours
                     barTotalStats[i].localScale = new(0.1f * _agent.attributes.AttributesTotal[i], 1, 1);
                 }
 
-                var currentStatus = _agent.FetchCurrentStatus();
+                var currentStatus = _agent.Status;
                 UpdateStatusText(currentStatus);
                 if (currentStatus != AgentStatus.Idle) UpdateStatusBar();
                 else statusProgress.localScale = new(1f, 0, 1f);
-                panel.SetActive(true);
+                ShowPanel(panel);
+            }
+            else
+            {
+                HidePanel(panel);
             }
         }
-
+        
         private void UpdateStatusBar()
         {
             Vector3 newScale = new(1f, 1f - (float)_agent.CompletionOfDeploying, 1f);
-            var isAgentIdle = _agent.FetchCurrentStatus() == AgentStatus.Idle;
+            var isAgentIdle = _agent.Status == AgentStatus.Idle;
             statusProgress.localScale = isAgentIdle ? Vector3.zero : newScale;
         }
 
         private void UpdateStatusText(AgentStatus status)
         {
             statusText.text = status == AgentStatus.Idle ? string.Empty : status.ToString();
+        }
+        
+        private void ShowPanel(GameObject panelToShow)
+        {
+            panelToShow.SetActive(true);
+            pauseEvent.Invoke();
+        }
+        
+        private void HidePanel(GameObject panelToHide)
+        {
+            panelToHide.SetActive(false);
+            if (selectedMission.Mission == null)
+            {
+                //Debug.Log("Agent panel closed and there is no selected mission; resuming.");
+                resumeEvent.Invoke();
+            }
+            else
+            {
+                //Debug.Log("Agent panel closed, but a mission is selected; not resuming.");
+            }
+        }
+        /// <summary>
+        /// GameEventListener calls this while listening for the MissionAssigned event.
+        /// </summary>
+        public void OnMissionAssigned()
+        {
+            selectedAgent.Set(null);
+            HidePanel(panel);
         }
     }
 }

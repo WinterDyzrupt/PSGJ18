@@ -33,6 +33,11 @@ namespace ScenePlaymat.MonoBehaviours
             
             agent.StatusChanged += AgentStatusChanged;
         }
+        
+        private void OnDestroy()
+        {
+            agent.StatusChanged -= AgentStatusChanged;
+        }
 
         private void Update()
         {
@@ -42,17 +47,14 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
                 case AgentStatus.Deploying:
                     UpdateCompletionBar((float)agent.CompletionOfDeploying);
-                    agent.FetchCurrentStatus();
                     break;
-                case AgentStatus.AttemptingMission: // do nothing
+                case AgentStatus.Working: // do nothing
                     break;
                 case AgentStatus.Returning:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfReturning);
-                    agent.FetchCurrentStatus();
                     break;
                 case AgentStatus.Resting:
                     UpdateCompletionBar(1f - (float)agent.CompletionOfResting);
-                    agent.FetchCurrentStatus();
                     break;
                 default:
                     Debug.LogError($"{agent.DisplayName}'s status({agent.Status}) was impossible.");
@@ -60,9 +62,20 @@ namespace ScenePlaymat.MonoBehaviours
             }
         }
 
-        private void OnDestroy()
+        /// <summary>
+        /// Called by a GameEventListener to pause the agent in this frame.
+        /// </summary>
+        public void OnPause()
         {
-            agent.StatusChanged -= AgentStatusChanged;
+            agent.OnPause();
+        }
+
+        /// <summary>
+        /// Called by a GameEventListener to resume the agent in this frame.
+        /// </summary>
+        public void OnResume()
+        {
+            agent.OnResume();
         }
 
         private void AgentStatusChanged(AgentStatus status)
@@ -74,7 +87,7 @@ namespace ScenePlaymat.MonoBehaviours
                     break;
                 case AgentStatus.Deploying: // from resting
                     break;
-                case AgentStatus.AttemptingMission: // from deploying, set bar to full update text
+                case AgentStatus.Working: // from deploying, set bar to full update text
                     UpdateCompletionBar(1f);
                     break;
                 case AgentStatus.Returning: // from attempting
@@ -95,8 +108,16 @@ namespace ScenePlaymat.MonoBehaviours
 
         public void FrameClicked()
         {
-            Debug.Log("Selected frame for agent: " + agent);
-            selectedAgent.Set(agent);
+            //Debug.Log("Selected frame for agent: " + agent);
+            if (selectedAgent.Agent == agent)
+            {
+                //Debug.Log("Selected currently selected agent again; unselecting agent.");
+                selectedAgent.Reset();
+            }
+            else
+            {
+                selectedAgent.Set(agent);
+            }
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

@@ -292,6 +292,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3776552522653501500}
   - component: {fileID: 8636832987347320335}
+  - component: {fileID: 1393775975601146894}
+  - component: {fileID: 2895675513926840597}
   m_Layer: 5
   m_Name: MissionFrame
   m_TagString: Untagged
@@ -334,9 +336,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1436238b7d7946eca1734f72abda5894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionFrame
+  mission: {fileID: 0}
   expirationBar: {fileID: 8479581123778905113}
   completionBar: {fileID: 3920408480452062775}
   selectedMissionWrapper: {fileID: 11400000, guid: c0ce05b6c7cd81d4289e92f7b3ce0a40, type: 2}
+--- !u!114 &1393775975601146894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895464149853482860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 29727d2df5c644347a4483357799d550, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8636832987347320335}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionFrame, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2895675513926840597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895464149853482860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9893b5147df494b448a799b5a111f077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Utils.Events.GameEventListener
+  Event: {fileID: 11400000, guid: 372c6e01562d232449f5462bd0460aa0, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8636832987347320335}
+        m_TargetAssemblyTypeName: ScenePlaymat.MonoBehaviours.MissionFrame, Assembly-CSharp
+        m_MethodName: OnResume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8013878433056352715
 GameObject:
   m_ObjectHideFlags: 0
