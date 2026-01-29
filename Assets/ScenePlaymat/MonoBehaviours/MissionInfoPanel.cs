@@ -62,7 +62,19 @@ namespace ScenePlaymat.MonoBehaviours
             if (mission != null)
             {
                 nameText.text = mission.data.displayName;
-                descriptionText.text = mission.data.description;
+                if (mission.IsExpired || mission.IsFailed)
+                {
+                    descriptionText.text = mission.data.failureText;
+                }
+                else if (mission.IsCompletedSuccessfully)
+                {
+                    descriptionText.text = mission.data.completionText;
+                }
+                else
+                {
+                    descriptionText.text = mission.data.description;
+                }
+                
                 var missionAttributes = mission.data.missionAttributes.AttributesTotal;
                 for (var i = 0; i < statBars.Length; i++)
                 {
@@ -132,9 +144,10 @@ namespace ScenePlaymat.MonoBehaviours
             else
             {
                 acceptMissionButton.interactable =
-                    mission.Status == MissionStatus.Posted &&
-                    agent?.Status == AgentStatus.Idle;
-
+                    mission.IsCompleted ||
+                    (mission.Status == MissionStatus.Posted &&
+                    agent?.Status == AgentStatus.Idle);
+                
                 switch (mission.Status)
                 {
                     case MissionStatus.Posted:
@@ -157,13 +170,13 @@ namespace ScenePlaymat.MonoBehaviours
                         acceptMissionButtonText.text = "Assigned to " + mission.AssignedAgent.DisplayName;
                         break;
                     case MissionStatus.Successful:
-                        acceptMissionButtonText.text = "Completed";
+                        acceptMissionButtonText.text = "Success; Dismiss";
                         break;
                     case MissionStatus.Expired:
-                        acceptMissionButtonText.text = "Expired";
+                        acceptMissionButtonText.text = "Expired; Dismiss";
                         break;
                     case MissionStatus.Failed:
-                        acceptMissionButtonText.text = "Failed";
+                        acceptMissionButtonText.text = "Failed; Dismiss";
                         break;
                     case MissionStatus.Inactive:
                     default:

@@ -16,8 +16,8 @@ MonoBehaviour:
     guid: 
     displayName: Sample mission 2
     description: Sample mission 2 description
-    completionText: Aw
-    failureText: Yay
+    completionText: Yay
+    failureText: Aw
     durationToTravelToInSeconds: 5
     durationToPerformInSeconds: 5
     durationToReturnFromInSeconds: 5
@@ -38,8 +38,5 @@ MonoBehaviour:
     successIncrement: 0.5
     failureIncrement: 0.5
     expirationIncrement: 0.5
-  status: 0
-  isExpired: 0
-  isCompletedSuccessfully: 0
-  isFailed: 0
-  assignedAgent: {fileID: 0}
+  status: 4
+  assignedAgent: {fileID: 11400000, guid: 32b346f27645160479f3ae3c8c9b91ba, type: 2}

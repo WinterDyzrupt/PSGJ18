@@ -16,6 +16,10 @@ namespace ScenePlaymat.Data.Missions
         [SerializeField] private MissionStatus status;
         public MissionStatus Status => status;
 
+        /// <summary>
+        /// Whether the mission has been completed in one of three final states (Expirerd, Successful, or Failed)
+        /// </summary>
+        public bool IsCompleted => Status is MissionStatus.Expired or MissionStatus.Successful or MissionStatus.Failed;
         public bool IsExpired => status == MissionStatus.Expired;
         public bool IsCompletedSuccessfully => status == MissionStatus.Successful;
         public bool IsFailed => status == MissionStatus.Failed;
