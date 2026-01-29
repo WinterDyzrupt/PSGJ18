@@ -43,13 +43,6 @@ namespace ScenePlaymat.MonoBehaviours
             selectedMission.Changed += UpdateMissionPanel;
         }
 
-        private void Update()
-        {
-            // TODO: Remove if the game is paused while the panel is open; updating the button during Update is only
-            // useful for when a mission expires while the panel is open. 
-            UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
-        }
-
         private void OnDestroy()
         {
             selectedAgent.Changed -= UpdateAcceptMissionButton;
@@ -115,9 +108,22 @@ namespace ScenePlaymat.MonoBehaviours
             // The button gets disabled in UpdateAcceptMissionButton too, but it's a good idea to disable it ASAP to
             // reduce the likelihood of it being clicked twice before being disabled.
             acceptMissionButton.interactable = false;
-            StartCoroutine(selectedAgent.Agent.StartMissionAsync(selectedMission.Mission));
-            UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
-            missionAssignedEvent.Invoke();
+
+            if (selectedMission.Mission == null)
+            {
+                Debug.LogError("Accept mission button was pressed without a selected mission.");
+            }
+            else if (selectedMission.Mission.IsCompleted)
+            {
+                selectedMission.Mission.Dismiss();
+                HidePanel(infoPanel);
+            }
+            else
+            {
+                StartCoroutine(selectedAgent.Agent.StartMissionAsync(selectedMission.Mission));
+                UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
+                missionAssignedEvent.Invoke();
+            }
         }
 
         /// <summary>

@@ -30,9 +30,6 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(mugShotImage != null, "MugShot Image is missing in inspector!");
             Debug.Assert(barBaseStats?.Length > 0, "Bar Base Stats is missing in inspector!");
             Debug.Assert(barTotalStats?.Length > 0, "Bar TotalStats is missing in inspector!");
-            Debug.Assert(statusText != null, "StatusText is missing in inspector!");
-            Debug.Assert(statusProgress != null, "StatusProgress is missing in inspector!");
-
             Debug.Assert(selectedAgent != null, "SelectedAgent is missing in inspector!");
 
             panel.SetActive(false);
