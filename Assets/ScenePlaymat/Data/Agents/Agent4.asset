@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Agent4
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
   agentName: Yokai
-  portrait: {fileID: 21300000, guid: f67609625685f4e40bca0e91ae2d45b7, type: 3}
-  mugshot: {fileID: 21300000, guid: f67609625685f4e40bca0e91ae2d45b7, type: 3}
+  portrait: {fileID: 21300000, guid: a907f942e381cd84893aa13467bec876, type: 3}
+  mugshot: {fileID: 21300000, guid: a907f942e381cd84893aa13467bec876, type: 3}
   attributes:
     muscleBase: 7
     auraBase: 7
@@ -26,3 +26,4 @@ MonoBehaviour:
     improvisationMod: 0
     resilienceMod: 0
     swiftnessMod: 0
+  status: 0

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Agent1
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
   agentName: Big Foot
-  portrait: {fileID: 21300000, guid: 409280b31d773d0419cb4b712118a8dd, type: 3}
-  mugshot: {fileID: 21300000, guid: 409280b31d773d0419cb4b712118a8dd, type: 3}
+  portrait: {fileID: 21300000, guid: 16d97ddcb77e81243b2375da870190fe, type: 3}
+  mugshot: {fileID: 21300000, guid: 16d97ddcb77e81243b2375da870190fe, type: 3}
   attributes:
     muscleBase: 7
     auraBase: 2
@@ -26,3 +26,4 @@ MonoBehaviour:
     improvisationMod: 0
     resilienceMod: 0
     swiftnessMod: 0
+  status: 0
