@@ -43,13 +43,6 @@ namespace ScenePlaymat.MonoBehaviours
             selectedMission.Changed += UpdateMissionPanel;
         }
 
-        private void Update()
-        {
-            // TODO: Remove if the game is paused while the panel is open; updating the button during Update is only
-            // useful for when a mission expires while the panel is open. 
-            UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
-        }
-
         private void OnDestroy()
         {
             selectedAgent.Changed -= UpdateAcceptMissionButton;
@@ -62,7 +55,19 @@ namespace ScenePlaymat.MonoBehaviours
             if (mission != null)
             {
                 nameText.text = mission.data.displayName;
-                descriptionText.text = mission.data.description;
+                if (mission.IsExpired || mission.IsFailed)
+                {
+                    descriptionText.text = mission.data.failureText;
+                }
+                else if (mission.IsCompletedSuccessfully)
+                {
+                    descriptionText.text = mission.data.completionText;
+                }
+                else
+                {
+                    descriptionText.text = mission.data.description;
+                }
+                
                 var missionAttributes = mission.data.missionAttributes.AttributesTotal;
                 for (var i = 0; i < statBars.Length; i++)
                 {
@@ -103,9 +108,22 @@ namespace ScenePlaymat.MonoBehaviours
             // The button gets disabled in UpdateAcceptMissionButton too, but it's a good idea to disable it ASAP to
             // reduce the likelihood of it being clicked twice before being disabled.
             acceptMissionButton.interactable = false;
-            StartCoroutine(selectedAgent.Agent.StartMissionAsync(selectedMission.Mission));
-            UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
-            missionAssignedEvent.Invoke();
+
+            if (selectedMission.Mission == null)
+            {
+                Debug.LogError("Accept mission button was pressed without a selected mission.");
+            }
+            else if (selectedMission.Mission.IsCompleted)
+            {
+                selectedMission.Mission.Dismiss();
+                HidePanel(infoPanel);
+            }
+            else
+            {
+                StartCoroutine(selectedAgent.Agent.StartMissionAsync(selectedMission.Mission));
+                UpdateAcceptMissionButton(selectedMission.Mission, selectedAgent.Agent);
+                missionAssignedEvent.Invoke();
+            }
         }
 
         /// <summary>
@@ -132,9 +150,10 @@ namespace ScenePlaymat.MonoBehaviours
             else
             {
                 acceptMissionButton.interactable =
-                    mission.Status == MissionStatus.Posted &&
-                    agent?.Status == AgentStatus.Idle;
-
+                    mission.IsCompleted ||
+                    (mission.Status == MissionStatus.Posted &&
+                    agent?.Status == AgentStatus.Idle);
+                
                 switch (mission.Status)
                 {
                     case MissionStatus.Posted:
@@ -157,13 +176,13 @@ namespace ScenePlaymat.MonoBehaviours
                         acceptMissionButtonText.text = "Assigned to " + mission.AssignedAgent.DisplayName;
                         break;
                     case MissionStatus.Successful:
-                        acceptMissionButtonText.text = "Completed";
+                        acceptMissionButtonText.text = "Success; Dismiss";
                         break;
                     case MissionStatus.Expired:
-                        acceptMissionButtonText.text = "Expired";
+                        acceptMissionButtonText.text = "Expired; Dismiss";
                         break;
                     case MissionStatus.Failed:
-                        acceptMissionButtonText.text = "Failed";
+                        acceptMissionButtonText.text = "Failed; Dismiss";
                         break;
                     case MissionStatus.Inactive:
                     default:

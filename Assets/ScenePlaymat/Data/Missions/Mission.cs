@@ -16,6 +16,10 @@ namespace ScenePlaymat.Data.Missions
         [SerializeField] private MissionStatus status;
         public MissionStatus Status => status;
 
+        /// <summary>
+        /// Whether the mission has been completed in one of three final states (Expirerd, Successful, or Failed)
+        /// </summary>
+        public bool IsCompleted => Status is MissionStatus.Expired or MissionStatus.Successful or MissionStatus.Failed;
         public bool IsExpired => status == MissionStatus.Expired;
         public bool IsCompletedSuccessfully => status == MissionStatus.Successful;
         public bool IsFailed => status == MissionStatus.Failed;
@@ -32,6 +36,11 @@ namespace ScenePlaymat.Data.Missions
         /// expired, successful, or failed.
         /// </summary>
         public event Action<Mission> Completed;
+
+        /// <summary>
+        /// The mission has been dismissed and should be removed from view.
+        /// </summary>
+        public event Action<Mission> Dismissed;
         
         public double ExpirationDecimalPercentage => Math.Clamp(
             _expiringStopwatch.Elapsed / data.DurationToExpire, 0, 1);
@@ -141,6 +150,23 @@ namespace ScenePlaymat.Data.Missions
             else
             {
                 Debug.LogError($"Mission ({mission.data.displayName}) completed ({mission.Status}) with no listener");
+            }
+        }
+
+        public void Dismiss()
+        {
+            if (!IsCompleted)
+            {
+                Debug.LogError("Mission: Dismissing incomplete Mission");
+            }
+
+            if (Dismissed == null)
+            {
+                Debug.LogError($"Mission: No listeners for {nameof(Dismissed)}");
+            }
+            else
+            {
+                Dismissed.Invoke(this);
             }
         }
 

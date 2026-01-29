@@ -57,13 +57,14 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
             
             mission = missionToPost;
-            mission.Completed += MissionHasExpiredOrFinished;
+            mission.Dismissed += MissionDismissed;
             StartCoroutine(mission.PostAsync());
         }
         
-        private void MissionHasExpiredOrFinished(Mission _)
+        private void MissionDismissed(Mission _)
         {
-            // TODO: Have the mission remove itself after confirmation window? I'm not sure.
+            Debug.Log($"MissionFrame ({mission.data.displayName}): Dismissed.");
+            Destroy(gameObject);
         }
 
         private void UpdateProgressBars()
