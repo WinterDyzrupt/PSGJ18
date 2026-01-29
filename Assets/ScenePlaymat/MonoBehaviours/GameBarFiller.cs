@@ -1,5 +1,6 @@
 using ScenePlaymat.Data.Missions;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ScenePlaymat.MonoBehaviours
 {
@@ -24,10 +25,22 @@ namespace ScenePlaymat.MonoBehaviours
         /// </summary>
         public bool monitorSuccessfulMissions;
 
+        /// <summary>
+        /// Event to raise when the bar is filled.
+        /// </summary>
+        public UnityEvent barFilledEvent;
+        
+        /// <summary>
+        /// The value that indicates a full bar.
+        /// </summary>
+        public float fullBarPercentageDecimal = 1f;
+
         private void Awake()
         {
-            Debug.Assert(scheduler != null, $"{nameof(GameBarFiller)} expected {nameof(scheduler)} to be injected via inspector.");
+            Debug.Assert(scheduler != null, $"{nameof(GameBarFiller)}: expected {nameof(scheduler)} to be injected via inspector.");
             scheduler.NewMissionAdded += OnMissionPosted;
+            
+            Debug.Assert(barFilledEvent != null, $"{nameof(GameBarFiller)}: expected {nameof(barFilledEvent)} to be injected via inspector.");
         }
         
         private void OnMissionPosted(Mission newMission)
@@ -60,6 +73,11 @@ namespace ScenePlaymat.MonoBehaviours
             currentFillPercentageDecimal += increment;
             Debug.Log($"{nameof(GameBarFiller)} ({name}): Incrementing bar by: {increment}; newValue: {currentFillPercentageDecimal}.");
             UpdateBar(currentFillPercentageDecimal);
+
+            if (currentFillPercentageDecimal >= fullBarPercentageDecimal)
+            {
+                barFilledEvent.Invoke();
+            }
         }
         
         private void UpdateBar(float value)
