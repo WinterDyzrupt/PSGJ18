@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using ScenePlaymat.Data.Agents;
 using ScenePlaymat.Utils;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace ScenePlaymat.Data.Missions
 {
@@ -108,25 +110,39 @@ namespace ScenePlaymat.Data.Missions
         {
             Debug.Assert(mission.Status == MissionStatus.InProgress,
                 $"Mission.DetermineMissionResult status: {mission.Status}, but expected InProgress");
-            
-            var missionResult = mission.Status;
-            if (mission.Status == MissionStatus.InProgress)
-            {
-                var attributeDifference = Attributes.GetDifferenceInAttributes(mission.AssignedAgent.attributes, mission.data.missionAttributes);
-                Debug.Log(
-                    $"DetermineMissionResults (Mission: {mission.data.displayName}): attribute difference: {attributeDifference}, max difference: {mission.data.maximumAttributeDifferenceForSuccess}");
 
-                if (attributeDifference > mission.data.maximumAttributeDifferenceForSuccess)
-                {
-                    missionResult = MissionStatus.Successful;
-                }
-                else
-                {
-                    missionResult = MissionStatus.Failed;
-                }
+            var missionResult = mission.Status;
+            if (missionResult == MissionStatus.InProgress)
+            {
+                var missionSuccessChance = PredictMissionSuccess(mission, mission.assignedAgent);
+                var randomResult = Random.Range(0, 1f);
+
+                // Roll under threshold for success
+                missionResult = randomResult <= missionSuccessChance ? MissionStatus.Successful : MissionStatus.Failed;
+                Debug.Log(
+                    $"Mission: {mission.data.displayName}. Initial Chance: {missionSuccessChance}, Rolled Results: {randomResult}, Result {missionResult.ToString()}");
             }
 
             return missionResult;
+        }
+
+        /// <summary>
+        /// Predicts how successful an agent will on the mission.
+        /// </summary>
+        /// <param name="mission"></param>
+        /// <param name="agent"></param>
+        /// <returns>
+        /// Returns a float in decimal percentage form.
+        /// </returns>
+        public static float PredictMissionSuccess(Mission mission, Agent agent)
+        {
+            var attributeDeficit = Attributes.GetDifferenceInAttributes(agent.attributes, mission.data.missionAttributes);
+            Debug.Log(
+                $"DetermineMissionResults (Mission: {mission.data.displayName}): attribute deficit: {attributeDeficit}.");
+            float missionTotalAttributes = mission.data.missionAttributes.AttributesBase.Sum();
+            var threshold = missionTotalAttributes + attributeDeficit;
+
+            return threshold / missionTotalAttributes;
         }
         
         /// <summary>

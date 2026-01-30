@@ -2,16 +2,153 @@
   "missions": [
     {
       "data": {
-        "displayName": "Op. Phoenix Rising I",
+        "displayName": "Phoenix Rising I",
         "description": "We've heard tales about a big ball of fire. Find out more about it.",
-        "completionText": "It's how far away from the surface!?!",
-        "failureText": "What do you mean that their ceiling is black and sparkly?!?",
-        "durationToTravelToInSeconds": 10,
-        "durationToPerformInSeconds": 10,
-        "durationToReturnFromInSeconds": 10,
-        "durationToRestAfterInSeconds": 10,
-        "durationToExpirationInSeconds": 30,
-        "maximumAttributeDifferenceForSuccess": 5,
+        "completionText": "It's called the 'sun' or 'sol' and it's how far away from the surface!?!",
+        "failureText": "Rumors about no ceiling are going to stay a rumor.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 2,
+          "improvisationBase": 4,
+          "resilienceBase": 4,
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smarts I",
+        "description": "Our ability to research is lacking. How does the surface do it?",
+        "completionText": "We could use some of these 'scientists'!",
+        "failureText": "We'll base all of our information on internet tropes.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 2,
+          "improvisationBase": 4,
+          "resilienceBase": 2,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smokebomb I",
+        "description": "We need to make sure we remain myths and legends.",
+        "completionText": "Tabloids! What a stroke of genius.",
+        "failureText": "We found a representative to handle our PR.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 4,
+          "improvisationBase": 4,
+          "resilienceBase": 2,
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Groceries I",
+        "description": "We're expanding our operations and need more supplies.",
+        "completionText": "Surface food and tools from a department store! This will help!",
+        "failureText": "Next meal will include lichens and (hopefully) non-poisonous mushrooms.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 4,
+          "auraBase": 2,
+          "improvisationBase": 2,
+          "resilienceBase": 4,
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Human Face I",
+        "description": "You know what we need? A figurehead! Go make a name for yourself.",
+        "completionText": "Mr. Cryptid! It's so obvious it's genius!",
+        "failureText": "Thankfully, there are a lot of surface dwellers already spreading weird news.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 4,
+          "auraBase": 4,
+          "improvisationBase": 2,
+          "resilienceBase": 2,
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "All for One I",
+        "description": "The underworld isn't completely unified. Let's start fixing that.",
+        "completionText": "More have come to support our cause.",
+        "failureText": "The fools! They're on the wrong side of this war.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 4,
+          "improvisationBase": 2,
+          "resilienceBase": 2,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Phoenix Rising II",
+        "description": "We need more information about this 'Sun' thing.",
+        "completionText": "A star huh? Hmm, I think we've seen those reactions elsewhere.",
+        "failureText": "The sun revolves around the flat land.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
         "successIncrement": 0.05,
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
@@ -26,25 +163,116 @@
     },
     {
       "data": {
-        "displayName": "Op. Phoenix Rising II",
-        "description": "We need more information about this 'Sun' thing.",
-        "completionText": "A star huh? Hmm, I think we've seen those reactions elsewhere.",
-        "failureText": "People just start at it? Without protection?",
-        "durationToTravelToInSeconds": 10,
-        "durationToPerformInSeconds": 10,
-        "durationToReturnFromInSeconds": 10,
-        "durationToRestAfterInSeconds": 10,
-        "durationToExpirationInSeconds": 30,
-        "maximumAttributeDifferenceForSuccess": 7,
+        "displayName": "Smarts II",
+        "description": "Captures one of these smarties... this 'scientist'",
+        "completionText": "A doctorate in theoretical plasma? Nicely done!",
+        "failureText": "They have a million subscribers on the internet? Return them at once!",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 7,
+          "auraBase": 2,
+          "improvisationBase": 2,
+          "resilienceBase": 2,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smokebomb II",
+        "description": "The surface dweller spotted an agent. Cover it up!",
+        "completionText": "You spread rumors that it was aliens? Now they're looking at the sky.",
+        "failureText": "Well, one more spotting can't make it too much worse.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 7,
+          "improvisationBase": 4,
+          "resilienceBase": 2,
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Groceries II",
+        "description": "We need more supplies! We can't hold back now.",
+        "completionText": "MREs! How economical!",
+        "failureText": "Well, we can ferment some of the algea...",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
         "successIncrement": 0.05,
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
           "muscleBase": 2,
           "auraBase": 2,
-          "improvisationBase": 7,
+          "improvisationBase": 2,
+          "resilienceBase": 7,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Human Face II",
+        "description": "Quick, distract them with something fancy.",
+        "completionText": "You locked a human in a cube and televised it? Then what happened...",
+        "failureText": "Here's hoping a politician will start another scandal.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 2,
+          "auraBase": 7,
+          "improvisationBase": 4,
           "resilienceBase": 2,
-          "swiftnessBase": 7
+          "swiftnessBase": 2
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "All for One II",
+        "description": "Some of the other tribes are rallying against us. Crush them!",
+        "completionText": "Excellent! The remaining tribes shall know our might!",
+        "failureText": "Great, another threat we need to worry about.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 7,
+          "auraBase": 2,
+          "improvisationBase": 2,
+          "resilienceBase": 4,
+          "swiftnessBase": 2
         }
       }
     }
