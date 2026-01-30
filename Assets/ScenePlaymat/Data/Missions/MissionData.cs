@@ -1,6 +1,5 @@
 using System;
 using ScenePlaymat.Utils;
-using UnityEngine;
 
 namespace ScenePlaymat.Data.Missions
 {

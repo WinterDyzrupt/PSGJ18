@@ -8,6 +8,7 @@ namespace ScenePlaymat.MonoBehaviours
     public class GameOverMonitor : MonoBehaviour
     {
         public UnityEvent pauseEvent;
+        public UnityEvent resumeEvent;
         
         [Header("Components")]
         [SerializeField] private GameObject clickShieldGraphic;
@@ -24,6 +25,8 @@ namespace ScenePlaymat.MonoBehaviours
         
         private void Start()
         {
+            resumeEvent.Invoke();
+            
             clickShieldGraphic.SetActive(false);
             victoryGraphic.SetActive(false);
             defeatGraphic.SetActive(false);
