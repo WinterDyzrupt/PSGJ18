@@ -24,11 +24,11 @@ MonoBehaviour:
     durationToRestAfterInSeconds: 5
     durationToExpirationInSeconds: 10
     missionAttributes:
-      muscleBase: 0
-      auraBase: 0
-      improvisationBase: 0
-      resilienceBase: 0
-      swiftnessBase: 0
+      muscleBase: 10
+      auraBase: 10
+      improvisationBase: 10
+      resilienceBase: 10
+      swiftnessBase: 10
       muscleMod: 0
       auraMod: 0
       improvisationMod: 0
@@ -38,5 +38,5 @@ MonoBehaviour:
     successIncrement: 0.5
     failureIncrement: 0.5
     expirationIncrement: 0.5
-  status: 4
-  assignedAgent: {fileID: 11400000, guid: 32b346f27645160479f3ae3c8c9b91ba, type: 2}
+  status: 6
+  assignedAgent: {fileID: 11400000, guid: 410d7a235b12ab043a4db0e0abd2235d, type: 2}
