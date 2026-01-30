@@ -25,6 +25,7 @@ namespace ScenePlaymat.MonoBehaviours
         
         private void Start()
         {
+            // Adding Resume invoke to handle pausing after victory/defeat
             resumeEvent.Invoke();
             
             clickShieldGraphic.SetActive(false);
