@@ -1,6 +1,8 @@
+using System.Collections;
 using ScenePlaymat.Data.Missions;
 using ScenePlaymat.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ScenePlaymat.MonoBehaviours
 {
@@ -15,6 +17,12 @@ namespace ScenePlaymat.MonoBehaviours
         
         [Header("Mission Wrappers")]
         [SerializeField] private MissionWrapper selectedMissionWrapper;
+
+        [Header("Mission Complete Color Values")]
+        [SerializeField] private Image background;
+        [SerializeField] private Color missionSuccessColor = Color.blue;
+        [SerializeField] private Color missionFailureColor = Color.red;
+        [SerializeField] private float colorTransitionDuration = 0.5f;
 
         private void Awake()
         {
@@ -45,7 +53,7 @@ namespace ScenePlaymat.MonoBehaviours
         }
 
         /// <summary>
-        /// Called by a GameEventListner to resume the mission in this frame.
+        /// Called by a GameEventListener to resume the mission in this frame.
         /// </summary>
         public void OnResume()
         {
@@ -57,8 +65,15 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(missionToPost != null, $"MissionFrame: {nameof(missionToPost)} was null.");
             
             mission = missionToPost;
+            mission.Completed += ColorEndState;
             mission.Dismissed += MissionDismissed;
             StartCoroutine(mission.PostAsync());
+        }
+
+        private void OnDestroy()
+        {
+            mission.Completed -= ColorEndState;
+            mission.Dismissed -= MissionDismissed;
         }
         
         private void MissionDismissed(Mission _)
@@ -79,11 +94,9 @@ namespace ScenePlaymat.MonoBehaviours
                     var progressScale = 1f -  (float)mission.CompletionDecimalPercentage;
                     UpdateProgressBarUI(completionBar, 1f, progressScale);
                     break;
-                case MissionStatus.Successful: // Mission JUST completed, set bar to 100%
                 case MissionStatus.Expired:
+                case MissionStatus.Successful:
                 case MissionStatus.Failed:
-                    UpdateProgressBarUI(completionBar,1f, 1f);
-                    break;
                 case MissionStatus.Inactive:
                 case MissionStatus.Assigned:
                 default:
@@ -95,6 +108,33 @@ namespace ScenePlaymat.MonoBehaviours
         private void UpdateProgressBarUI(Transform barTransform, float xScale, float yScale)
         {
             barTransform.localScale = new(xScale, yScale, 1f);
+        }
+
+        private void ColorEndState(Mission _)
+        {
+            if (mission.Status is MissionStatus.Successful or MissionStatus.Failed)
+            {
+                StartCoroutine(AnimateColorEndState(mission.IsCompletedSuccessfully));
+            }
+        }
+
+        private IEnumerator AnimateColorEndState(bool succeeded)
+        {
+            // Set Initial State
+            var timeTracker = 0f;
+            var initialColor = background.color;
+            var finalColor = succeeded ? missionSuccessColor : missionFailureColor;
+
+            // While Yield Null
+            while (timeTracker < colorTransitionDuration)
+            {
+                background.color = Color.Lerp(initialColor, finalColor, timeTracker / colorTransitionDuration);
+                timeTracker += Time.deltaTime;
+                yield return null;
+            }
+
+            // Set Final State
+            background.color = finalColor;
         }
 
         public void FrameClicked()
