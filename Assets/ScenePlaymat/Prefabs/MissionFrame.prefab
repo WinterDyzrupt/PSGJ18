@@ -416,6 +416,10 @@ MonoBehaviour:
   completionBar: {fileID: 3920408480452062775}
   selectedMissionIndicator: {fileID: 1750420098938236261}
   selectedMissionWrapper: {fileID: 11400000, guid: c0ce05b6c7cd81d4289e92f7b3ce0a40, type: 2}
+  background: {fileID: 7652996912698780135}
+  missionSuccessColor: {r: 0, g: 0, b: 1, a: 1}
+  missionFailureColor: {r: 1, g: 0, b: 0, a: 1}
+  colorTransitionDuration: 0.5
 --- !u!114 &1393775975601146894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.16822433, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
