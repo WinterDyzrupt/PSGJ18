@@ -3067,7 +3067,7 @@ MonoBehaviour:
   minPulseRatio: 0.85
   currentPulseRatio: 0
   defaultPulseRatio: 1
-  pulseSpeed: 0.002
+  pulseSpeed: 0.0005
 --- !u!224 &844264479 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1352850416981252664, guid: 434b8943b71991c45b763d47f1781c2f, type: 3}
@@ -6074,11 +6074,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.PulseGameObject
   isPulsing: 0
-  maxPulseRatio: 1.25
-  minPulseRatio: 0.75
+  maxPulseRatio: 1.15
+  minPulseRatio: 0.85
   currentPulseRatio: 0
   defaultPulseRatio: 1
-  pulseSpeed: 0.002
+  pulseSpeed: 0.0005
 --- !u!114 &1744918763
 MonoBehaviour:
   m_ObjectHideFlags: 0
