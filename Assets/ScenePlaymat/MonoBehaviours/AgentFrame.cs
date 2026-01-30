@@ -15,6 +15,7 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Image portrait;
         [SerializeField] private GameObject statusTextBacker;
         [SerializeField] private TMP_Text statusText;
+        [SerializeField] private GameObject selectedIndicator;
         
         [Header("Selected Agent Wrapper")]
         [SerializeField] private AgentWrapper selectedAgent;
@@ -26,6 +27,7 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(portrait != null, $"{name} doesn't have a portrait assigned in the Inspector.");
             Debug.Assert(statusText != null, $"{name} doesn't have status text assigned in the Inspector.");
             Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned in the Inspector.");
+            Debug.Assert(selectedIndicator != null, $"{name} doesn't have a SelectedIndicator assigned in the Inspector.");
         }
 
         private void Start()
@@ -33,11 +35,13 @@ namespace ScenePlaymat.MonoBehaviours
             portrait.sprite = agent.portrait;
             
             agent.StatusChanged += AgentStatusChanged;
+            selectedAgent.Changed += ToggleSelectedAgentIndicator;
         }
         
         private void OnDestroy()
         {
             agent.StatusChanged -= AgentStatusChanged;
+            selectedAgent.Changed -= ToggleSelectedAgentIndicator;
         }
 
         private void Update()
@@ -124,6 +128,11 @@ namespace ScenePlaymat.MonoBehaviours
             {
                 selectedAgent.Set(agent);
             }
+        }
+
+        private void ToggleSelectedAgentIndicator(Agent newAgent)
+        {
+            selectedIndicator.SetActive(agent == newAgent);
         }
 
         // TODO: This can be used to animate the frame a bit when the agent becomes available

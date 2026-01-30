@@ -12,6 +12,7 @@ namespace ScenePlaymat.MonoBehaviours
         [Header("Display Components")]
         [SerializeField] private Transform expirationBar;
         [SerializeField] private Transform completionBar;
+        [SerializeField] private GameObject selectedMissionIndicator;
         
         [Header("Mission Wrappers")]
         [SerializeField] private MissionWrapper selectedMissionWrapper;
@@ -20,7 +21,14 @@ namespace ScenePlaymat.MonoBehaviours
         {
             Debug.Assert(expirationBar != null, $"{name} doesn't have an Expiration Bar assigned in the Inspector.");
             Debug.Assert(completionBar != null, $"{name} doesn't have a Completion Bar assigned in the Inspector.");
+            selectedMissionWrapper.Changed += ToggleSelectedMissionIndicator;
         }
+
+        private void OnDestroy()
+        {
+            selectedMissionWrapper.Changed -= ToggleSelectedMissionIndicator;
+        }
+            
 
         private void Update()
         {
@@ -108,6 +116,11 @@ namespace ScenePlaymat.MonoBehaviours
             {
                 selectedMissionWrapper.Set(mission);
             }
+        }
+
+        private void ToggleSelectedMissionIndicator(Mission newMission)
+        {
+            selectedMissionIndicator.SetActive(mission == newMission);
         }
     }
 }
