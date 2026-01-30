@@ -35,6 +35,8 @@ namespace ScenePlaymat.MonoBehaviours
         private void OnDestroy()
         {
             selectedMissionWrapper.Changed -= ToggleSelectedMissionIndicator;
+            mission.Completed -= ColorEndState;
+            mission.Dismissed -= MissionDismissed;
         }
             
 
@@ -76,12 +78,6 @@ namespace ScenePlaymat.MonoBehaviours
             mission.Completed += ColorEndState;
             mission.Dismissed += MissionDismissed;
             StartCoroutine(mission.PostAsync());
-        }
-
-        private void OnDestroy()
-        {
-            mission.Completed -= ColorEndState;
-            mission.Dismissed -= MissionDismissed;
         }
         
         private void MissionDismissed(Mission _)
