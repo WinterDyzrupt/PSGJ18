@@ -45,7 +45,7 @@ namespace ScenePlaymat.MonoBehaviours
                 // TODO pulseSpeed modified by Time.deltaTime?
                 currentPulseRatio = Mathf.MoveTowards(currentPulseRatio, targetPulseRatio, pulseSpeed);
                 objectToPulse.transform.localScale = Vector3.one * currentPulseRatio;
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
     }
