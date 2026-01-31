@@ -1,3 +1,4 @@
+using Common.MonoBehaviours;
 using ScenePlaymat.Data.Agents;
 using ScenePlaymat.Data.Missions;
 using ScenePlaymat.Utils;
@@ -21,6 +22,7 @@ namespace ScenePlaymat.MonoBehaviours
         [SerializeField] private Transform[] statBars;
         [SerializeField] private Button acceptMissionButton;
         [SerializeField] private TMP_Text acceptMissionButtonText;
+        [SerializeField] private PulseGameObject acceptMissionPulser;
         
         [Header("Selected Wrappers")]
         [SerializeField] private AgentWrapper selectedAgent;
@@ -33,7 +35,8 @@ namespace ScenePlaymat.MonoBehaviours
             Debug.Assert(descriptionText != null, $"{name} doesn't have a Mission Description Text assigned!");
             Debug.Assert(statBars != null, $"{name} doesn't have a Mission Stat Bars assigned!");
             Debug.Assert(acceptMissionButton != null, $"{name} doesn't have a Accept Mission button assigned!");
-            Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned!");
+            Debug.Assert(acceptMissionButtonText != null, $"{name} doesn't have a Accept Mission text assigned!");
+            Debug.Assert(acceptMissionPulser != null, $"{name} doesn't have a Accept Mission Pulser assigned!");
 
             Debug.Assert(selectedAgent != null, $"{name} doesn't have a Selected Agent reference assigned!");
             Debug.Assert(selectedMission != null, $"{name} doesn't have a Selected Mission reference assigned!");
@@ -153,6 +156,20 @@ namespace ScenePlaymat.MonoBehaviours
                     mission.IsCompleted ||
                     (mission.Status == MissionStatus.Posted &&
                     agent?.Status == AgentStatus.Idle);
+                
+                // Make the button pulsate when it's telling the user to do something, or it's interactable
+                // Note: this condition is subtly different from the interactable check:
+                // also pulse when the agent is null (to tell the user to select an agent)
+                if ((mission.Status == MissionStatus.Posted &&
+                    (agent == null || agent.Status == AgentStatus.Idle)) ||
+                    mission.IsCompleted)
+                {
+                    acceptMissionPulser.StartPulsing();
+                }
+                else
+                {
+                    acceptMissionPulser.StopPulsing();
+                }
                 
                 switch (mission.Status)
                 {
