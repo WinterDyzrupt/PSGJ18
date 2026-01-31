@@ -52,20 +52,25 @@ namespace ScenePlaymat.Utils
         };
 
         /// <summary>
-        /// Gets the difference in attributes, left - right.
+        /// Gets the difference in attributes, Agent - Mission.
+        /// If agent attribute is greater, it will return 0.
         /// </summary>
-        /// <param name="leftAttributes"></param>
-        /// <param name="rightAttributes"></param>
-        /// <returns></returns>
-        public static int GetDifferenceInAttributes(Attributes leftAttributes, Attributes rightAttributes)
+        /// <param name="agentAttributes"></param>
+        /// <param name="missionAttributes"></param>
+        /// <returns>
+        /// Returns a negative value which indicates how many
+        /// mission attribute points are not satisfied.
+        /// </returns>
+        public static int GetDifferenceInAttributes(Attributes agentAttributes, Attributes missionAttributes)
         {
-            Debug.Assert(leftAttributes.AttributesTotal.Length == rightAttributes.AttributesTotal.Length,
+            Debug.Assert(agentAttributes.AttributesTotal.Length == missionAttributes.AttributesTotal.Length,
                 "Expected left and right attributes to have the same length");
             
             var attributeDifference = 0;
-            for (var index = 0; index < leftAttributes.AttributesTotal.Length; index++)
+            for (var index = 0; index < agentAttributes.AttributesTotal.Length; index++)
             {
-                attributeDifference += leftAttributes.AttributesTotal[index] - rightAttributes.AttributesTotal[index];
+                attributeDifference +=
+                    Mathf.Min(agentAttributes.AttributesTotal[index] - missionAttributes.AttributesTotal[index], 0);
             }
             
             return attributeDifference;
