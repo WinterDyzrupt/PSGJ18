@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
   agentName: Nessy
   portrait: {fileID: 21300000, guid: e34b0eeedfa26c043b51cc222855a021, type: 3}
-  mugshot: {fileID: 21300000, guid: e34b0eeedfa26c043b51cc222855a021, type: 3}
+  mugshot: {fileID: 21300000, guid: f6e491775b526544da581599e92aea61, type: 3}
   attributes:
     muscleBase: 2
     auraBase: 4
@@ -27,3 +27,4 @@ MonoBehaviour:
     resilienceMod: 0
     swiftnessMod: 0
   status: 0
+  currentMission: {fileID: 0}
