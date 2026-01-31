@@ -1241,7 +1241,19 @@ MonoBehaviour:
   monitorSuccessfulMissions: 1
   barFilledEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 4727a7668407cff429fac87620784e50, type: 2}
+        m_TargetAssemblyTypeName: Common.Utils.Events.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   fullBarPercentageDecimal: 1
 --- !u!224 &324972446 stripped
 RectTransform:
@@ -2925,7 +2937,19 @@ MonoBehaviour:
   monitorSuccessfulMissions: 0
   barFilledEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 2fda9cb660423ce439105c5dd3d87008, type: 2}
+        m_TargetAssemblyTypeName: Common.Utils.Events.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   fullBarPercentageDecimal: 1
 --- !u!1001 &815464437
 PrefabInstance:
@@ -4297,13 +4321,13 @@ RectTransform:
   - {fileID: 1943512326}
   - {fileID: 1017120751}
   - {fileID: 1009401947}
-  - {fileID: 1398604038}
   - {fileID: 902410750}
   - {fileID: 993055464}
   - {fileID: 1167202877}
   - {fileID: 1734595617}
   - {fileID: 357560727}
   - {fileID: 729946307}
+  - {fileID: 1398604038}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5742,7 +5766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615d8097983bcda449a6b98e000be73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScenePlaymat.MonoBehaviours.MissionLoader
-  missionsAsJson: {fileID: 4900000, guid: 36223b9e551e9d546a025ba7274e0a85, type: 3}
+  missionsAsJson: {fileID: 4900000, guid: 27afffd7ddc03e447970fafe709265f6, type: 3}
   groupToPopulateFromJson: {fileID: 11400000, guid: fd38dece18bfc8142948d21b68333afe, type: 2}
   saveSampleMissionsAsJson: 0
   sampleMissionsToSaveAsJson: {fileID: 11400000, guid: 51b3452cde5e943479f5b1d541079b39, type: 2}

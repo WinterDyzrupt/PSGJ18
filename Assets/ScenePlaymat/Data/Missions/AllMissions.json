@@ -15,11 +15,8 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
-          "auraBase": 2,
           "improvisationBase": 4,
-          "resilienceBase": 4,
-          "swiftnessBase": 2
+          "resilienceBase": 4
         }
       }
     },
@@ -38,10 +35,7 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
-          "auraBase": 2,
           "improvisationBase": 4,
-          "resilienceBase": 2,
           "swiftnessBase": 4
         }
       }
@@ -61,11 +55,8 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
           "auraBase": 4,
-          "improvisationBase": 4,
-          "resilienceBase": 2,
-          "swiftnessBase": 2
+          "improvisationBase": 4
         }
       }
     },
@@ -85,10 +76,7 @@
         "expirationIncrement": 0.05,
         "missionAttributes": {
           "muscleBase": 4,
-          "auraBase": 2,
-          "improvisationBase": 2,
-          "resilienceBase": 4,
-          "swiftnessBase": 2
+          "resilienceBase": 4
         }
       }
     },
@@ -108,10 +96,7 @@
         "expirationIncrement": 0.05,
         "missionAttributes": {
           "muscleBase": 4,
-          "auraBase": 4,
-          "improvisationBase": 2,
-          "resilienceBase": 2,
-          "swiftnessBase": 2
+          "auraBase": 4
         }
       }
     },
@@ -130,11 +115,28 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
           "auraBase": 4,
-          "improvisationBase": 2,
-          "resilienceBase": 2,
           "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "We Can Build It I",
+        "description": "We should expand our facilities.",
+        "completionText": "We excavated new galleries.",
+        "failureText": "The funds were spent buying Cryptid Coin...",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 4,
+          "resilienceBase": 4
         }
       }
     },
@@ -153,18 +155,15 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
-          "auraBase": 2,
           "improvisationBase": 7,
-          "resilienceBase": 2,
-          "swiftnessBase": 4
+          "resilienceBase": 4
         }
       }
     },
     {
       "data": {
         "displayName": "Smarts II",
-        "description": "Captures one of these smarties... this 'scientist'",
+        "description": "Capture one of these smarties... this 'scientist'",
         "completionText": "A doctorate in theoretical plasma? Nicely done!",
         "failureText": "They have a million subscribers on the internet? Return them at once!",
         "durationToTravelToInSeconds": 5,
@@ -177,9 +176,6 @@
         "expirationIncrement": 0.05,
         "missionAttributes": {
           "muscleBase": 7,
-          "auraBase": 2,
-          "improvisationBase": 2,
-          "resilienceBase": 2,
           "swiftnessBase": 4
         }
       }
@@ -199,11 +195,8 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
-          "auraBase": 7,
           "improvisationBase": 4,
-          "resilienceBase": 2,
-          "swiftnessBase": 2
+          "swiftnessBase": 7
         }
       }
     },
@@ -222,11 +215,8 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
-          "auraBase": 2,
-          "improvisationBase": 2,
-          "resilienceBase": 7,
-          "swiftnessBase": 4
+          "muscleBase": 4,
+          "resilienceBase": 7
         }
       }
     },
@@ -245,11 +235,8 @@
         "failureIncrement": 0.05,
         "expirationIncrement": 0.05,
         "missionAttributes": {
-          "muscleBase": 2,
           "auraBase": 7,
-          "improvisationBase": 4,
-          "resilienceBase": 2,
-          "swiftnessBase": 2
+          "improvisationBase": 4
         }
       }
     },
@@ -269,10 +256,254 @@
         "expirationIncrement": 0.05,
         "missionAttributes": {
           "muscleBase": 7,
-          "auraBase": 2,
-          "improvisationBase": 2,
-          "resilienceBase": 4,
-          "swiftnessBase": 2
+          "resilienceBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "We Can Build It II",
+        "description": "Time to mine deeper!",
+        "completionText": "We've reached bedrock.",
+        "failureText": "Forgot which way was down.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "muscleBase": 4,
+          "resilienceBase": 7
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Gearing Up I",
+        "description": "We need new tools to perform this 'Science' thing... ",
+        "completionText": "We've pillaged the humans' \"Home Depot\"",
+        "failureText": "Do these shiny rocks count?",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.05,
+        "failureIncrement": 0.05,
+        "expirationIncrement": 0.05,
+        "missionAttributes": {
+          "auraBase": 4,
+          "swiftnessBase": 7
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Scouting Ahead I",
+        "description": "Gauging the surface dwellers' strength",
+        "completionText": "There are -how many- of them?!",
+        "failureText": "We found a few campers in the woods",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "improvisationBase": 7,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Digital Warfare I",
+        "description": "We need to gain control of the cyber-web!",
+        "completionText": "Computer' Acquired! How do we turn this thing on?",
+        "failureText": "Foiled by the price of hardware...",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "auraBase": 7,
+          "resilienceBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smarts III",
+        "description": "Why put in all the work? Steal their Science!",
+        "completionText": "This was a triumph, huge success!",
+        "failureText": "They brought back some kid's science project",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "muscleBase": 7,
+          "auraBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smarts IV",
+        "description": "Our captured Science-Man needs assistants. We must find material to educate our agents.",
+        "completionText": "Our library will house every book in the world",
+        "failureText": "Our agent got distracted by light novels and horoscopes.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "muscleBase": 10,
+          "improvisationBase": 4,
+          "swiftnessBase": 10
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Smokebomb III",
+        "description": "Our agents are being targeted by a shadowy cabal of 'redditors'",
+        "completionText": "We started an online twitter drama to cover our tracks",
+        "failureText": "Hopefully these theorists are still not being taken seriously",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "auraBase": 10,
+          "improvisationBase": 10,
+          "resilienceBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Groceries III",
+        "description": "Our growing city needs more and more supplies. Keep them coming!",
+        "completionText": "We've secured some sort of monthly trade agreement with a 'CostCo'",
+        "failureText": "We found a huge pile of trash... Maybe we can use some it.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.1,
+        "failureIncrement": 0.1,
+        "expirationIncrement": 0.1,
+        "missionAttributes": {
+          "muscleBase": 4,
+          "resilienceBase": 10,
+          "swiftnessBase": 10
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Human Face III",
+        "description": "Send our best to infiltrade their authority",
+        "completionText": "Just a little more and we'll rule them before they even notice.",
+        "failureText": "Our agent panicked after forgetting how a 'hand shake' works.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.15,
+        "failureIncrement": 0.15,
+        "expirationIncrement": 0.15,
+        "missionAttributes": {
+          "auraBase": 10,
+          "improvisationBase": 4,
+          "swiftnessBase": 10
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Gearing Up II",
+        "description": "We need to increase our means of production!",
+        "completionText": "Automation was a success, we'll match the surface dwellers' technology in no time.",
+        "failureText": "The robots went on strike...",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.15,
+        "failureIncrement": 0.15,
+        "expirationIncrement": 0.15,
+        "missionAttributes": {
+          "muscleBase": 10,
+          "improvisationBase": 10,
+          "swiftnessBase": 4
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "Digital Warfare II",
+        "description": "We can take control of the world web by learning how to 'hack'!",
+        "completionText": "The secrets of the Pentagon are ours!",
+        "failureText": "We tried copying the hackers on TV.",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.15,
+        "failureIncrement": 0.15,
+        "expirationIncrement": 0.15,
+        "missionAttributes": {
+          "auraBase": 4,
+          "improvisationBase": 10,
+          "resilienceBase": 10
+        }
+      }
+    },
+    {
+      "data": {
+        "displayName": "We Can Build It III",
+        "description": "Let's prepare the location of our super weapon",
+        "completionText": "The foundations are ready for the Doom Lazer!",
+        "failureText": "Note: don't try to build on sand...",
+        "durationToTravelToInSeconds": 5,
+        "durationToPerformInSeconds": 5,
+        "durationToReturnFromInSeconds": 5,
+        "durationToRestAfterInSeconds": 5,
+        "durationToExpirationInSeconds": 15,
+        "successIncrement": 0.15,
+        "failureIncrement": 0.15,
+        "expirationIncrement": 0.15,
+        "missionAttributes": {
+          "muscleBase": 10,
+          "auraBase": 4,
+          "resilienceBase": 10
         }
       }
     }
