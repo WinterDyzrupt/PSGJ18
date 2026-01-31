@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70874602d06c85a4c90ec54009646ee0, type: 3}
-  m_Name: SampleMission
+  m_Name: SampleMission1
   m_EditorClassIdentifier: Assembly-CSharp::PersistentData.Mission
   data:
     guid: 
