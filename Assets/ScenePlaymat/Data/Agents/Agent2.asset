@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Variables.Agent
   agentName: Lizard Man
   portrait: {fileID: 21300000, guid: dd95a3233d658ca4ca4fddc2fdd60628, type: 3}
-  mugshot: {fileID: 21300000, guid: dd95a3233d658ca4ca4fddc2fdd60628, type: 3}
+  mugshot: {fileID: 21300000, guid: 12159d421e5d27a4cb0ad42b54975b93, type: 3}
   attributes:
     muscleBase: 2
     auraBase: 7
@@ -27,3 +27,4 @@ MonoBehaviour:
     resilienceMod: 0
     swiftnessMod: 0
   status: 0
+  currentMission: {fileID: 0}
